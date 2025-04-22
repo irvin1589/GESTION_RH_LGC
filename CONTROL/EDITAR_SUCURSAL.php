@@ -4,6 +4,19 @@ include_once('../MODELO/CL_TABLA_SUCURSAL.php');
 $tablaSucursal = new CL_TABLA_SUCURSAL();
 $id_sucursal = $_GET['id_sucursal'] ?? '';
 
+session_start();
+
+if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
+    header('Location: SISTEMA_RH.php'); // O la página de inicio de sesión
+    exit();
+}
+
+// Opcional: puedes validar el tipo de usuario también
+if ($_SESSION['tipo_usuario'] !== 'Admin') {
+    header('Location: acceso_denegado.php');
+    exit();
+}
+
 if (!empty($id_sucursal)) {
     $sucursal = $tablaSucursal->obtener_sucursal($id_sucursal);
 
@@ -33,7 +46,8 @@ if (!empty($id_sucursal)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Sucursal</title>
+    <title>Editar Sucursal | LA GRAN CIUDAD</title>
+    <link rel="icon" type="image/x-icon" href="../IMG/logo-blanco-1.ico">
     <style>
         /* Estilos generales */
         body {

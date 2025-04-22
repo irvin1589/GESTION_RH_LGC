@@ -9,6 +9,7 @@ include_once('../MODELO/CL_USUARIO.php'); // Incluir la clase CL_USUARIO
 include_once('../MODELO/CL_TABLA_USUARIO.php'); // Incluir la clase CL_TABLA_USUARIO
 
 // Inicializar la instancia de CL_INTERFAZ01
+session_start();
 $form_01 = new CL_INTERFAZ01();
 
 $mensaje = "";
@@ -37,6 +38,10 @@ if (isset($_POST['click_iniciar_sesion'])) {
 
     if ($tipo_usuario) {
         // Redirigir al panel correspondiente según el tipo de usuario
+        $_SESSION['autenticado'] = true;
+        $_SESSION['id_usuario'] = $id_usuario;
+        $_SESSION['tipo_usuario'] = $tipo_usuario;
+    
         switch ($tipo_usuario) {
             case 'Admin':
                 header('Location: PANEL_ADMIN.php');

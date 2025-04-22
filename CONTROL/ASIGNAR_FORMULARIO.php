@@ -11,6 +11,18 @@ include_once('../MODELO/CL_TABLA_ASIGNACION_FORMULARIO.php');
 $form_08 = new CL_INTERFAZ08();
 $form_08->mostrar();
 
+session_start();
+
+if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
+    header('Location: SISTEMA_RH.php'); // O la página de inicio de sesión
+    exit();
+}
+
+// Opcional: puedes validar el tipo de usuario también
+if ($_SESSION['tipo_usuario'] !== 'Admin') {
+    header('Location: acceso_denegado.php');
+    exit();
+}
 // Manejar la selección de un formulario
 if (isset($_POST['seleccionar_formulario'])) {
     $id_formulario = $_POST['id_formulario'];

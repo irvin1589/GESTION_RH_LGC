@@ -12,6 +12,19 @@ $sucursales = $tablaSucursal->listar_todo_sucursales(); // Obtener la lista de s
 $mensaje = "";
 $tipo_mensaje = "";
 
+session_start();
+
+if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
+    header('Location: SISTEMA_RH.php'); // O la página de inicio de sesión
+    exit();
+}
+
+// Opcional: puedes validar el tipo de usuario también
+if ($_SESSION['tipo_usuario'] !== 'Admin') {
+    header('Location: acceso_denegado.php');
+    exit();
+}
+
 if (isset($_GET['mensaje'])) {
     if ($_GET['mensaje'] === 'success') {
         $mensaje = "Sucursal eliminada correctamente.";
@@ -20,6 +33,10 @@ if (isset($_GET['mensaje'])) {
         $mensaje = "Error al eliminar la sucursal.";
         $tipo_mensaje = "error";
     }
+}
+if (isset($_POST['click_ver_usuarios'])) {
+    header('Location: http://localhost/GESTION_RH_LGC/CONTROL/VER_USUARIOS.php');
+    exit();
 }
 
 if (isset($_POST['click_crear_formulario'])) {
@@ -307,6 +324,7 @@ if (isset($_POST['click_editar_sucursal'])) {
                 <button type="submit" name="click_asignar_formulario">Asignar Formulario</button>
                 <button type="submit" name="click_evaluar">Evaluar Formulario</button>
                 <button type="submit" name="click_resultados">Resultados</button>
+                <button type="submit" name="click_ver_usuarios">Usuarios</button>
             </div>
             <button type="submit" name="click_cerrar_sesion" class="logout-button">Cerrar Sesión</button>
         </form>

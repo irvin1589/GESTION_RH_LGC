@@ -11,6 +11,7 @@ $formularios = $tablaFormulario->listar_todos_los_formularios(); // Método que 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ASIGNAR FORMULARIO | LA GRAN CIUDAD</title>
+    <link rel="icon" type="image/x-icon" href="../IMG/logo-blanco-1.ico">
     <style>
         body {
             font-family: Arial, sans-serif;

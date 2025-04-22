@@ -7,6 +7,19 @@ include('../VISTA/CL_INTERFAZ02.php');
 include_once('../VISTA/CL_INTERFAZ04.php'); // Ya está incluida la clase
 include_once('../MODELO/CL_TABLA_FORMULARIO.php');
 
+session_start();
+
+if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
+    header('Location: SISTEMA_RH.php'); // O la página de inicio de sesión
+    exit();
+}
+
+// Opcional: puedes validar el tipo de usuario también
+if ($_SESSION['tipo_usuario'] !== 'Admin') {
+    header('Location: acceso_denegado.php');
+    exit();
+}
+
 // Si presionas el botón "regresar"
 if (isset($_POST['click_regresar'])) {
     var_dump(realpath('../CONTROL/PANEL_ADMIN.php')); // Verifica la ruta absoluta

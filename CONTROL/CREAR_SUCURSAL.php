@@ -8,6 +8,18 @@ include_once('../MODELO/CL_TABLA_SUCURSAL.php');
 $mensaje = "";
 $tipo_mensaje = ""; // success o error
 
+session_start();
+
+if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
+    header('Location: SISTEMA_RH.php'); // O la página de inicio de sesión
+    exit();
+}
+
+// Opcional: puedes validar el tipo de usuario también
+if ($_SESSION['tipo_usuario'] !== 'Admin') {
+    header('Location: acceso_denegado.php');
+    exit();
+}
 if (isset($_POST['click_regresar'])) {
     header('Location: ../CONTROL/PANEL_ADMIN.php');
     exit();

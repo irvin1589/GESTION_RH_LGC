@@ -5,6 +5,19 @@ include_once('../MODELO/CL_TABLA_USUARIO.php');
 
 $tablaAsignacion = new CL_TABLA_ASIGNACION_FORMULARIO();
 
+session_start();
+
+if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
+    header('Location: SISTEMA_RH.php'); // O la página de inicio de sesión
+    exit();
+}
+
+// Opcional: puedes validar el tipo de usuario también
+if ($_SESSION['tipo_usuario'] !== 'Admin') {
+    header('Location: acceso_denegado.php');
+    exit();
+}
+
 // Manejar la eliminación de una asignación
 if (isset($_POST['eliminar_asignacion'])) {
     $id_asignacion = $_POST['id_asignacion'];
@@ -27,6 +40,7 @@ $asignaciones = $tablaAsignacion->listar_asignaciones();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VER ASIGNACIONES | LA GRAN CIUDAD</title>
+    <link rel="icon" type="image/x-icon" href="../IMG/logo-blanco-1.ico">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         body {

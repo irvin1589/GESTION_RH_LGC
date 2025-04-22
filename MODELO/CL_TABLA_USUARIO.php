@@ -115,6 +115,32 @@ class CL_TABLA_USUARIO extends CL_CONEXION {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function listar_todos_los_usuarios_con_detalles() {
+        try {
+            $sql = "SELECT 
+                        u.id_usuario, 
+                        u.nombre AS nombre,
+                        u.apellido1,
+                        u.apellido2,
+                        u.contraseña,
+                        u.tipo_usuario,
+                        d.nombre AS nombre_departamento,
+                        s.nombre AS nombre_sucursal,
+                        p.nombre AS nombre_puesto
+                    FROM usuario u
+                    JOIN departamento d ON u.id_departamento = d.id_departamento
+                    JOIN sucursal s ON u.id_sucursal = s.id_sucursal
+                    JOIN puesto p ON u.id_puesto = p.id_puesto";
+            
+            $stmt = $this->getPDO()->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error al listar todos los usuarios con detalles: " . $e->getMessage());
+            return [];
+        }
+    }
+
     public function listar_usuarios_por_filtros($id_departamento, $id_sucursal, $id_puesto) {
         try {
             $sql = "SELECT id_usuario, nombre 
@@ -132,6 +158,41 @@ class CL_TABLA_USUARIO extends CL_CONEXION {
             error_log("Error al listar usuarios por filtros: " . $e->getMessage());
             return [];
         }
+    }
+
+    public function eliminar_usuario($id_usuario) {
+        try {
+            $sql = "DELETE FROM usuario WHERE id_usuario = :id_usuario";
+            $stmt = $this->getPDO()->prepare($sql);
+            $stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_STR);
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            error_log("Error al eliminar el usuario: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function editar_usuario($id_usuario, $nombre, $apellido1, $apellido2, $contraseña, $tipo_usuario) {
+        $conn = $this->conectar();
+        $sql = "UPDATE usuario SET nombre = ?, apellido1 = ?, apellido2 = ?, contraseña = ?, tipo_usuario = ? WHERE id_usuario = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sssssi", $nombre, $apellido1, $apellido2, $contraseña, $tipo_usuario, $id_usuario);
+        
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+        $stmt->close();
+        $conn->close();
+    }
+
+    public function buscar_usuario_por_id($id_usuario) {
+        $sql = "SELECT * FROM usuario WHERE id_usuario = :id_usuario";
+        $stmt = $this->getPDO()->prepare($sql);
+        $stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
 ?>
