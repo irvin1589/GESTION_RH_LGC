@@ -1,0 +1,137 @@
+<?php
+include_once('../MODELO/CL_CONEXION.php'); // Incluir configuración de la base de datos
+
+class CL_TABLA_USUARIO extends CL_CONEXION {
+    protected $pdo;
+
+    public function __construct() {
+        // Configura la conexión a la base de datos
+        $this->pdo = new PDO('mysql:host=localhost;dbname=gestion_rh_lgc', 'root', '');
+    }
+
+    // Método para guardar usuario en la base de datos
+    public function guardar($usuario, $sucursal, $puesto, $departamento) {  
+        // Obtener la conexión a través del método getPDO()
+        $pdo = $this->getPDO(); 
+
+        // Obtener los valores de los métodos de los objetos
+        $id_usuario = $usuario->get_id_usuario();
+        $nombre = $usuario->get_nombre();
+        $apellido1 = $usuario->get_apellido1();
+        $apellido2 = $usuario->get_apellido2();
+        $contraseña = $usuario->get_contraseña();
+        $tipo_usuario = $usuario->get_tipo_usuario();
+        
+        $id_sucursal = $sucursal->get_id_sucursal();
+        $id_puesto = $puesto->get_id_puesto();
+        $id_departamento = $departamento->get_id_departamento();
+
+        // Sentencia SQL para insertar el usuario
+        $sql = "INSERT INTO usuario (id_usuario, nombre, apellido1, apellido2, contraseña, id_sucursal, id_puesto, id_departamento, tipo_usuario) 
+                VALUES (:id_usuario, :nombre, :apellido1, :apellido2, :contrasena, :id_sucursal, :id_puesto, :id_departamento, :tipo_usuario)";
+        
+        // Preparar la consulta
+        $stmt = $pdo->prepare($sql);
+
+        // Asignar los valores a los parámetros
+        $stmt->bindParam(':id_usuario', $id_usuario);
+        $stmt->bindParam(':nombre', $nombre);
+        $stmt->bindParam(':apellido1', $apellido1);
+        $stmt->bindParam(':apellido2', $apellido2);
+        $stmt->bindParam(':contrasena', $contraseña); // Cambiado de :contraseña a :contrasena
+        $stmt->bindParam(':id_sucursal', $id_sucursal);
+        $stmt->bindParam(':id_puesto', $id_puesto);
+        $stmt->bindParam(':id_departamento', $id_departamento);
+        $stmt->bindParam(':tipo_usuario', $tipo_usuario);
+
+        // Ejecutar la consulta
+        if ($stmt->execute()) {
+            return true; // Registro exitoso
+        } else {
+            return false; // Error al registrar
+        }
+    }
+
+    public function verificar_usuario($id_usuario, $contraseña) {
+        $pdo = $this->getPDO();
+
+        // Consulta SQL para verificar el usuario y obtener su tipo
+        $sql = "SELECT tipo_usuario FROM usuario WHERE id_usuario = :id_usuario AND contraseña = :contrasena";
+        $stmt = $pdo->prepare($sql);
+
+        // Asignar los valores a los parámetros
+        $stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_STR);
+        $stmt->bindParam(':contrasena', $contraseña, PDO::PARAM_STR);
+
+        // Ejecutar la consulta
+        $stmt->execute();
+
+        // Obtener el tipo de usuario si existe
+        $tipo_usuario = $stmt->fetchColumn();
+
+        // Si no se encontró el usuario, devolver false
+        if (!$tipo_usuario) {
+            return false;
+        }
+
+        // Devolver el tipo de usuario
+        return $tipo_usuario;
+    }
+
+    public function listar_usuarios($id_sucursal, $id_departamento, $id_puesto, $selectedUsuario = '')
+    {
+    $pdo = $this->getPDO();
+    $sql = "SELECT * FROM usuario WHERE id_sucursal = :id_sucursal AMD id_departamento = :id_departamento AND id_puesto = :id_puesto";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':id_sucursal', $id_sucursal, PDO::PARAM_STR);
+    $stmt->bindParam(':id_departamento', $id_departamento, PDO::PARAM_STR);
+    $stmt->bindParam(':id_puesto', $id_puesto, PDO::PARAM_STR);
+    $stmt->execute();
+
+    $html = "";
+    $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC); 
+    if (count($usuarios) === 1) {
+        $selectedUsuario = $usuarios[0]['id_usuario'];
+    }
+
+    foreach ($usuarios as $row) {
+        $id = $row['id_usuario'];
+        $nombre = $row['nombre'];
+        $apellido1 = $row['apellido1'];
+        $apellido2 = $row['apellido2'];
+        $selected = ($selectedUsuario == $id) ? 'selected' : '';
+        $html .= "<option value='$id' $selected>$nombre $apellido1 $apellido2</option>";
+    }
+    if (empty($html)) {
+        $html = "<option value=''>No hay usuarios disponibles</option>";
+    }
+    return $html;
+    }   
+
+    public function listar_todos_los_usuarios() {
+        $sql = "SELECT id_usuario, nombre FROM usuario"; // Ajusta el nombre de la tabla y columnas según tu base de datos
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function listar_usuarios_por_filtros($id_departamento, $id_sucursal, $id_puesto) {
+        try {
+            $sql = "SELECT id_usuario, nombre 
+                    FROM usuario 
+                    WHERE id_departamento = :id_departamento 
+                      AND id_sucursal = :id_sucursal 
+                      AND id_puesto = :id_puesto";
+            $stmt = $this->getPDO()->prepare($sql);
+            $stmt->bindParam(':id_departamento', $id_departamento, PDO::PARAM_INT);
+            $stmt->bindParam(':id_sucursal', $id_sucursal, PDO::PARAM_INT);
+            $stmt->bindParam(':id_puesto', $id_puesto, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error al listar usuarios por filtros: " . $e->getMessage());
+            return [];
+        }
+    }
+}
+?>

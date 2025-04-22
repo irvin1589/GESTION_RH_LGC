@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CREAR PUESTO | LA GRAN CIUDAD</title>
+    <link rel="icon" type="image/x-icon" href="../IMG/logo-blanco-1.ico">
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('../IMG/puesto.jpg'); /* Ruta de la imagen de fondo */
+            background-size: cover; /* Ajusta la imagen para cubrir todo el fondo */
+            background-position: center; /* Centra la imagen */
+            background-repeat: no-repeat; /* Evita que la imagen se repita */
+        }
+
+        /* Overlay azul transparente */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(31, 58, 84, 0.7); /* Fondo azul con transparencia */
+            z-index: 1; /* Detrás del formulario */
+        }
+
+        /* Imagen del logo */
+        .logo {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                width: 100px; /* Cambia el tamaño de la imagen */
+                height: auto; /* Mantén la proporción */
+                z-index: 3; /* Asegura que esté encima del overlay */
+            }
+
+        /* Contenedor del formulario */
+        .form-container {
+            position: relative;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            z-index: 3; /* Encima del overlay */
+        }
+
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333333;
+        }
+
+        .form-container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555555;
+        }
+
+        .form-container select,
+        .form-container input[type="text"],
+        .form-container input[type="submit"],
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .form-container select:focus,
+        .form-container input[type="text"]:focus {
+            border-color: #007BFF;
+            outline: none;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+        }
+
+        .form-container input[type="submit"] {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-container input[type="submit"]:hover {
+            background-color: rgb(26, 87, 153);
+        }
+
+        .form-container button {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-container button:hover {
+            background-color: #d32f2f;
+        }
+
+        /* Estilos responsivos */
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 20px;
+            }
+
+            .form-container h2 {
+                font-size: 20px;
+            }
+
+            .form-container select,
+            .form-container input[type="text"],
+            .form-container input[type="submit"],
+            .form-container button {
+                font-size: 14px;
+            }
+
+            .logo {
+                height: 50px; /* Ajusta el tamaño del logo en pantallas pequeñas */
+                top: 10px;
+                left: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Overlay azul transparente -->
+    <div class="overlay"></div>
+
+    <!-- Imagen del logo -->
+    <img src="../IMG/LOGO_LGC__AZUL.jpg" alt="Logo del Sistema" class="logo">
+
+    <!-- Contenedor del formulario -->
+    <div class="form-container">
+        <h2>CREACIÓN DE PUESTO</h2>
+        <form method="POST" action="CREAR_PUESTO.php">
+            <label for="sucursal">Sucursal:</label>
+            <select id="sucursal" name="caja_opcion1" onchange="this.form.submit()">
+                {{sucursales}}
+            </select>
+
+            <label for="departamento">Departamento:</label>
+            <select id="departamento" name="caja_opcion2" onchange="this.form.submit()">
+                {{departamentos}}
+            </select>
+
+            <label for="id">ID PUESTO:</label>
+            <input type="text" name="caja_texto1" placeholder="Ingrese el ID de puesto">
+
+            <label for="nombre">PUESTO:</label>
+            <input type="text" name="caja_texto2" placeholder="Ingrese el puesto">
+
+            <input type="submit" name="click_registrar_puesto" value="REGISTRAR">
+            <button type="submit" name="click_regresar">REGRESAR</button>
+        </form>
+    </div>
+</body>
+</html>

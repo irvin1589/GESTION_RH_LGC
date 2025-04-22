@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> CREAR SUCURSAL | LA GRAN CIUDAD</title>
+        <link rel="icon" type="image/x-icon" href="../IMG/logo-blanco-1.ico">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                background-image: url('../IMG/fondo_1.jpg'); /* Ruta de la imagen de fondo */
+                background-size: cover; /* Ajusta la imagen para cubrir todo el fondo */
+                background-position: center; /* Centra la imagen */
+                background-repeat: no-repeat; /* Evita que la imagen se repita */
+            }
+
+            /* Contenedor azul transparente */
+            .overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(31, 58, 84, 0.7); /* Fondo azul con transparencia */
+                z-index: 1; /* Asegura que esté encima del fondo */
+            }
+
+            .container {
+                position: relative; /* Posiciona el contenedor encima del overlay */
+                background-color: #ffffff;
+                padding: 20px 30px;
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                text-align: center;
+                width: 300px;
+                z-index: 2; /* Asegura que esté encima del overlay */
+            }
+
+            h1 {
+                font-size: 20px;
+                color: #333333;
+                margin-bottom: 20px;
+            }
+
+            h2 {
+                font-size: 16px;
+                color: #333333;
+                margin-bottom: 20px;
+            }
+
+            label {
+                display: block;
+                font-size: 14px;
+                color: #555555;
+                margin-bottom: 5px;
+                text-align: left;
+            }
+
+            input[type="text"], input[type="password"], input[type="number"] {
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 15px;
+                border: 1px solid #cccccc;
+                border-radius: 5px;
+                font-size: 14px;
+            }
+
+            button {
+                width: 100%;
+                padding: 10px;
+                margin-top: 10px;
+                border: none;
+                border-radius: 5px;
+                font-size: 14px;
+                cursor: pointer;
+                color: #ffffff;
+            }
+
+            button[name="click_regresar"] {
+                background-color: #ff4e48;
+            }
+
+            button[name="click_registrar_sucursal"] {
+                background-color: #007BFF;
+            }
+
+            button:hover {
+                opacity: 0.9;
+            }
+
+            .logo {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                width: 100px; /* Cambia el tamaño de la imagen */
+                height: auto; /* Mantén la proporción */
+                z-index: 3; /* Asegura que esté encima del overlay */
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Imagen en la esquina superior izquierda -->
+        <img src="../IMG/LOGO_LGC__AZUL.jpg" alt="Logo del Sistema" class="logo">
+
+        <!-- Contenedor azul transparente encima del fondo -->
+        <div class="overlay"></div>
+
+        <!-- Contenedor principal -->
+        <div class="container">
+            <h1>CREAR NUEVA SUCURSAL</h1>
+            <h2>INGRESA LOS DATOS</h2>
+            <form action="../CONTROL/CREAR_SUCURSAL.php" method="POST">
+                <label for="id_sucursal">ID SUCURSAL:</label>
+                <input type="number" name="caja_texto1" placeholder="ID de sucursal">
+
+                <label for="nombre">NOMBRE:</label>
+                <input type="text" name="caja_texto2" placeholder="Ingrese el nombre">
+    
+                <label for="direccion">DIRECCION:</label>
+                <input type="text" name="caja_texto3" placeholder="Ingrese la direccion">
+    
+                <label for="telefono">TELEFONO:</label>
+                <input type="text" name="caja_texto4" placeholder="Ingrese el telefono">
+            
+                <button type="submit" name="click_registrar_sucursal">REGISTRAR</button>
+                <button type="submit" name="click_regresar">REGRESAR</button>
+            </form>
+        </div>
+    </body>
+</html>
