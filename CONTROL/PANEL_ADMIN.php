@@ -83,6 +83,11 @@ if (isset($_POST['click_cerrar_sesion'])) {
     exit();
 }
 
+if (isset($_POST['click_regresar'])) {
+    header('Location: http://localhost/GESTION_RH_LGC/CONTROL/PANEL_ADMIN1.php');
+    exit();
+}
+
 if (isset($_POST['click_eliminar_sucursal'])) {
     $id_sucursal = $_POST['id_sucursal'] ?? '';
 
@@ -327,6 +332,7 @@ if (isset($_POST['click_editar_sucursal'])) {
                 <button type="submit" name="click_ver_usuarios">Usuarios</button>
             </div>
             <button type="submit" name="click_cerrar_sesion" class="logout-button">Cerrar Sesión</button>
+            <button type="submit" name="click_regresar" class="logout-button">Regresar</button>
         </form>
 
         <!-- Notificación -->

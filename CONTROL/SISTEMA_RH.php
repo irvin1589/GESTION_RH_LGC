@@ -44,7 +44,7 @@ if (isset($_POST['click_iniciar_sesion'])) {
     
         switch ($tipo_usuario) {
             case 'Admin':
-                header('Location: PANEL_ADMIN.php');
+                header('Location: PANEL_ADMIN1.php');
                 break;
             case 'RH':
                 header('Location: PANEL_RH.php');
