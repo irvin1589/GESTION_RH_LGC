@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PANEL RH | LA GRAN CIUDAD RH</title>
+    <link rel="icon" type="image/x-icon" href="../IMG/logo-blanco-1.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+    background-color: #0e1a2b;
+    background-image: url('../IMG/logo-blanco-1.ico');
+    background-repeat: repeat;
+    background-size: 80px;
+    background-position: center;
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 20px;
+}
+
+        .container {
+    background-color: rgb(26, 42, 65, 0.9);
+    background-size: 80px;
+    background-repeat: repeat;
+    background-position: center;
+    background-blend-mode: lighten;
+    padding: 40px 20px;
+    border-radius: 20px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+    position: relative;
+}
+
+        .logo {
+            width: 100px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1, h2 {
+            font-family: 'Verdana', sans-serif;
+            margin: 10px 0;
+            position: relative;
+            z-index: 1;
+        }
+        h3{
+            margin: 10px 0;
+            font-size: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            margin-top: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .button-row {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .panel-button {
+            background-color: #0077cc;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            padding: 30px 20px;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s, background-color 0.3s;
+            z-index: 1;
+            border-radius: 80px;
+        }
+
+        .panel-button i {
+            font-size: 40px;
+            margin-bottom: 10px;
+            color: #024677;
+        }
+
+        .panel-button:hover {
+            background-color: #005fa3;
+            transform: scale(1.05);
+        }
+
+        .logout-button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 15px 25px;
+            min-width: 200px;
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: background-color 0.3s, transform 0.2s;
+            z-index: 1;
+        }
+
+        .logout-button i {
+            font-size: 22px;
+        }
+
+        .logout-button:hover {
+            background-color: #a52e3a;
+            transform: scale(1.03);
+        }
+
+        @media (max-width: 480px) {
+            .panel-button {
+                width: 100px;
+                height: 120px;
+                font-size: 14px;
+            }
+
+            .panel-button i {
+                font-size: 30px;
+            }
+
+            .button-row {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                justify-items: center;
+                gap: 20px;
+            }
+
+            .logout-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>RECURSOS HUMANOS</h1>
+        <h3>DESARROLLO ORGANIZACIONAL</h3>
+        <h2>Bienvenido</h2>
+        <form action="../CONTROL/PANEL_RH.php" method="POST">
+            <div class="button-row">
+                <button type="submit" name="click_panel_admin" class="panel-button">
+                    <i class="fas fa-sitemap"></i>
+                    Desarrollo Organizacional
+                </button>
+                <button type="submit" name="click_panel_incidencias" class="panel-button">
+                    <i class="fas fa-money-bill-wave"></i>
+                    Nominas
+                </button>
+                <button type="submit" name="click_panel_comunicacion" class="panel-button">
+                    <i class="fas fa-microphone-alt"></i>
+                    Comunicación Corporativa
+                </button>
+            </div>
+            <button type="submit" name="click_cerrar_sesion" class="logout-button">
+                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+            </button>
+        </form>
+    </div>
+</body>
+</html>

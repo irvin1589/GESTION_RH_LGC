@@ -20,7 +20,7 @@ if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
 }
 
 // Opcional: puedes validar el tipo de usuario también
-if ($_SESSION['tipo_usuario'] !== 'Admin') {
+if ($_SESSION['tipo_usuario'] !== 'RH') {
     header('Location: acceso_denegado.php');
     exit();
 }
@@ -41,21 +41,6 @@ if (isset($_POST['click_ver_usuarios'])) {
 
 if (isset($_POST['click_crear_formulario'])) {
     header('Location: http://localhost/GESTION_RH_LGC/CONTROL/CREAR_FORMULARIO.php');
-    exit();
-}
-
-if (isset($_POST['click_crear_sucursal'])) {
-    header('Location: http://localhost/GESTION_RH_LGC/CONTROL/CREAR_SUCURSAL.php');
-    exit();
-}
-
-if (isset($_POST['click_crear_departamento'])) {
-    header('Location: http://localhost/GESTION_RH_LGC/CONTROL/CREAR_DEPARTAMENTO.php');
-    exit();
-}
-
-if (isset($_POST['click_crear_puesto'])) {
-    header('Location: http://localhost/GESTION_RH_LGC/CONTROL/CREAR_PUESTO.php');
     exit();
 }
 
@@ -84,33 +69,11 @@ if (isset($_POST['click_cerrar_sesion'])) {
 }
 
 if (isset($_POST['click_regresar'])) {
-    header('Location: http://localhost/GESTION_RH_LGC/CONTROL/PANEL_ADMIN1.php');
+    header('Location: http://localhost/GESTION_RH_LGC/CONTROL/PANEL_RH.php');
     exit();
 }
 
-if (isset($_POST['click_eliminar_sucursal'])) {
-    $id_sucursal = $_POST['id_sucursal'] ?? '';
 
-    if (!empty($id_sucursal)) {
-        $resultado = $tablaSucursal->eliminar_sucursal($id_sucursal);
-        if ($resultado) {
-            header("Location: PANEL_ADMIN.php?mensaje=success");
-            exit();
-        } else {
-            header("Location: PANEL_ADMIN.php?mensaje=error");
-            exit();
-        }
-    }
-}
-
-if (isset($_POST['click_editar_sucursal'])) {
-    $id_sucursal = $_POST['id_sucursal'] ?? '';
-
-    if (!empty($id_sucursal)) {
-        header("Location: http://localhost/GESTION_RH_LGC/CONTROL/EDITAR_SUCURSAL.php?id_sucursal=$id_sucursal");
-        exit();
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -159,7 +122,7 @@ if (isset($_POST['click_editar_sucursal'])) {
 
         .button-container {
             display: grid;
-            grid-template-columns: repeat(4, 1fr); /* Cuatro columnas */
+            grid-template-columns: repeat(5, 1fr); /* Cuatro columnas */
             gap: 20px; /* Espacio entre los botones */
             margin-top: 20px;
         }
@@ -344,25 +307,6 @@ if (isset($_POST['click_editar_sucursal'])) {
                 <span>Crear Formulario</span>
             </div>
             </button>
-            <button type="submit" name="click_crear_sucursal">
-                <div style="display: flex; flex-direction: column; align-items: center;">
-                    <i class="fas fa-building"></i>
-                    <span>Crear Sucursal</span>
-                </div>
-            </button>
-               
-                <button type="submit" name="click_crear_departamento">
-                <div style="display: flex; flex-direction: column; align-items: center;">
-                    <i class="fas fa-sitemap"></i>
-                    <span>Crear Departamento</span>
-                </div>
-                </button>
-                <button type="submit" name="click_crear_puesto">
-                <div style="display: flex; flex-direction: column; align-items: center;">
-                    <i class="fas fa-briefcase"></i>
-                    <span>Crear Puesto</span>
-                </div>
-                </button> 
                 <button type="submit" name="click_asignar_formulario">
                 <div style="display: flex; flex-direction: column; align-items: center;">
                     <i class="fas fa-share-square"></i>
@@ -403,46 +347,6 @@ if (isset($_POST['click_editar_sucursal'])) {
             <p><?php echo $mensaje ?? ''; ?></p>
             <button onclick="closeNotification()">Cerrar</button>
         </div>
-
-        <!-- Tabla de sucursales -->
-        <h2>Lista de Sucursales</h2>
-        <table class="sucursales-table">
-            <thead>
-                <tr>
-                    <th>ID Sucursal</th>
-                    <th>Nombre</th>
-                    <th>Dirección</th>
-                    <th>Teléfono</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                if (!empty($sucursales)) {
-                    foreach ($sucursales as $sucursal) {
-                        echo "<tr>";
-                        echo "<td>" . htmlspecialchars($sucursal['id_sucursal']) . "</td>";
-                        echo "<td>" . htmlspecialchars($sucursal['nombre']) . "</td>";
-                        echo "<td>" . htmlspecialchars($sucursal['direccion']) . "</td>";
-                        echo "<td>" . htmlspecialchars($sucursal['telefono']) . "</td>";
-                        echo "<td class='action-buttons'>";
-                        echo "<form method='POST' action='' style='display:inline;'>";
-                        echo "<input type='hidden' name='id_sucursal' value='" . htmlspecialchars($sucursal['id_sucursal']) . "'>";
-                        echo "<button type='submit' name='click_editar_sucursal' class='edit'><i class='fas fa-edit'></i></button>";
-                        echo "</form>";
-                        echo "<form method='POST' action='' style='display:inline;'>";
-                        echo "<input type='hidden' name='id_sucursal' value='" . htmlspecialchars($sucursal['id_sucursal']) . "'>";
-                        echo "<button type='submit' name='click_eliminar_sucursal' class='delete'><i class='fas fa-trash'></i></button>";
-                        echo "</form>";
-                        echo "</td>";
-                        echo "</tr>";
-                    }
-                } else {
-                    echo "<tr><td colspan='5'>No hay sucursales registradas.</td></tr>";
-                }
-                ?>
-            </tbody>
-        </table>
     </div>
     <script>
         // Función para cerrar la notificación

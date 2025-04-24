@@ -14,19 +14,23 @@ if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
     exit();
 }
 
-// Opcional: puedes validar el tipo de usuario también
-if ($_SESSION['tipo_usuario'] !== 'Admin') {
+// Permitir acceso a Admin y RH
+if ($_SESSION['tipo_usuario'] !== 'Admin' && $_SESSION['tipo_usuario'] !== 'RH') {
     header('Location: acceso_denegado.php');
     exit();
 }
 
 // Si presionas el botón "regresar"
 if (isset($_POST['click_regresar'])) {
-    var_dump(realpath('../CONTROL/PANEL_ADMIN.php')); // Verifica la ruta absoluta
-    header('Location: ../CONTROL/PANEL_ADMIN.php');
+    if ($_SESSION['tipo_usuario'] === 'Admin') {
+        header('Location: ../CONTROL/PANEL_ADMIN.php');
+    } elseif ($_SESSION['tipo_usuario'] === 'RH') {
+        header('Location: ../CONTROL/PANEL_DESARROLLO.php');
+    } else {
+        header('Location: acceso_denegado.php'); // Opcional: para otros tipos
+    }
     exit();
 }
-
 // Inicializar la instancia de CL_INTERFAZ03
 $form_04 = new CL_INTERFAZ04();
 

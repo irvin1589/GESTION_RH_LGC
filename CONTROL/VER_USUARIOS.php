@@ -12,11 +12,12 @@ $tablaSucursal = new CL_TABLA_SUCURSAL();
 session_start();
 
 if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
-    header('Location: SISTEMA_RH.php');
+    header('Location: SISTEMA_RH.php'); // O la página de inicio de sesión
     exit();
 }
 
-if ($_SESSION['tipo_usuario'] !== 'Admin') {
+// Permitir acceso a Admin y RH
+if ($_SESSION['tipo_usuario'] !== 'Admin' && $_SESSION['tipo_usuario'] !== 'RH') {
     header('Location: acceso_denegado.php');
     exit();
 }
@@ -32,6 +33,18 @@ if (isset($_POST['eliminar_usuario'])) {
         exit();
     }
 }
+
+if (isset($_POST['regresar'])) {
+    if ($_SESSION['tipo_usuario'] === 'Admin') {
+        header('Location: ../CONTROL/PANEL_ADMIN.php');
+    } elseif ($_SESSION['tipo_usuario'] === 'RH') {
+        header('Location: ../CONTROL/PANEL_DESARROLLO.php');
+    } else {
+        header('Location: acceso_denegado.php');
+    }
+    exit();
+}
+
 
 $usuarios = $tablaUsuario->listar_todos_los_usuarios_con_detalles();
 ?>
@@ -260,9 +273,8 @@ $usuarios = $tablaUsuario->listar_todos_los_usuarios_con_detalles();
 
     </table>
 
-    <!-- Botón para regresar -->
-    <form method="POST" action="../CONTROL/PANEL_ADMIN.php">
-        <button type="submit" name="regresar">REGRESAR</button>
+    <form method="POST" action="VER_USUARIOS.php">
+    <button type="submit" name="regresar">REGRESAR</button>
     </form>
     </div>
 </body>

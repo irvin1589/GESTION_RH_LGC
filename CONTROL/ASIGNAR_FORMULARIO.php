@@ -18,8 +18,8 @@ if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
     exit();
 }
 
-// Opcional: puedes validar el tipo de usuario también
-if ($_SESSION['tipo_usuario'] !== 'Admin') {
+// Permitir acceso a Admin y RH
+if ($_SESSION['tipo_usuario'] !== 'Admin' && $_SESSION['tipo_usuario'] !== 'RH') {
     header('Location: acceso_denegado.php');
     exit();
 }
@@ -82,7 +82,13 @@ if (isset($_POST['asignar_formulario'])) {
 
 // Botón para regresar al panel de administración
 if (isset($_POST['click_regresar'])) {
-    header('Location: ../CONTROL/PANEL_ADMIN.php');
+    if ($_SESSION['tipo_usuario'] === 'Admin') {
+        header('Location: ../CONTROL/PANEL_ADMIN.php');
+    } elseif ($_SESSION['tipo_usuario'] === 'RH') {
+        header('Location: ../CONTROL/PANEL_DESARROLLO.php');
+    } else {
+        header('Location: acceso_denegado.php'); // Opcional: para otros tipos
+    }
     exit();
 }
 ?>

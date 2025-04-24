@@ -12,8 +12,8 @@ if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
     exit();
 }
 
-// Opcional: puedes validar el tipo de usuario también
-if ($_SESSION['tipo_usuario'] !== 'Admin') {
+// Permitir acceso a Admin y RH
+if ($_SESSION['tipo_usuario'] !== 'Admin' && $_SESSION['tipo_usuario'] !== 'RH') {
     header('Location: acceso_denegado.php');
     exit();
 }
