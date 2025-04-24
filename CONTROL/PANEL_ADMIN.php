@@ -122,6 +122,7 @@ if (isset($_POST['click_editar_sucursal'])) {
     <link rel="icon" type="image/x-icon" href="../IMG/logo-blanco-1.ico">
     <!-- Enlace a Font Awesome para los íconos -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         html, body {
             height: 100%;
@@ -167,7 +168,7 @@ if (isset($_POST['click_editar_sucursal'])) {
             background-color: rgba(31, 58, 84, 0.6);
             color: #ffffff;
             border: 1px solid #003f7f;
-            border-radius: 25px;
+            border-radius: 250px;
             padding: 15px 20px; /* Aumenta el tamaño de los botones */
             font-size: 18px; /* Aumenta el tamaño del texto de los botones */
             cursor: pointer;
@@ -182,13 +183,19 @@ if (isset($_POST['click_editar_sucursal'])) {
         button:active {
             background-color: #003f7f;
         }
+        .logout-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
 
         .logout-button {
             background-color: #dc3545;
             border: 1px solid #dc3545;
             font-size: 16px; /* Aumenta el tamaño del texto del botón de cerrar sesión */
             padding: 10px 20px; /* Aumenta el tamaño del botón de cerrar sesión */
-            margin-top: 30px;
+            margin: 0px;
             width: auto;
             display: block;
             margin-left: auto;
@@ -273,7 +280,11 @@ if (isset($_POST['click_editar_sucursal'])) {
             display: none;
         }
     }
-
+    @media (max-width: 768px) {
+    .button-container {
+        grid-template-columns: repeat(2, 1fr); /* Dos columnas en móvil */
+    }
+}
     .notification {
         position: fixed;
         top: 20%;
@@ -296,6 +307,11 @@ if (isset($_POST['click_editar_sucursal'])) {
     .notification.error {
         background-color: rgba(31, 58, 84, 0.9); /* Rojo para error */
     }
+
+    .button-container button i {
+    font-size: 60px; /* tamaño del ícono */
+    margin-bottom: 8px; /* espacio entre ícono y texto */
+}
 
     .notification button {
         margin-top: 10px;
@@ -322,17 +338,64 @@ if (isset($_POST['click_editar_sucursal'])) {
         <!-- Botones de acciones -->
         <form method="POST" action="">
             <div class="button-container">
-                <button type="submit" name="click_crear_formulario">Crear Formulario</button>
-                <button type="submit" name="click_crear_sucursal">Crear Sucursal</button>
-                <button type="submit" name="click_crear_departamento">Crear Departamento</button>
-                <button type="submit" name="click_crear_puesto">Crear Puesto</button>
-                <button type="submit" name="click_asignar_formulario">Asignar Formulario</button>
-                <button type="submit" name="click_evaluar">Evaluar Formulario</button>
-                <button type="submit" name="click_resultados">Resultados</button>
-                <button type="submit" name="click_ver_usuarios">Usuarios</button>
+            <button type="submit" name="click_crear_formulario">
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <i class="fas fa-file-alt"></i>
+                <span>Crear Formulario</span>
             </div>
-            <button type="submit" name="click_cerrar_sesion" class="logout-button">Cerrar Sesión</button>
-            <button type="submit" name="click_regresar" class="logout-button">Regresar</button>
+            </button>
+            <button type="submit" name="click_crear_sucursal">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <i class="fas fa-building"></i>
+                    <span>Crear Sucursal</span>
+                </div>
+            </button>
+               
+                <button type="submit" name="click_crear_departamento">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <i class="fas fa-sitemap"></i>
+                    <span>Crear Departamento</span>
+                </div>
+                </button>
+                <button type="submit" name="click_crear_puesto">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <i class="fas fa-briefcase"></i>
+                    <span>Crear Puesto</span>
+                </div>
+                </button> 
+                <button type="submit" name="click_asignar_formulario">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <i class="fas fa-share-square"></i>
+                    <span>Asignar Formulario</span>  
+                </div>
+                </button>
+                <button type="submit" name="click_evaluar">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <i class="fas fa-check"></i>
+                    <span>Evaluar Formulario</span>
+                </div>
+                </button>
+                <button type="submit" name="click_resultados">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Resultados</span>
+                </div>
+                </button>
+                <button type="submit" name="click_ver_usuarios">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <i class="fas fa-users"></i>
+                    <span>Ver Usuarios</span>
+                </div>
+                </button>
+            </div>
+            <div style="display: flex; justify-content: center; gap: 20px; margin-top: 30px;">
+            <div class="logout-container">
+                <button type="submit" name="click_cerrar_sesion" class="logout-button">
+                    <i class="fas fa-sign-out-alt"></i>  Cerrar Sesión</button>
+                <button type="submit" name="click_regresar" class="logout-button">
+                <i class="fas fa-arrow-left"></i>  Regresar</button>
+            </div>
+            </div>
         </form>
 
         <!-- Notificación -->
