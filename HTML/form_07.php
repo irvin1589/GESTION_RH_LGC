@@ -156,9 +156,6 @@
                 {{departamentos}}
             </select>
 
-            <label for="id">ID PUESTO:</label>
-            <input type="text" name="caja_texto1" placeholder="Ingrese el ID de puesto">
-
             <label for="nombre">PUESTO:</label>
             <input type="text" name="caja_texto2" placeholder="Ingrese el puesto">
 
