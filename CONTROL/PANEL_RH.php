@@ -28,7 +28,7 @@ if (isset($_POST['click_panel_admin'])) {
     exit();
 }
 if (isset($_POST['click_panel_comunicacion'])) {
-    header('Location: PANEL_COMUNICACION_ADMIN.php');
+    header('Location: PANEL_COMUNICACION.php');
     exit();
 }
 

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LOGIN | LA GRAN CIUDAD RH</title>
+  <link rel="icon" type="image/x-icon" href="../IMG/logo-blanco-1.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #123049;
+      background-image: url('../IMG/revista1.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      margin: 0;
+      padding-top: 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .top-bar {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 1000;
+    }
+
+    .top-bar button {
+      padding: 10px 16px;
+      font-size: 14px;
+      border: none;
+      background-color: #2196F3;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    h1 {
+      color: white;
+      background-color: rgba(0,0,0,0.7);
+      padding: 12px 24px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+
+    form {
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      width: 90%;
+      max-width: 500px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      align-items: center;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .custom-file {
+      position: relative;
+      width: 100%;
+    }
+
+    .custom-file input[type="file"] {
+      opacity: 0;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    .custom-file-label {
+      display: block;
+      background-color: #2196F3;
+      color: white;
+      padding: 10px;
+      border-radius: 6px;
+      text-align: center;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .custom-file-label:hover {
+      background-color: #1976D2;
+    }
+
+    .file-name {
+      margin-top: 5px;
+      font-size: 12px;
+      color: #333;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #2196F3;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    button:hover {
+      background-color: #1976D2;
+    }
+
+    @media (max-width: 768px) {
+      form {
+        width: 95%;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="top-bar">
+    <form action="../CONTROL/PANEL_ADMIN.php" method="POST">
+      <button type="submit" name="click_regresar"><i class="fas fa-arrow-left"></i> Regresar</button>
+    </form>
+  </div>
+
+  <h1>CREA UNA REVISTA NUEVA</h1>
+
+  <form action="../CONTROL/PANEL_COMUNICACION_ADMIN.php" method="POST" enctype="multipart/form-data">
+    <input type="text" name="caja_texto1" placeholder="Ingrese el nombre de la revista">
+    <input type="text" name="caja_texto2" placeholder="Ingrese el contenido">
+
+    <div class="custom-file">
+      <label class="custom-file-label" for="archivo_pdf"><i class="fas fa-file-pdf"></i> Seleccionar archivo PDF</label>
+      <input type="file" id="archivo_pdf" name="archivo_pdf" accept="application/pdf" onchange="mostrarNombre(this)">
+      <div id="nombre_archivo" class="file-name"></div>
+    </div>
+    <button type="submit" name="click_guardar_revista">Guardar</button>
+    <button type="submit" name="click_ver_revista">Ver Revistas</button>
+</form>
+
+  <script>
+    function mostrarNombre(input) {
+      const nombre = input.files.length > 0 ? input.files[0].name : '';
+      document.getElementById('nombre_archivo').textContent = nombre;
+    }
+  </script>
+
+</body>
+</html>

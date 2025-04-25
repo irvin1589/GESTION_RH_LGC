@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Revistas | Usuario</title>
+  <link rel="icon" type="image/x-icon" href="../IMG/logo-blanco-1.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #123049;
+      background-image: url('../IMG/logo-blanco-1.ico');
+      background-repeat: repeat;
+      margin: 0;
+      padding-top: 60px; /* espacio para el botón fijo */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .top-bar {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 1000;
+    }
+
+    .top-bar button {
+      padding: 10px 16px;
+      font-size: 14px;
+      border: none;
+      background-color: #2196F3;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .top-bar button:hover {
+      background-color: #1976D2;
+    }
+
+    h1 {
+      color: #ffffff;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 10px;
+      border-radius: 10px;
+      text-align: center;
+      width: 90%;
+      max-width: 800px;
+    }
+
+    #contenedor_revistas {
+      margin-top: 20px;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.7);          
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 800px;
+    }
+
+    .revista {
+      margin-bottom: 20px;
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .revista:last-child {
+      border-bottom: none;
+    }
+
+    .btn-pdf {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background-color: #d9534f;     /* rojo típico de PDF */
+  color: #fff;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.btn-pdf:hover {
+  background-color: #c9302c;
+}
+
+.btn-pdf i {
+  font-size: 1.1em;
+}
+    @media (max-width: 768px) {
+      .top-bar button {
+        font-size: 12px;
+        padding: 8px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <form action="PANEL_COMUNICACION.php" method="POST">
+      <button type="submit" name="click_regresar"><i class="fas fa-arrow-left"></i> Regresar</button>
+    </form>
+  </div>
+
+  <h1>Revistas disponibles</h1>
+
+  <div id="contenedor_revistas">
+    {{REVISTAS}}
+  </div>
+
+</body>
+</html>
