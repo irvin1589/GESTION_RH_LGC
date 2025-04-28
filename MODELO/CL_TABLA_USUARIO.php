@@ -4,10 +4,10 @@ include_once('../MODELO/CL_CONEXION.php'); // Incluir configuración de la base 
 class CL_TABLA_USUARIO extends CL_CONEXION {
     protected $pdo;
 
-    public function __construct() {
-        // Configura la conexión a la base de datos
-        $this->pdo = new PDO('mysql:host=localhost;dbname=gestion_rh_lgc', 'root', '');
-    }
+    // public function __construct() {
+    //     // Configura la conexión a la base de datos
+    //     $this->pdo = new PDO('mysql:host=localhost;dbname=gestion_rh_lgc', 'root', '1234');
+    // }
 
     // Método para guardar usuario en la base de datos
     public function guardar($usuario, $sucursal, $puesto, $departamento) {  
