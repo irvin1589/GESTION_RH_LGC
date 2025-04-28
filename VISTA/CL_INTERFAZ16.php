@@ -2,7 +2,7 @@
 include_once('../MODELO/CL_TABLA_DEPARTAMENTO.php');
 include_once('../MODELO/CL_TABLA_SUCURSAL.php');
 
-class CL_INTERFAZ07
+class CL_INTERFAZ16
 {
     private $interfaz;
     private $caja_opcion1;
@@ -20,7 +20,7 @@ class CL_INTERFAZ07
         $sucursalTabla = new CL_TABLA_SUCURSAL();
         $departamentoTabla = new CL_TABLA_DEPARTAMENTO();
 
-        $html = file_get_contents('../HTML/form_16.php');
+        $html = file_get_contents('../HTML/form_16.html');
 
       
         $html_sucursales = $sucursalTabla->listar_sucursales($selectedSucursal);
