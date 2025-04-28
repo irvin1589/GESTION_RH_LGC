@@ -42,7 +42,7 @@ if (isset($_POST['click_guardar_revista'])) {
             $revista->set_contenido($contenido);
             $revista->set_archivo_pdf($webPath);
             $revista->set_fecha_publicacion(date('Y-m-d'));
-            $revista->set_autor("Maria de los Angeles Campos Robles-Departamento de Recursos Humanos");
+            $revista->set_autor("C.P. Maria de los Angeles Campos Robles-Departamento de Recursos Humanos");
 
             // Guardar en BD
             $tabla = new CL_TABLA_REVISTA();

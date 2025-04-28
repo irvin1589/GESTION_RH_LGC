@@ -397,13 +397,11 @@ if (isset($_POST['click_editar_sucursal'])) {
             </div>
         </form>
 
-        <!-- Notificación -->
         <div class="notification <?php echo $tipo_mensaje ?? ''; ?>" id="notification" style="display: <?php echo !empty($mensaje) ? 'block' : 'none'; ?>;">
             <p><?php echo $mensaje ?? ''; ?></p>
             <button onclick="closeNotification()">Cerrar</button>
         </div>
 
-        <!-- Tabla de sucursales -->
         <h2>Lista de Sucursales</h2>
         <table class="sucursales-table">
             <thead>
