@@ -5,10 +5,10 @@ class CL_TABLA_PUESTO extends CL_CONEXION
 {
     protected $pdo;
 
-    public function __construct() {
-        $this->pdo = new PDO('mysql:host=localhost;dbname=gestion_rh_lgc', 'root', '');
-        $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    }
+    // public function __construct() {
+    //     $this->pdo = new PDO('mysql:host=localhost;dbname=gestion_rh_lgc', 'root', '1234');
+    //     $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // }
 
     public function listar_puestos($id_sucursal, $id_departamento, $selectedPuesto = '')
     {
