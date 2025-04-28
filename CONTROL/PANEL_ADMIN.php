@@ -7,7 +7,7 @@ include_once('../VISTA/CL_INTERFAZ02.php');
 include_once('../MODELO/CL_TABLA_SUCURSAL.php');
 
 $tablaSucursal = new CL_TABLA_SUCURSAL();
-$sucursales = $tablaSucursal->listar_todo_sucursales(); // Obtener la lista de sucursales
+$sucursales = $tablaSucursal->listar_todo_sucursales(); 
 
 $mensaje = "";
 $tipo_mensaje = "";
@@ -15,11 +15,10 @@ $tipo_mensaje = "";
 session_start();
 
 if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
-    header('Location: SISTEMA_RH.php'); // O la página de inicio de sesión
+    header('Location: SISTEMA_RH.php'); 
     exit();
 }
 
-// Opcional: puedes validar el tipo de usuario también
 if ($_SESSION['tipo_usuario'] !== 'Admin') {
     header('Location: acceso_denegado.php');
     exit();
@@ -120,7 +119,7 @@ if (isset($_POST['click_editar_sucursal'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PANEL ADMINISTRADOR | LA GRAN CIUDAD</title>
     <link rel="icon" type="image/x-icon" href="../IMG/logo-blanco-1.ico">
-    <!-- Enlace a Font Awesome para los íconos -->
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
@@ -132,7 +131,7 @@ if (isset($_POST['click_editar_sucursal'])) {
         }
 
         body {
-            background-image: url('../IMG/DEPARTAMENTAL.jpg'); /* Imagen de fondo */
+            background-image: url('../IMG/DEPARTAMENTAL.jpg'); 
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -193,8 +192,8 @@ if (isset($_POST['click_editar_sucursal'])) {
         .logout-button {
             background-color: #dc3545;
             border: 1px solid #dc3545;
-            font-size: 16px; /* Aumenta el tamaño del texto del botón de cerrar sesión */
-            padding: 10px 20px; /* Aumenta el tamaño del botón de cerrar sesión */
+            font-size: 16px; 
+            padding: 10px 20px; 
             margin: 0px;
             width: auto;
             display: block;
@@ -242,37 +241,37 @@ if (isset($_POST['click_editar_sucursal'])) {
         }
 
         .action-buttons button {
-            background: none; /* Sin fondo */
-            border: none; /* Sin bordes */
+            background: none;
+            border: none;
             cursor: pointer;
-            padding: 0; /* Sin relleno */
-            transition: transform 0.2s ease; /* Efecto al pasar el mouse */
+            padding: 0;
+            transition: transform 0.2s ease;
         }
 
         .action-buttons button:hover {
-            transform: scale(1.2); /* Aumenta el tamaño al pasar el mouse */
+            transform: scale(1.2);
         }
 
         .action-buttons .edit i {
-            color:  #007bff; /* Verde para el ícono de editar */
-            font-size: 18px; /* Tamaño del ícono */
+            color:  #007bff; 
+            font-size: 18px; 
         }
 
         .action-buttons .delete i {
-            color: #f44336; /* Rojo para el ícono de eliminar */
-            font-size: 18px; /* Tamaño del ícono */
+            color: #f44336; 
+            font-size: 18px; 
         }
 
         .action-buttons .edit i:hover {
-            color:  #007bff; /* Verde más claro al pasar el mouse */
+            color:  #007bff; 
         }
 
         .action-buttons .delete i:hover {
-            color: #e53935; /* Rojo más claro al pasar el mouse */
-        }
+            color: #e53935;
+        } 
 
         @media (max-width: 768px) {
-        /* Ocultar columnas Dirección, Teléfono y Acciones en pantallas pequeñas */
+       
         .sucursales-table th:nth-child(3),
         .sucursales-table th:nth-child(4),
         .sucursales-table td:nth-child(3),
@@ -290,27 +289,27 @@ if (isset($_POST['click_editar_sucursal'])) {
         top: 20%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background-color: rgba(31, 58, 84, 0.9); /* Fondo azul con transparencia */
+        background-color: rgba(31, 58, 84, 0.9); 
         padding: 20px 30px;
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         text-align: center;
         z-index: 1000;
         color: white;
-        display: none; /* Oculto por defecto */
+        display: none; 
     }
 
     .notification.success {
-        background-color: rgba(31, 58, 84, 0.9); /* Verde para éxito */
+        background-color: rgba(31, 58, 84, 0.9); 
     }
 
     .notification.error {
-        background-color: rgba(31, 58, 84, 0.9); /* Rojo para error */
+        background-color: rgba(31, 58, 84, 0.9); 
     }
 
     .button-container button i {
-    font-size: 60px; /* tamaño del ícono */
-    margin-bottom: 8px; /* espacio entre ícono y texto */
+    font-size: 60px; 
+    margin-bottom: 8px; 
 }
 
     .notification button {

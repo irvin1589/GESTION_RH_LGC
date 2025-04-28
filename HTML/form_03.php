@@ -35,9 +35,9 @@
             background-color:  rgba(31, 58, 84, 0.7);
             background-image: url('../IMG/logo-blanco-1.ico');
             background-repeat: repeat;
-            background-size: 70px 70px; /* Tamaño más pequeño para los logos */
+            background-size: 70px 70px; 
             background-position: center;
-            animation: moveBackground 15s linear infinite; /* Animación para mover el fondo */
+            animation: moveBackground 15s linear infinite; 
             z-index: 1; 
             }
 

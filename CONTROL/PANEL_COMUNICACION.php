@@ -4,7 +4,6 @@ session_start();
 include_once('../MODELO/CL_TABLA_REVISTA.php');
 include_once('../VISTA/CL_INTERFAZ12.php');
 
-// Verificación de sesión y tipo (si quieres)
 if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
     header('Location: SISTEMA_RH.php');
     exit();
@@ -21,7 +20,7 @@ if (isset($_POST['click_regresar'])) {
     exit();
 }
 
-// Obtener revistas
+
 $tabla = new CL_TABLA_REVISTA();
 $revistas = $tabla->listar_todas();
 

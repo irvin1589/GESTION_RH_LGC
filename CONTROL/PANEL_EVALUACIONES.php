@@ -2,9 +2,9 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-include_once('../VISTA/CL_INTERFAZ13.php'); 
+include_once('../VISTA/CL_INTERFAZ14.php'); 
 
-$form_13 = new CL_INTERFAZ13();
+$form_14 = new CL_INTERFAZ14();
 
 session_start();
 
@@ -13,18 +13,18 @@ if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
     exit();
 }
 
-// Opcional: puedes validar el tipo de usuario también
 if ($_SESSION['tipo_usuario'] !== 'Empleado') {
     header('Location: acceso_denegado.php');
     exit();
 }
-if (isset($_POST['click_evaluaciones'])) {
-    header('Location: PANEL_EVALUACIONES.php');
+
+if (isset($_POST['click_regresar'])) {
+    header('Location: PANEL_EMPLEADO.php');
     exit();
 }
 
-if (isset($_POST['click_panel_comunicacion'])) {
-    header('Location: PANEL_COMUNICACION.php');
+if (isset($_POST['click_ver_evaluaciones'])) {
+    header('Location: VER_ASIGNACIONES_EMP.php');
     exit();
 }
 
@@ -37,5 +37,5 @@ if (isset($_POST['click_cerrar_sesion'])) {
     exit();
 }
 
-$form_13->mostrar();
+$form_14->mostrar();
 ?>
