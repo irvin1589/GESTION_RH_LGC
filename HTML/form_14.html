@@ -6,13 +6,133 @@
     <title>PANEL EVALUACIONES | LA GRAN CIUDAD RH</title>
     <link rel="icon" type="image/x-icon" href="../IMG/logo-blanco-1.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link rel="stylesheet" href="../HTML/css/normalize.css">
 
 <body>
-    <h1>PANEL EVALUACIONES</h1>
-    <form action="PANEL_EVALUACIONES.php" method="POST">
-        <button type="submit" name="click_regresar"><i class="fas fa-arrow-left"></i> Regresar</button>
-        <button type="submit" name="click_ver_evaluaciones"><i class="fas fa-eye"></i> Ver Asignaciones</button>
-    </form>
+    <style>
 
+        html{
+            font-size: 62.5%;
+            box-sizing: border-box;
+        }
+        *, *::before, *::after{
+            box-sizing: inherit;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            font-style: normal;
+            font-size: 2rem;
+        }
+
+        .header{
+            background-color: #313131;
+        }
+
+        .header__contenedor{
+            display: flex;
+        }
+
+        .header__titulo{
+            color: #ffffff;
+            font-size: 3.8rem;
+            padding: 1rem 0;
+            margin: auto;
+            align-items: center;
+            text-align: center;
+            justify-content: center;
+        }
+
+        .header__img{
+            width: 5rem;
+            height: 5rem;
+            margin: 1rem 0;
+        }
+        
+        .contenedor{
+            max-width: 120rem;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+
+        table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        h2 {
+            font-family: Arial, sans-serif;
+            color: #333;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        p {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            color: #666;
+        }
+
+        .btn-completar{
+            background-color: #3CDC00;
+            border: none;
+            padding: 1rem 2rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: #fff;
+            border-radius: .5rem;
+        }
+
+        .btn-ver{
+            background-color: #007BFF;
+            border: none;
+            padding: 1rem 2rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: #fff;
+            border-radius: .5rem;
+        }
+
+
+    </style>
+    <header class="header">
+        <div class="contenedor header__contenedor">
+            <img class="header__img" src="../IMG/logo-blanco-1.ico" alt="Nuestro logo">
+            <h1 class="header__titulo">PANEL EVALUACIONES</h1>
+        </div>
+    </header>
+
+    <main class="contenedor">
+        
+
+
+    </main>
+
+    
+    <script src="../HTML/JS/app.js"></script>
 </body>
 </html>
