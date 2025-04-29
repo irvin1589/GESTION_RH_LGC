@@ -44,5 +44,42 @@ class CL_TABLA_ASIGNACION_FORMULARIO extends CL_CONEXION
             return false;
         }
     }
+
+    public function get_asignaciones_user($id_usuario){
+        try {
+            $instruccion_sql = "SELECT 
+                                    af.id_asignacion,
+                                    af.fecha_asignacion,
+                                    af.completado,
+                                    af.id_formulario,
+                                    f.nombre AS nombre_formulario,
+                                    f.descripcion,
+                                    f.fecha_creacion,
+                                    f.fecha_limite,
+                                    CASE 
+                                        WHEN EXISTS (
+                                            SELECT 1 FROM respuesta r 
+                                            WHERE r.id_asignacion = af.id_asignacion
+                                        )
+                                        THEN 1
+                                        ELSE 0
+                                    END AS respondido
+                                FROM 
+                                    asignacion_formulario af
+                                JOIN 
+                                    formulario f ON af.id_formulario = f.id_formulario
+                                WHERE 
+                                    af.id_usuario = :id_usuario";
+                                    
+            $stmt = $this->getPDO()->prepare($instruccion_sql);
+            $stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_STR);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error al obtener las asignaciones del usuario: " . $e->getMessage());
+            return false;
+        }
+    }
+    
 }
 ?>
