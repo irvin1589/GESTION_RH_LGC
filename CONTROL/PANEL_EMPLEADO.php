@@ -18,6 +18,7 @@ if ($_SESSION['tipo_usuario'] !== 'Empleado') {
     header('Location: acceso_denegado.php');
     exit();
 }
+
 if (isset($_POST['click_evaluaciones'])) {
     header('Location: PANEL_EVALUACIONES.php');
     exit();
@@ -34,6 +35,12 @@ if (isset($_POST['click_cerrar_sesion'])) {
     session_destroy();
     echo "Redirigiendo...";
     header('Location: http://localhost/GESTION_RH_LGC/CONTROL/SISTEMA_RH.php');
+    exit();
+}
+
+if (isset($_POST['click_panel_incidencias'])) {
+    // Redirigir a la página que solicita la contraseña
+    header('Location: solicitar_contraseña.php');
     exit();
 }
 

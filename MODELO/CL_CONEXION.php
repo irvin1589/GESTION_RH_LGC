@@ -16,6 +16,10 @@ class CL_CONEXION {
         }
     }
 
+    public function conectar() {
+        return $this->pdo;
+    }
+
     public function getPDO() {
         return $this->pdo;
     }

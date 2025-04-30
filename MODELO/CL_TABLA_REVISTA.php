@@ -6,7 +6,7 @@ class CL_TABLA_REVISTA extends CL_CONEXION
     protected $pdo;
 
     public function __construct() {
-        $this->pdo = new PDO('mysql:host=localhost;dbname=gestion_rh_lgc', 'root', '1234');
+        $this->pdo = new PDO('mysql:host=localhost;dbname=gestion_rh_lgc', 'root', '');
     }
 
     public function guardar($revista)
