@@ -108,12 +108,37 @@ class CL_TABLA_USUARIO extends CL_CONEXION {
     return $html;
     }   
 
-    public function listar_todos_los_usuarios() {
-        $sql = "SELECT id_usuario, nombre FROM usuario"; // Ajusta el nombre de la tabla y columnas según tu base de datos
-        $stmt = $this->pdo->prepare($sql);
+
+    public function listar_usuarios_por_sucursal_departamento($id_sucursal, $id_departamento, $selectedUsuario = '') {
+        $pdo = $this->getPDO();
+        $sql = "SELECT id_usuario, nombre, apellido1, apellido2 FROM usuario WHERE id_sucursal = :id_sucursal AND id_departamento = :id_departamento";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':id_sucursal', $id_sucursal, PDO::PARAM_STR);
+        $stmt->bindParam(':id_departamento', $id_departamento, PDO::PARAM_STR);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $html = "";
+        $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if (count($usuarios) === 1) {
+            $selectedUsuario = $usuarios[0]['id_usuario'];  
+
+        }
+
+        foreach ($usuarios as $row) {
+            $id = $row['id_usuario'];
+            $nombre = $row['nombre'];
+            $apellido1 = $row['apellido1'];
+            $apellido2 = $row['apellido2'];
+            $selected = ($selectedUsuario == $id) ? 'selected' : '';
+            $html .= "<option value='$id' $selected>$nombre $apellido1 $apellido2</option>";
+        }
+        if (empty($html)) {
+            $html = "<option value=''>No hay usuarios disponibles</option>";
+        }
+        return $html;
+
     }
+        
 
     public function listar_todos_los_usuarios_con_detalles() {
         try {
