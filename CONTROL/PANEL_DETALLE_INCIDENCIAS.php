@@ -91,6 +91,49 @@ $stmt->execute();
 
 echo "<h2>Reporte de Incidencias desde $fecha_inicio hasta $fecha_fin</h2>";
 
+echo '
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 20px;
+        font-family: Arial, sans-serif;
+    }
+    th, td {
+        border: 1px solid #cccccc;
+        padding: 8px;
+        text-align: center;
+    }
+    th {
+        background-color: #007BFF;
+        color: white;
+    }
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+    h2 {
+        font-family: Arial, sans-serif;
+        color: #333333;
+    }
+    form {
+        margin-top: 20px;
+    }
+    button {
+        background-color: #28a745;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #218838;
+    }
+</style>';
+
 if ($stmt->rowCount() > 0) {
     echo "<table border='1'>
             <thead>
