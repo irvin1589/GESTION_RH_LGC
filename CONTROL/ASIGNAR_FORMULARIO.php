@@ -35,13 +35,25 @@ if (isset($_POST['seleccionar_formulario'])) {
         echo '<div class="notification error">Error: No se pudo obtener los detalles del formulario.</div>';
         exit();
     }
+   
+    echo '
+    <style>
+    h2 {
+        text-align: center;
+        color: #333;
+    }
+    p {
+        text-align: center;
+        color: #555;
+    }
+    </style>
+    ';
 
-    // Mostrar los detalles del formulario
     echo '<h2>Asignar Formulario: ' . htmlspecialchars($formulario['nombre']) . '</h2>';
     echo '<p>Descripción: ' . htmlspecialchars($formulario['descripcion']) . '</p>';
     echo '<p>Fecha Límite: ' . htmlspecialchars($formulario['fecha_limite']) . '</p>';
 
-    // Filtrar usuarios por departamento, sucursal y puesto
+   
     $id_departamento = $formulario['id_departamento'];
     $id_sucursal = $formulario['id_sucursal'];
     $id_puesto = $formulario['id_puesto'];
@@ -49,12 +61,47 @@ if (isset($_POST['seleccionar_formulario'])) {
     $tablaUsuario = new CL_TABLA_USUARIO();
     $usuarios = $tablaUsuario->listar_usuarios_por_filtros($id_departamento, $id_sucursal, $id_puesto);
 
-    // Mostrar el formulario para asignar a un usuario
+   
     echo '<form method="POST" action="ASIGNAR_FORMULARIO.php">';
     echo '<input type="hidden" name="id_formulario" value="' . htmlspecialchars($id_formulario) . '">';
 
+    echo '
+    <style>
+    label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+        select {
+        width: 20%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+        button {
+        padding: 10px 20px;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+        button:hover {
+        background-color: #0056b3;
+    }
+
+        button[name="click_regresar_1"] {
+        background-color:rgb(232, 27, 27);
+        margin-left: 10px;
+    }
+        button[name="click_regresar_1"]:hover {
+        background-color:rgb(176, 46, 46);
+    }
+        </style>';
+
     echo '<label for="usuario">Usuario:</label>';
-    echo '<select id="usuario" name="id_usuario" required>';
+    echo '<select id="usuario" name="id_usuario">';
     echo '<option value="">Seleccione un usuario</option>';
     foreach ($usuarios as $usuario) {
         echo '<option value="' . htmlspecialchars($usuario['id_usuario']) . '">' . htmlspecialchars($usuario['nombre']) . '</option>';
@@ -62,10 +109,20 @@ if (isset($_POST['seleccionar_formulario'])) {
     echo '</select>';
 
     echo '<button type="submit" name="asignar_formulario">Asignar</button>';
+    echo '<button type="submit" name="click_regresar_1">Regresar</button>';
     echo '</form>';
 }
 
-// Manejar la asignación del formulario al usuario
+if (isset($_POST['click_regresar_1'])) {
+    if ($_SESSION['tipo_usuario'] === 'Admin') {
+        header('Location: ../CONTROL/ASIGNAR_FORMULARIO.php');
+    } elseif ($_SESSION['tipo_usuario'] === 'RH') {
+        header('Location: ../CONTROL/ASIGNAR_FORMULARIO.php');
+    } else {
+        header('Location: acceso_denegado.php'); 
+    }
+    exit();
+}
 if (isset($_POST['asignar_formulario'])) {
     $id_formulario = $_POST['id_formulario'];
     $id_usuario = $_POST['id_usuario'];
