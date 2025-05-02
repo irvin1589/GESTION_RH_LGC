@@ -122,168 +122,52 @@ if (isset($_POST['click_editar_sucursal'])) {
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../HTML/css/normalize.css">
     <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
 
+        html{
+            font-size: 62.5%;
+            box-sizing: border-box;
+        }
+        *, *::before, *::after{
+            box-sizing: inherit;
+        }
         body {
-            background-image: url('../IMG/DEPARTAMENTAL.jpg'); 
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            display: flex;
-            flex-direction: column;
+            font-family: Arial, sans-serif;
+            font-style: normal;
+            font-size: 2rem;
         }
 
-        .header {
-            background-color: rgba(31, 58, 84, 0.9); /* Fondo azul con transparencia */
+        .header{
+            background-color: #313131;
+        }
+
+        .header__contenedor{
+            display: flex;
+        }
+
+        .header__titulo{
             color: #ffffff;
-            padding: 20px 30px;
+            font-size: 3.8rem;
+            padding: 1rem 0;
+            margin: auto;
+            align-items: center;
             text-align: center;
-        }
-
-        .container {
-            margin: 20px auto;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.5); /* Fondo blanco semitransparente */
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            max-width: 1200px;
-        }
-
-        .button-container {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr); /* Cuatro columnas */
-            gap: 20px; /* Espacio entre los botones */
-            margin-top: 20px;
-        }
-
-        button {
-            background-color: rgba(31, 58, 84, 0.6);
-            color: #ffffff;
-            border: 1px solid #003f7f;
-            border-radius: 250px;
-            padding: 15px 20px; /* Aumenta el tamaño de los botones */
-            font-size: 18px; /* Aumenta el tamaño del texto de los botones */
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            width: 100%;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        button:active {
-            background-color: #003f7f;
-        }
-        .logout-container {
-            display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-top: 30px;
         }
 
-        .logout-button {
-            background-color: #dc3545;
-            border: 1px solid #dc3545;
-            font-size: 16px; 
-            padding: 10px 20px; 
-            margin: 0px;
-            width: auto;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
+        .header__img{
+            width: 5rem;
+            height: 5rem;
+            margin: 1rem 0;
         }
-
-        .logout-button:hover {
-            background-color: #a71d2a;
+        
+        .contenedor{
+            max-width: 120rem;
+            text-align: center;
+            margin: 0 auto;
         }
-
-        .logout-button:active {
-            background-color: #7f1420;
-        }
-
-        .sucursales-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background-color: rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .sucursales-table th,
-        .sucursales-table td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .sucursales-table th {
-            background-color: rgba(31, 58, 84, 0.9);
-            color: white;
-        }
-
-        .sucursales-table tr:hover {
-            background-color: rgba(31, 58, 84, 0.1);
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-        }
-
-        .action-buttons button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-            transition: transform 0.2s ease;
-        }
-
-        .action-buttons button:hover {
-            transform: scale(1.2);
-        }
-
-        .action-buttons .edit i {
-            color:  #007bff; 
-            font-size: 18px; 
-        }
-
-        .action-buttons .delete i {
-            color: #f44336; 
-            font-size: 18px; 
-        }
-
-        .action-buttons .edit i:hover {
-            color:  #007bff; 
-        }
-
-        .action-buttons .delete i:hover {
-            color: #e53935;
-        } 
-
-        @media (max-width: 768px) {
-       
-        .sucursales-table th:nth-child(3),
-        .sucursales-table th:nth-child(4),
-        .sucursales-table td:nth-child(3),
-        .sucursales-table td:nth-child(4) {
-            display: none;
-        }
-    }
-    @media (max-width: 768px) {
-    .button-container {
-        grid-template-columns: repeat(2, 1fr); /* Dos columnas en móvil */
-    }
-}
+        
     .notification {
         position: fixed;
         top: 20%;
@@ -307,11 +191,6 @@ if (isset($_POST['click_editar_sucursal'])) {
         background-color: rgba(31, 58, 84, 0.9); 
     }
 
-    .button-container button i {
-    font-size: 60px; 
-    margin-bottom: 8px; 
-}
-
     .notification button {
         margin-top: 10px;
         padding: 10px 20px;
@@ -326,14 +205,127 @@ if (isset($_POST['click_editar_sucursal'])) {
     .notification button:hover {
         background-color: #dddddd;
     }
+
+    .button-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2rem;
+        margin: 3rem 0;
+    }
+
+    .button-container button {
+        background-color: #1f3a54;
+        color: #fff;
+        border: none;
+        padding: 1.5rem 2rem;
+        border-radius: 1rem;
+        font-size: 1.6rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        min-width: 14rem;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+
+    .button-container button:hover {
+        background-color: #2c577c;
+        transform: translateY(-3px);
+    }
+
+    .button-container i {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Botones de cerrar sesión y regresar */
+    .logout-button {
+        background-color: #444;
+        color: white;
+        padding: 1rem 2rem;
+        font-size: 1.6rem;
+        border: none;
+        border-radius: 0.8rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .logout-button:hover {
+        background-color: #666;
+    }
+
+    /* Tabla de sucursales */
+    table.sucursales-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 4rem;
+        font-size: 1.6rem;
+    }
+
+    table.sucursales-table th, table.sucursales-table td {
+        border: 1px solid #ddd;
+        padding: 1.2rem;
+    }
+
+    table.sucursales-table th {
+        background-color: #1f3a54;
+        color: white;
+        text-align: center;
+    }
+
+    table.sucursales-table td {
+        text-align: center;
+        background-color: #f9f9f9;
+    }
+
+    table.sucursales-table tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    /* Botones de acción en la tabla */
+    .action-buttons button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 2rem;
+        margin: 0 0.5rem;
+        transition: transform 0.2s;
+    }
+
+    .action-buttons button.edit {
+        color: #2c7;
+    }
+
+    .action-buttons button.delete {
+        color: #d33;
+    }
+
+    .action-buttons button:hover {
+        transform: scale(1.2);
+    }
+
+    h2 {
+        font-size: 3rem;
+        color: #1f3a54;
+        margin-top: 3rem;
+        text-align: center;
+    }
+
+    .footer {
+        text-align: center;
+    }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Panel de Desarrollo Organizacional</h1>
-    </div>
+<header class="header">
+        <div class="contenedor header__contenedor">
+            <img class="header__img" src="../IMG/logo-blanco-1.ico" alt="Nuestro logo">
+            <h1 class="header__titulo">PANEL DESARROLLO ORGANIZACIONAL</h1>
 
-    <div class="container">
+
+        </div>
+    </header>
+
+    <main class="contenedor">
         <!-- Botones de acciones -->
         <form method="POST" action="">
             <div class="button-container">
@@ -411,7 +403,7 @@ if (isset($_POST['click_editar_sucursal'])) {
                     <th>Dirección</th>
                     <th>Teléfono</th>
                     <th>Acciones</th>
-                </tr>
+                </tr>   
             </thead>
             <tbody>
                 <?php
@@ -440,7 +432,7 @@ if (isset($_POST['click_editar_sucursal'])) {
                 ?>
             </tbody>
         </table>
-    </div>
+    </main>
     <script>
         // Función para cerrar la notificación
         function closeNotification() {
@@ -450,5 +442,8 @@ if (isset($_POST['click_editar_sucursal'])) {
             }
         }
     </script>
+
+
+<!-- <footer>Todos los derechos reservados &copy; 2025</footer> -->
 </body>
 </html>
