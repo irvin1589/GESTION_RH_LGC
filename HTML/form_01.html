@@ -1,124 +1,299 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>LOGIN | LA GRAN CIUDAD RH</title>
-        <link rel="icon" type="image/x-icon" href="../IMG/logo-blanco-1.ico">
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                margin: 0;
-                padding: 0;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-                background-image: url('../IMG/fondo_1.jpg'); /* Ruta de la imagen de fondo */
-                background-size: cover; /* Ajusta la imagen para cubrir todo el fondo */
-                background-position: center; /* Centra la imagen */
-                background-repeat: no-repeat; /* Evita que la imagen se repita */
-                position: relative; /* Asegura que el overlay se posicione correctamente */
-            }
-            .overlay {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(24, 23, 23, 0.3); /* Fondo azul con transparencia */
-                z-index: 1; /* Asegura que esté encima del fondo */
-            }
-            .container {
-                position: relative; /* Posiciona el contenedor encima del overlay */
-                background-color: rgba(31, 58, 84, 0.9); /* Fondo semitransparente */
-                padding: 30px 40px;
-                border-radius: 10px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-                text-align: center;
-                width: 350px;
-                z-index: 2; /* Asegura que esté encima del overlay */
-            }
-            .logo {
-                display: block;
-                margin: 0 auto 20px auto;
-                width: 120px; /* Ajusta el tamaño del logo */
-                height: auto; /* Mantén la proporción */
-            }
-            h1 {
-                font-size: 18px;
-                color: #ffffff;
-                margin-bottom: 10px;
-            }
-            h2 {
-                font-size: 16px;
-                color: #ffffff;
-                margin-bottom: 20px;
-            }
-            label {
-                display: block;
-                font-size: 14px;
-                color: #ffffff;
-                margin-bottom: 5px;
-                text-align: left;
-            }
-            input[type="text"], input[type="password"] {
-                width: 100%;
-                padding: 10px;
-                margin-bottom: 15px;
-                border: 1px solid #cccccc;
-                border-radius: 5px;
-                font-size: 14px;
-            }
-            button {
-                width: 100%;
-                padding: 10px;
-                margin-top: 10px;
-                border: none;
-                border-radius: 5px;
-                font-size: 14px;
-                cursor: pointer;
-                color: #ffffff;
-            }
-            button[name="click_iniciar_sesion"] {
-                background-color: #4CAF50;
-            }
-            button[name="click_registrar"] {
-                background-color: #007BFF;
-            }
-            button:hover {
-                opacity: 0.9;
-            }
-            .footer {
-                margin-top: 20px;
-                font-size: 12px;
-                color: #aaaaaa;
-            }
-        </style>
-    </head>
-    <body>
-        <!-- Overlay azul transparente -->
-        <div class="overlay"></div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LOGIN | LA GRAN CIUDAD RH</title>
+  <link rel="icon" type="image/x-icon" href="../IMG/logo-blanco-1.ico" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+    }
 
-        <!-- Contenedor principal -->
-        <div class="container">
-            <!-- Logo centrado arriba del formulario -->
-            <img src="../IMG/LOGO_LGC__AZUL.jpg" alt="Logo del Sistema" class="logo">
-            <h1>BIENVENIDO!!</h1>
-            <h2>INICIA SESIÓN</h2>
-            <form action="../CONTROL/SISTEMA_RH.php" method="POST">
-                <label for="id">ID Usuario:</label>
-                <input type="text" name="caja_texto1" placeholder="Ingrese su ID">
-            
-                <label for="contrasena">Contraseña:</label>
-                <input type="password" name="caja_texto2" placeholder="Ingrese su contraseña">
-            
-                <button type="submit" name="click_iniciar_sesion">LOGIN</button>
-                <button type="submit" name="click_registrar">REGISTRAR</button>
-            </form>
-            <div class="footer">
-                © 2025 La Gran Ciudad - Todos los derechos reservados.
-            </div>
+    body, html {
+      height: 100%;
+      background: url('../IMG/fondo_1.jpg') no-repeat center center/cover;
+    }
+
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.6);
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      display: flex;
+      width: 90%;
+      max-width: 1000px;
+      background-color: rgba(31, 58, 84, 0.827);
+      border-radius: 30px;
+      overflow: hidden;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+      flex-direction: row;
+    }
+
+    .left, .right {
+      flex: 1;
+      padding: 40px;
+    }
+
+    .right {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .left {
+      color: #222;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .left h1 {
+      font-size: 42px;
+      color: #009FE3;
+      margin-bottom: 20px;
+    }
+
+    .left p {
+      font-size: 18px;
+      margin-bottom: 30px;
+      color: white;
+    }
+
+    .form {
+      width: 100%;
+    }
+
+    .form h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: rgb(255, 255, 255);
+      text-align: center;
+    }
+
+    .form label {
+      display: block;
+      margin: 10px 0 5px;
+      color: white
+    }
+
+    .form a{
+        color: #009FE3;
+        text-decoration: none;
+        font-size: 14px;
+        display: block;
+        margin-top: 10px;
+    }
+
+    .form input[type="text"],
+    .form input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      background-color:  rgba(31, 58, 84, 0.451);
+      border: 1px solid #009FE3;
+      border-radius: 5px;
+        color: white;
+    }
+
+    .form .button-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .form button {
+      flex: 1;
+      padding: 12px;
+      background-color:#009FE3;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .form button[name="click_registrar"] {
+      background-color: #941B81;
+    }
+
+    .form button:hover {
+      opacity: 0.9;
+    }
+
+    .form .error {
+      color: red;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .footer {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #aaaaaa;
+      text-align: center;
+    }
+    .logo {
+        display: block;
+        margin: 0 auto 20px auto; 
+        width: 120px; 
+        height: auto; 
+    }
+
+    .left .logo {
+        display: none;
+    }
+
+    .contacto {
+    display: none;
+    position: fixed;
+    z-index: 3;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .contacto-contenido {
+    background-color: #ffffffb6;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 40%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    }
+
+    .contacto-contenido h2 {
+    color: #8000ff;
+    }
+
+    .contacto-contenido p {
+        color: #333;
+        padding: 3px;
+    }
+
+
+    .cerrar {
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+        flex-direction: column;
+        margin: 20px;
+        padding-top: 30px;
+        }
+
+        .left, .right {
+        padding: 10px;
+        }
+
+        .left {
+        align-items: center; 
+        }
+
+        .left h1 {
+            text-align: center;
+        }
+
+        .right .logo {
+            display: none;
+        }
+
+        .left .logo {
+            display: block;
+        }
+
+        .logo {
+        width: 90px; 
+        }
+    }
+
+    @media (max-width: 480px) {
+        .contacto-contenido {
+            width: 90%;
+            padding: 15px;
+            font-size: 14px;
+        }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <div class="container">
+      <div class="left">
+        <img src="../IMG/LOGO_LGC__AZUL-1.png" alt="Logo del Sistema" class="logo">
+        <h1>¡Bienvenido!</h1>
+        <p>Nos alegra tenerte de vuelta. Ingresa tus datos para continuar y aprovechar al máximo las herramientas del sistema.</p>
+      </div>
+      <div class="right">
+        <form class="form" action="../CONTROL/SISTEMA_RH.php" method="POST">
+            <img src="../IMG/LOGO_LGC__AZUL-1.png" alt="Logo del Sistema" class="logo">
+          <label for="id">ID Usuario:</label>
+          <input type="text" name="caja_texto1" placeholder="Ingrese su ID"/>
+
+          <label for="contrasena">Contraseña:</label>
+          <input type="password" name="caja_texto2" placeholder="Ingrese su contraseña" />
+
+          <a href="#" onclick="abrirModal()">Olvidaste tu contraseña?</a>
+
+          <div class="button-row">
+            <button type="submit" name="click_iniciar_sesion">INGRESAR</button>
+            <button type="submit" name="click_registrar">REGISTRAR</button>
+          </div>
+
+          <div class="footer">
+            © 2025 La Gran Ciudad - Todos los derechos reservados.
+          </div>
+        </form>
+      </div>
+    </div>
+    <div id="modalContacto" class="contacto">
+        <div class="contacto-contenido">
+            <span class="cerrar" onclick="cerrarModal()">&times;</span>
+            <h2>Contáctanos</h2>
+            <p>Si olvidaste tu contraseña, por favor contáctanos a través de:</p>
+            <p>Email: <a href="mailto:admin@lagranciudad.com.mx">admin@lagranciudad.com.mx</a></p>
+            <p>Teléfono: <a href="tel:+527121200590">+52 712 120 0590</a> EXT: 218</p>
+            <p>Horario: Lunes a Viernes de 9:00 a 18:00</p>
+            <p>¡Estamos aquí para ayudarte!</p>
         </div>
-    </body>
+    </div>
+  </div>
+</body>
 </html>
+
+<script>
+    
+    function abrirModal() {
+      const modal = document.getElementById('modalContacto');
+      modal.style.display = 'block'; 
+    }
+  
+   
+    function cerrarModal() {
+      const modal = document.getElementById('modalContacto');
+      modal.style.display = 'none'; 
+    }
+  
+    
+    window.onclick = function(event) {
+      const modal = document.getElementById('modalContacto');
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    };
+  </script>

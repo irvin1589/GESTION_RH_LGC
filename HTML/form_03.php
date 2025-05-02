@@ -15,7 +15,7 @@
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
       padding: 20px;
-      background-image: url('../IMG/fondo_1.jpg');
+      background-image: url('../IMG/fondo_registro.avif');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -32,37 +32,33 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color:  rgba(31, 58, 84, 0.7);
-            background-image: url('../IMG/logo-blanco-1.ico');
-            background-repeat: repeat;
-            background-size: 70px 70px; 
-            background-position: center;
+            background-color:  rgba(0, 0, 0, 0.6);
             animation: moveBackground 15s linear infinite; 
             z-index: 1; 
             }
 
             @keyframes moveBackground {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 100% 100%; /* Mueve el fondo a través de la pantalla */
-  }
-}
+            0% {
+              background-position: 0 0;
+            }
+            100% {
+              background-position: 100% 100%; 
+            }
+          }
 
     .form-container {
-      background-color: rgba(255, 255, 255, 0.7);
+      background-color:rgba(165, 39, 147, 0.57);
       width: 100%;
       max-width: 800px;
       border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 10px 25px rgba(255, 255, 255, 0.15);
       padding: 30px 40px;
       z-index: 2;
     }
 
     h2 {
       text-align: center;
-      color:rgb(26, 120, 219);
+      color:rgb(255, 255, 255);
       margin-bottom: 30px;
       font-size: 28px;
     }
@@ -73,32 +69,46 @@
       gap: 20px;
     }
 
-    label {
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: #333;
-      display: block;
-    }
+      label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #f1f1f1; /* Blanco suave */
+    display: block;
+  }
 
     input[type="text"],
     input[type="password"],
     select {
     width: 100%;
     padding: 10px 12px;
-    border: 1px solid rgb(0, 89, 255);
+    border: 1px solid  rgb(200, 0, 255);
     border-radius: 8px;
     font-size: 14px;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: black;
+    background-color:  rgba(165, 39, 147, 0.57);
+    color: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(4px);
     }
+
+    select {
+  background-color: rgba(165, 39, 147, 0.57); 
+  color: rgba(255, 255, 255, 0.9); 
+  border: 1px solid rgb(200, 0, 255); 
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+select option {
+  background-color:rgba(138, 4, 118, 0.97); 
+  color: white; 
+}
 
     input[type="text"]::placeholder,
     input[type="password"]::placeholder,
     select::placeholder {
-    color:rgb(0, 0, 0);  /* Aquí puedes cambiar el color que desees */
+      color: rgba(255, 255, 255, 0.79);
     }
-
+    
     .form-actions {
   grid-column: 1 / -1;
   display: flex;
@@ -129,7 +139,7 @@
     }
 
     button {
-      background-color: #007bff;
+      background-color: #009FE3;
       color: white;
     }
     button[name="click_regresar"] {
