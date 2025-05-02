@@ -12,37 +12,72 @@
     }
 
     body {
-      font-family: Arial, sans-serif;
-      background-color: #123049;
-      background-image: url('../IMG/revista1.png');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
+      padding-top: 70px; /* Agrega espacio para compensar la altura del header */
       margin: 0;
-      padding-top: 60px;
+      font-family: Arial, sans-serif;
+      background-color: rgb(241, 229, 223); 
+      background-image: url('../IMG/LA GRAN CIUDAD.png'); 
+      background-size: cover;
+      background-position: center 3px;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
 
-    .top-bar {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      z-index: 1000;
+    .contenido-principal {
+      margin-top: 2rem; /* Espaciado entre el header y el contenido */
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
     }
 
-    .top-bar button {
-      padding: 10px 16px;
-      font-size: 14px;
-      border: none;
-      background-color: #2196F3;
+    .header {
+      width: 100%; /* Asegura que el header ocupe todo el ancho */
+      background-color: rgba(49, 49, 49, 0.8); /* Fondo semitransparente */
+      padding: 0.5rem 0; /* Espaciado interno vertical */
+      margin: 0; /* Elimina cualquier margen */
+      box-sizing: border-box; /* Incluye el padding en el ancho total */
+      position: fixed; /* Fija el header en la parte superior */
+      top: 0; /* Pega el header a la parte superior */
+      z-index: 1000; /* Asegura que el header esté encima del contenido */
+    }
+
+    .header__contenedor {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: auto; /* Ajusta la altura automáticamente */
+      padding: 0 1rem; /* Espaciado interno lateral */
+    }
+
+    .header__titulo {
+      flex: 2;
+      text-align: center;
       color: white;
-      border-radius: 5px;
-      cursor: pointer;
+      font-size: 24px; /* Reduce el tamaño del título */
+      margin: 0;
+    }
+
+    .header__logo, .header__espaciador {
+      flex: 1;
       display: flex;
       align-items: center;
-      gap: 6px;
+      justify-content: flex-start;
+    }
+
+    .header__espaciador {
+      justify-content: flex-end;
+    }
+
+    .header__img {
+      width: 40px; /* Ajusta el tamaño del logo */
+      height: 40px;
+      object-fit: contain;
+      display: block;
     }
 
     h1 {
@@ -54,16 +89,17 @@
     }
 
     form {
-      background-color: rgba(255, 255, 255, 0.8);
+      background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco semitransparente */
       padding: 30px;
       border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
       width: 90%;
       max-width: 500px;
       display: flex;
       flex-direction: column;
       gap: 15px;
       align-items: center;
+      margin-top: 2rem;
     }
 
     input[type="text"] {
@@ -135,15 +171,19 @@
 </head>
 
 <body>
+  <header class="header">
+    <div class="contenedor header__contenedor">
+      <div class="header__logo">
+        <a href="PANEL_ADMIN1.php" class="header__enlace">
+          <img src="../IMG/logo-blanco-1.ico" alt="Ir a la página" class="header__img">
+        </a>
+      </div>
+      <h3 class="header__titulo">Nueva Revista</h3>
+      <div class="header__espaciador"></div>
+    </div>
+  </header>
 
-  <div class="top-bar">
-    <form action="../CONTROL/PANEL_ADMIN.php" method="POST">
-      <button type="submit" name="click_regresar"><i class="fas fa-arrow-left"></i> Regresar</button>
-    </form>
-  </div>
-
-  <h1>CREA UNA REVISTA NUEVA</h1>
-
+<main class="contenido-principal">
   <form action="../CONTROL/PANEL_COMUNICACION_ADMIN.php" method="POST" enctype="multipart/form-data">
     <input type="text" name="caja_texto1" placeholder="Ingrese el nombre de la revista">
     <input type="text" name="caja_texto2" placeholder="Ingrese el contenido">
@@ -155,7 +195,8 @@
     </div>
     <button type="submit" name="click_guardar_revista">Guardar</button>
     <button type="submit" name="click_ver_revista">Ver Revistas</button>
-</form>
+  </form>
+</main>
 
   <script>
     function mostrarNombre(input) {
