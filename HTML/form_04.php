@@ -42,9 +42,7 @@
             color: #555555;
         }
 
-        .form-container input[type="text"],
-        .form-container input[type="password"],
-        .form-container select {
+        .campos {
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
@@ -67,7 +65,7 @@
         }
 
         .form-container button {
-            background-color: #6c757d;
+            background-color:rgb(255, 0, 0);
         }
 
         .form-container input[type="submit"]:hover,
@@ -76,7 +74,7 @@
         }
 
         .form-container button:hover {
-            background-color: #5a6268;
+            background-color:rgb(164, 0, 0);
         }
 
         @media (max-width: 768px) {
@@ -107,22 +105,22 @@
         <form method="POST" action="CREAR_FORMULARIO.php">
         
         <label for="sucursal">Sucursal:</label>
-            <select id="sucursal" name="caja_opcion1" onchange="this.form.submit()">
+            <select id="sucursal" name="caja_opcion1" onchange="this.form.submit()" class="campos">
                 {{sucursales}}
             </select>
 
             <label for="departamento">Departamento:</label>
-            <select id="departamento" name="caja_opcion2" onchange="this.form.submit()">
+            <select id="departamento" name="caja_opcion2" onchange="this.form.submit()" class="campos">
                 {{departamentos}}
             </select>
 
             <label for="puesto">Puesto:</label>
-            <select id="puesto" name="caja_opcion3">
+            <select id="puesto" name="caja_opcion3" class="campos">
                 {{puestos}}
             </select>
 
         <label for="id">Nombre Formulario:</label>
-            <input type="text" name="caja_texto1" placeholder="Nombre">
+            <input type="text" name="caja_texto1" placeholder="Nombre" class="campos">
 
             <input type="submit" name="click_agregar_pregunta" value="AGREGAR PREGUNTA">
             <input type="submit" name="click_guardar_formulario" value="GUARDAR FORMULARIO">

@@ -1,8 +1,9 @@
 <?php
 class CL_INTERFAZ06
 {
-    private caja_texto1;
-    private caja_opcion1;
+    private $caja_texto1;
+    private $caja_opcion1;
+    private $interfaz;
 
     public function set_caja_texto1($x)
     {
@@ -23,7 +24,7 @@ class CL_INTERFAZ06
         return $this->caja_opcion1;
     }
 
-    public function mostrar($selectedSucursal = '', $selectedDepartamento = '', $selectedPuesto = '')
+    public function mostrar1($selectedSucursal = '', $selectedDepartamento = '', $selectedPuesto = '')
     {
         $sucursalTabla = new CL_TABLA_SUCURSAL();
         $departamentoTabla = new CL_TABLA_DEPARTAMENTO();
