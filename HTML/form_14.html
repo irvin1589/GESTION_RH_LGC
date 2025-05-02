@@ -28,13 +28,33 @@
             background-color: #313131;
         }
 
-        .header__contenedor{
-            display: flex;
+        .header__contenedor {
+            display: block;
+            padding: 1rem;
         }
+        @media(min-width: 768px) {
+            .header__contenedor {
+                display: flex;
+                align-items: center;      
+                justify-content: space-between; 
+            }
+
+            .header__titulo{
+                font-size: 3.8rem;
+            }
+
+            .header__img{
+                width: 7rem;
+                height: 7rem;
+            }
+
+
+        }
+
 
         .header__titulo{
             color: #ffffff;
-            font-size: 3.8rem;
+            font-size: 2.5rem;
             padding: 1rem 0;
             margin: auto;
             align-items: center;
@@ -43,8 +63,8 @@
         }
 
         .header__img{
-            width: 5rem;
-            height: 5rem;
+            width: 3rem;
+            height: 3rem;
             margin: 1rem 0;
         }
         
@@ -54,6 +74,10 @@
             margin: 0 auto;
         }
 
+        .header__img:hover{
+            transform: scale(1.1);
+            transition: all 0.3s ease;
+        }
 
         table {
         width: 100%;
@@ -117,12 +141,33 @@
             border-radius: .5rem;
         }
 
+        .boton-regresar {
+            background-color:#941C82; 
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 100px;
+        }
+        .boton-regresar:hover {
+            background-color:#641d59;
+        }
+
 
     </style>
     <header class="header">
         <div class="contenedor header__contenedor">
-            <img class="header__img" src="../IMG/logo-blanco-1.ico" alt="Nuestro logo">
+            <a href="PANEL_EMPLEADO.php" class="header__enlace">
+                <img src="../IMG/logo-blanco-1.ico" alt="Ir a la página" class="header__img">
+              </a>              
             <h1 class="header__titulo">PANEL EVALUACIONES</h1>
+            <form method="post">
+                <button type="submit" name="click_cerrar_sesion" class="boton-regresar">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </form>
         </div>
     </header>
 
