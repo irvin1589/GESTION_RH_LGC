@@ -7,10 +7,27 @@ include('../VISTA/CL_INTERFAZ01.php');
 include_once('../VISTA/CL_INTERFAZ03.php'); // Ya está incluida la clase
 include_once('../MODELO/CL_TABLA_USUARIO.php');
 
-// Si presionas el botón "regresar"
+
+session_start();
+if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
+    header('Location: ../CONTROL/SISTEMA_RH.php'); // O la página de inicio de sesión
+    exit();
+}
+
+if ($_SESSION['tipo_usuario'] !== 'Admin' && $_SESSION['tipo_usuario'] !== 'RH') {
+    header('Location: ../CONTROL/acceso_denegado.php');
+    exit();
+}
+
+
 if (isset($_POST['click_regresar'])) {
-    var_dump(realpath('../CONTROL/SISTEMA_RH.php')); // Verifica la ruta absoluta
-    header('Location: ../CONTROL/SISTEMA_RH.php');
+    if ($_SESSION['tipo_usuario'] === 'Admin') {
+        header('Location: ../CONTROL/PANEL_ADMIN.php');
+    } elseif ($_SESSION['tipo_usuario'] === 'RH') {
+        header('Location: ../CONTROL/PANEL_DESARROLLO.php');
+    } else {
+        header('Location: ../CONTROL/acceso_denegado.php');
+    }
     exit();
 }
 

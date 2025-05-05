@@ -15,6 +15,13 @@ class CL_TABLA_DETALLE_INCIDENCIA extends CL_CONEXION
         return $stmt->execute([$id_usuario, $id_incidencia_tipo, $cantidad, $descuento, $fecha_inicio, $fecha_termino, $id_reporte]);
     }
 
+    public function obtener_incidencia() {
+        $pdo = $this->getPDO();
+        $sql = "SELECT * FROM detalle_incidencia ORDER BY id_detalle_incidencia DESC LIMIT 1";
+        $stmt = $pdo->query($sql);
+        return $stmt->fetch(PDO::FETCH_ASSOC); // Devuelve solo una fila
+    }
+
     public function registrar_detalle_incidencia($datos) {
         $pdo = $this->getPDO();
         $sql = "INSERT INTO detalle_incidencia (id_usuario, id_incidencia_tipo, cantidad, descuento, fecha_inicio, fecha_termino) 

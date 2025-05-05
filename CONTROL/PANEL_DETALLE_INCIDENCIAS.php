@@ -1,4 +1,5 @@
 <?php
+ob_start();
 include('../MODELO/CL_CONEXION.php');
 
 // Mostrar formulario de fechas, sucursal y departamento
@@ -18,6 +19,8 @@ if (!isset($_GET['fecha_inicio']) || !isset($_GET['fecha_fin']) || !isset($_GET[
     $stmt_departamentos = $conn->prepare($query_departamentos);
     $stmt_departamentos->execute();
     $departamentos = $stmt_departamentos->fetchAll(PDO::FETCH_ASSOC);
+
+    ob_start();
 
     echo '<form method="get">
             <label>Fecha inicio: <input type="date" name="fecha_inicio" required></label>
@@ -89,6 +92,12 @@ $stmt->bindParam(':id_sucursal', $id_sucursal);
 $stmt->bindParam(':id_departamento', $id_departamento);
 $stmt->execute();
 
+echo '
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DETALLE INCIDENCIA | LA GRAN CIUDAD RH</title>
+  <link rel="icon" type="image/x-icon" href="../IMG/logo-blanco-1.ico" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />';
 echo "<h2>Reporte de Incidencias desde $fecha_inicio hasta $fecha_fin</h2>";
 
 echo '
@@ -194,6 +203,12 @@ if ($stmt->rowCount() > 0) {
             <button type="submit" name="click_regresar">Regresar</button>
           </form>';
 
+    echo '<form method="post">
+                <button type="submit" name="exportar_excel">
+                    <i class="fas fa-file-excel"></i> Exportar a Excel
+                </button>
+            </form>';
+
 } else {
     echo "No se encontraron incidencias en el rango de fechas seleccionado.";
 }
@@ -201,8 +216,77 @@ if ($stmt->rowCount() > 0) {
 $conn = null;
 
 if (isset($_POST['click_regresar'])) {
-    // Redirigir a una nueva página con los parámetros de fechas, sucursal y departamento
+    ob_clean(); // Limpia el buffer de salida
     header('Location: ../CONTROL/PANEL_INCIDENCIAS.php');
     exit();
 }
-?>
+
+if (isset($_POST['exportar_excel'])) {
+    ob_clean(); // Limpia el buffer de salida
+
+    $nombre_archivo = "reporte_incidencias_" . $fecha_inicio . "_a_" . $fecha_fin . ".xls";
+
+    // Configuración de las cabeceras para la descarga del archivo Excel
+    header("Content-Type: application/vnd.ms-excel");
+    header("Content-Disposition: attachment; filename=$nombre_archivo");
+    header("Pragma: no-cache");
+    header("Expires: 0");
+
+    // Generar el contenido del archivo Excel
+    echo "<table border='1'>
+            <thead>
+                <tr>
+                    <th>ID Usuario</th>
+                    <th>Nombre</th>
+                    <th>Apellido 1</th>
+                    <th>Apellido 2</th>
+                    <th>Sucursal</th>
+                    <th>Departamento</th>
+                    <th>Codigo Incidencia</th>
+                    <th>Descripcion</th>
+                    <th>Cantidad</th>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Termino</th>
+                    <th>Descuento</th>
+                    <th>Descuento Total</th>
+                </tr>
+            </thead>
+            <tbody>";
+
+    $total_descuento = 0;
+
+    // Reejecutar la consulta para obtener los datos
+    $stmt->execute();
+
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $descuento_total = $row['descuento'] * $row['cantidad'];
+        $total_descuento += $descuento_total;
+
+        echo "<tr>
+                <td>" . htmlspecialchars($row['id_usuario']) . "</td>
+                <td>" . htmlspecialchars($row['nombre']) . "</td>
+                <td>" . htmlspecialchars($row['apellido1']) . "</td>
+                <td>" . htmlspecialchars($row['apellido2']) . "</td>
+                <td>" . htmlspecialchars($row['sucursal']) . "</td>
+                <td>" . htmlspecialchars($row['departamento']) . "</td>
+                <td>" . htmlspecialchars($row['codigo_incidencia']) . "</td>
+                <td>" . htmlspecialchars($row['descripcion_incidencia']) . "</td>
+                <td>" . htmlspecialchars($row['cantidad']) . "</td>
+                <td>" . htmlspecialchars($row['fecha_inicio']) . "</td>
+                <td>" . htmlspecialchars($row['fecha_termino']) . "</td>
+                <td>$" . number_format($row['descuento'], 2) . "</td>
+                <td>$" . number_format($descuento_total, 2) . "</td>
+              </tr>";
+    }
+
+    echo "<tr>
+            <td colspan='12' style='text-align:right; font-weight:bold;'>Total Descuento:</td>
+            <td style='font-weight:bold;'>$" . number_format($total_descuento, 2) . "</td>
+          </tr>";
+
+    echo "</tbody></table>";
+
+    exit(); // Finaliza el script aquí
+}
+
+ob_end_flush();

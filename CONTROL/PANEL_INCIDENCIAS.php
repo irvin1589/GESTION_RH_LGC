@@ -20,7 +20,13 @@ if ($_SESSION['tipo_usuario'] !== 'Admin' && $_SESSION['tipo_usuario'] !== 'RH' 
 }
 
 if (isset($_POST['click_regresar'])) {
-    header('Location: ../CONTROL/PANEL_ADMIN1.php');
+    if ($_SESSION['tipo_usuario'] === 'Admin') {
+        header('Location: PANEL_ADMIN1.php');
+    } elseif ($_SESSION['tipo_usuario'] === 'RH') {
+        header('Location: PANEL_RH.php');
+    } else {
+        header('Location: acceso_denegado.php');
+    }
     exit();
 }
 

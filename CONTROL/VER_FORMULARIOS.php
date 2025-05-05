@@ -11,6 +11,21 @@ $stmt = $pdo->prepare("
 ");
 $stmt->execute();
 $formularios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+session_start();
+
+
+
+if (isset($_POST['click_regresar'])) {
+    if ($_SESSION['tipo_usuario'] === 'Admin') {
+        header('Location: ../CONTROL/PANEL_ADMIN.php');
+    } elseif ($_SESSION['tipo_usuario'] === 'RH') {
+        header('Location: ../CONTROL/PANEL_DESARROLLO.php');
+    } else {
+        header('Location: acceso_denegado.php');
+    }
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -61,6 +76,18 @@ $formularios = $stmt->fetchAll(PDO::FETCH_ASSOC);
         a:hover {
             background-color: #2980b9;
         }
+
+        button[name="click_regresar"] {
+            padding: 10px 20px;
+            background-color: #dc3545; 
+            color: #fff;
+            border: none;
+            border-radius: 22px;
+            font-size: 16px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
     </style>
 </head>
 <body>
@@ -74,6 +101,8 @@ $formularios = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </li>
 <?php endforeach; ?>
 </ul>
-
+<form method="POST" action="">
+        <button type="submit" name="click_regresar"><i class="fas fa-arrow-left"></i> Regresar</button>
+    </form>
 </body>
 </html>

@@ -34,6 +34,14 @@ if (isset($_POST['eliminar_usuario'])) {
     }
 }
 
+
+
+if (isset($_POST['click_registrar'])) {
+    
+    header('Location: CONTROL_REGISTRO.php');
+    exit();
+}
+
 if (isset($_POST['regresar'])) {
     if ($_SESSION['tipo_usuario'] === 'Admin') {
         header('Location: ../CONTROL/PANEL_ADMIN.php');
@@ -128,7 +136,16 @@ $usuarios = $tablaUsuario->listar_todos_los_usuarios_con_detalles();
             display: inline-block; /* Hace que los botones se muestren en línea */
         }
 
-        
+        button[name="click_registrar"] {
+            padding: 10px 20px;
+            background-color: #941B81; 
+            color: #fff;
+            border: none;
+            border-radius: 22px;
+            font-size: 16px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
         .accion-botones {
             display: flex;
             justify-content: center; 
@@ -275,6 +292,7 @@ $usuarios = $tablaUsuario->listar_todos_los_usuarios_con_detalles();
 
     <form method="POST" action="VER_USUARIOS.php">
     <button type="submit" name="regresar">REGRESAR</button>
+    <button type="submit" name="click_registrar">REGISTRAR</button>
     </form>
     </div>
 </body>
