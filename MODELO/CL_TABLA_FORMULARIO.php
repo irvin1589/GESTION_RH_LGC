@@ -28,4 +28,31 @@ class CL_TABLA_FORMULARIO extends CL_CONEXION {
             return null;
         }
     }
+
+    public function guardar_formulario(CL_FORMULARIO $x){
+        try {
+            $pdo = $this->getPDO();
+    
+            $sql = "INSERT INTO formulario (nombre, descripcion, fecha_limite, id_sucursal, id_departamento, id_puesto)
+                    VALUES (:nombre, :descripcion, :fecha_limite, :id_sucursal, :id_departamento, :id_puesto)";
+    
+            $stmt = $pdo->prepare($sql);
+    
+            $stmt->bindValue(':nombre', $x->get_nombre(), PDO::PARAM_STR);
+            $stmt->bindValue(':descripcion', $x->get_descripcion(), PDO::PARAM_STR);
+            $stmt->bindValue(':fecha_limite', $x->get_fecha_limite(), PDO::PARAM_STR);
+            $stmt->bindValue(':id_sucursal', $x->get_sucursal_id(), PDO::PARAM_INT);
+            $stmt->bindValue(':id_departamento', $x->get_departamentoId(), PDO::PARAM_INT);
+            $stmt->bindValue(':id_puesto', $x->get_puestoId(), PDO::PARAM_INT);
+    
+            $stmt->execute();
+    
+            return $pdo->lastInsertId();
+    
+        } catch (PDOException $e) {
+            error_log("Error al guardar el formulario: " . $e->getMessage());
+            return false;
+        }
+
+    }
 }

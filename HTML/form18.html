@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../IMG/logo-blanco-1.ico">
+    <title>CREAR FORMULARIO | LA GRAN CIUDAD RH </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link rel="stylesheet" href="../HTML/css/normalize.css">
+    <link rel="stylesheet" href="../HTML/css/form.css">
+</head>
+<body>
+    <header class="header">
+        <div class="contenedor header__contenedor">
+            <a href="PANEL_EMPLEADO.php" class="header__enlace">
+                <img src="../IMG/logo-blanco-1.ico" alt="Ir a la página" class="header__img">
+              </a>              
+            <h1 class="header__titulo">FORMULARIO</h1>
+            <form method="post">
+                <button type="submit" name="click_cerrar_sesion" class="boton-regresar">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </form>
+        </div>
+    </header>
+
+
+    <main class="contenedor">
+        <h1>AQUI VAN LAS PREGUNTAS DEL formulario</h1>
+
+        <h1>Crear Formulario</h1>
+
+        <div class="formulario">
+            
+            <div id="contenedorPreguntas"></div>
+
+            <div class="botones">   
+                <button class="boton verde" onclick="agregarPregunta()"><i class="fa-solid fa-plus"></i> Agregar Pregunta</button>
+                <button class="boton azul" onclick="guardarFormulario()">Guardar formulario</button>
+            </div>
+           
+
+        </div>
+        
+    </main>
+  
+  <script src="../HTML/JS/app.js"></script>
+</body> 
+</html>

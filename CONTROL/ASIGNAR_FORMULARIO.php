@@ -1,4 +1,6 @@
 <?php
+session_start();
+ob_start();
 include_once('../MODELO/CL_TABLA_DEPARTAMENTO.php');
 include_once('../MODELO/CL_TABLA_PUESTO.php');
 include_once('../MODELO/CL_TABLA_SUCURSAL.php');
@@ -11,7 +13,6 @@ include_once('../MODELO/CL_TABLA_ASIGNACION_FORMULARIO.php');
 $form_08 = new CL_INTERFAZ08();
 $form_08->mostrar();
 
-session_start();
 
 if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
     header('Location: SISTEMA_RH.php'); // O la página de inicio de sesión
