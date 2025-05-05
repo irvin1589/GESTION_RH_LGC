@@ -6,6 +6,9 @@ class CL_FORMULARIO
     private $descripcion;
     private $fecha_creacion;
     private $fecha_limite;
+    private $sucursal_id;
+    private $departamentoId;
+    private $puestoId;
 
     public function set_id_formulario($x)
     {
@@ -27,6 +30,18 @@ class CL_FORMULARIO
     {
         $this->fecha_limite = $x;
     }
+
+    public function set_sucursal_id($x){
+        $this->sucursal_id = $x;
+    }
+
+    public function set_departamentoId($x){
+        $this->departamentoId = $x;
+    }
+
+    public function set_puestoId($x){
+        $this->puestoId = $x;
+    }
     public function get_id_formulario()
     {
         return $this->id_formulario;
@@ -46,6 +61,18 @@ class CL_FORMULARIO
     public function get_fecha_limite()
     {
         return $this->fecha_limite;
+    }
+
+    public function get_sucursal_id(){
+        return $this->sucursal_id;
+    }
+
+    public function get_departamentoId(){
+        return $this->departamentoId;
+    }
+
+    public function get_puestoId(){
+        return $this->puestoId;
     }
 
 }

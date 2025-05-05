@@ -69,10 +69,13 @@ if ($asignaciones && count($asignaciones) > 0) {
         echo "<td>{$asig['fecha_limite']}</td>";
         echo "<td>" . ($asig['completado'] ? 'Sí' : 'No') . "</td>";
 
-        if  ($asig['completado'] ) {
-            echo "<td><button class='btn-ver' data-id='{$asig['id_asignacion']}'>Ver Respuestas</button></td>";
+        $id_asignacion = $asig['id_asignacion'];
+        $_SESSION['id_asignacion'] = $id_asignacion;
+
+        if ($asig['completado']) {
+            echo "<td><a href='VER_FORM.php?id_asignacion={$id_asignacion}' class='btn-ver'>Ver Respuestas</a></td>";
         } else {
-            echo "<td><button class='btn-completar' data-id='{$asig['id_asignacion']}'>Completar</button></td>";
+            echo "<td><a href='RESPONDER_FORM.php?id_asignacion={$id_asignacion}' class='btn-completar'>Completar</a></td>";
         }
         // echo "<td><button class='btn-responder' data-id='{$asig['id_asignacion']}'>Responder</button></td>";
         echo "</tr>";

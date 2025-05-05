@@ -64,7 +64,7 @@ if (isset($_POST['click_asignar_formulario'])) {
 }
 
 if (isset($_POST['click_evaluar'])) {
-    header('Location: http://localhost/GESTION_RH_LGC/CONTROL/EVALUAR_FORMULARIO.php');
+    header('Location: http://localhost/GESTION_RH_LGC/CONTROL/VER_FORMULARIOS.php');
     exit();
 }
 
@@ -142,13 +142,33 @@ if (isset($_POST['click_editar_sucursal'])) {
             background-color: #313131;
         }
 
-        .header__contenedor{
-            display: flex;
+        .header__contenedor {
+            display: block;
+            padding: 1rem;
         }
+        @media(min-width: 768px) {
+            .header__contenedor {
+                display: flex;
+                align-items: center;      
+                justify-content: space-between; 
+            }
+
+            .header__titulo{
+                font-size: 3.8rem;
+            }
+
+            .header__img{
+                width: 7rem;
+                height: 7rem;
+            }
+
+
+        }
+
 
         .header__titulo{
             color: #ffffff;
-            font-size: 3.8rem;
+            font-size: 2.5rem;
             padding: 1rem 0;
             margin: auto;
             align-items: center;
@@ -157,9 +177,28 @@ if (isset($_POST['click_editar_sucursal'])) {
         }
 
         .header__img{
-            width: 5rem;
-            height: 5rem;
+            width: 3rem;
+            height: 3rem;
             margin: 1rem 0;
+        }
+
+        .header__img:hover{
+            transform: scale(1.1);
+            transition: all 0.3s ease;
+        }
+
+        .boton-regresar {
+            background-color:#941C82; 
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 100px;
+        }
+        .boton-regresar:hover {
+            background-color:#641d59;
         }
         
         .contenedor{
@@ -207,24 +246,45 @@ if (isset($_POST['click_editar_sucursal'])) {
     }
 
     .button-container {
-        display: flex;
-        flex-wrap: wrap;
         justify-content: center;
-        gap: 2rem;
-        margin: 3rem 0;
+        
+        margin: 3rem;
     }
+
+    .button-container{
+        display: grid;
+    }
+
+    @media (min-width: 479px){
+        .button-container{
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .button-container{
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+    
+    }
+
 
     .button-container button {
         background-color: #1f3a54;
         color: #fff;
         border: none;
-        padding: 1.5rem 2rem;
+        padding: 2rem;
         border-radius: 1rem;
-        font-size: 1.6rem;
+        font-size: 2rem;
         cursor: pointer;
         transition: background-color 0.3s ease, transform 0.2s ease;
         min-width: 14rem;
         box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        margin-bottom: 1rem;
     }
 
     .button-container button:hover {
@@ -282,6 +342,9 @@ if (isset($_POST['click_editar_sucursal'])) {
     }
 
     /* Botones de acción en la tabla */
+    .action-buttons{
+        display: flex;
+    }
     .action-buttons button {
         background: none;
         border: none;
@@ -310,6 +373,13 @@ if (isset($_POST['click_editar_sucursal'])) {
         text-align: center;
     }
 
+    .tabla-responsive {
+        width: 100%;
+        overflow-x: auto;
+        margin-top: 2rem;
+    }
+
+
     .footer {
         text-align: center;
     }
@@ -321,6 +391,11 @@ if (isset($_POST['click_editar_sucursal'])) {
             <img class="header__img" src="../IMG/logo-blanco-1.ico" alt="Nuestro logo">
             <h1 class="header__titulo">PANEL DESARROLLO ORGANIZACIONAL</h1>
 
+            <form method="post">
+                <button type="submit" name="click_cerrar_sesion" class="boton-regresar">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </form>
 
         </div>
     </header>
@@ -330,7 +405,7 @@ if (isset($_POST['click_editar_sucursal'])) {
         <form method="POST" action="">
             <div class="button-container">
             <button type="submit" name="click_crear_formulario">
-            <div style="display: flex; flex-direction: column; align-items: center;">
+            <div style="display: flex; flex-direction: column; align-items: center;" >
                 <i class="fas fa-file-alt"></i>
                 <span>Crear Formulario</span>
             </div>
@@ -395,6 +470,7 @@ if (isset($_POST['click_editar_sucursal'])) {
         </div>
 
         <h2>Lista de Sucursales</h2>
+        <div class="tabla-responsive">
         <table class="sucursales-table">
             <thead>
                 <tr>
@@ -433,6 +509,8 @@ if (isset($_POST['click_editar_sucursal'])) {
             </tbody>
         </table>
     </main>
+        </div>
+        
     <script>
         // Función para cerrar la notificación
         function closeNotification() {
