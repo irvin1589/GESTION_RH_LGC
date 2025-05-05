@@ -120,13 +120,13 @@
             </select>
 
         <label for="id">Nombre Formulario:</label>
-            <input type="text" name="caja_texto1" placeholder="Nombre" class="campos" required>
+            <input type="text" name="caja_texto1" placeholder="Nombre" class="campos">
 
             <label>Descripción</label>
             <input type="text" name="caja_texto2" placeholder="Descripción de Formulario" class="campos">
 
             <label>Fecha límite</label>
-            <input type="date" name="caja_texto3" placeholder="Fecha" class="campos" required>
+            <input type="date" name="caja_texto3" placeholder="Fecha" class="campos">
 
             <input type="submit" name="click_siguiente" value="SIGUIENTE">
             <!-- <input type="submit" name="click_guardar_formulario" value="GUARDAR FORMULARIO"> -->
