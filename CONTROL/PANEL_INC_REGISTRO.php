@@ -9,8 +9,7 @@ if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
     exit();
 }
 
-// Permitir acceso a Admin y RH
-if ($_SESSION['tipo_usuario'] !== 'Admin' && $_SESSION['tipo_usuario'] !== 'RH' && $_SESSION['tipo_usuario'] !== 'Empleado') {
+if (!isset($_SESSION['acceso_incidencias']) || $_SESSION['acceso_incidencias'] !== true && $_SESSION['tipo_usuario'] !== 'Empleado' ) {
     header('Location: ../CONTROL/acceso_denegado.php');
     exit();
 }

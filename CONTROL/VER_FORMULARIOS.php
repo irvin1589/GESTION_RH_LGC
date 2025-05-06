@@ -13,8 +13,15 @@ $stmt->execute();
 $formularios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 session_start();
+if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
+    header('Location: SISTEMA_RH.php');
+    exit();
+}
 
-
+if ($_SESSION['tipo_usuario'] !== 'Admin' && $_SESSION['tipo_usuario'] !== 'RH') {
+    header('Location: acceso_denegado.php');
+    exit();
+}
 
 if (isset($_POST['click_regresar'])) {
     if ($_SESSION['tipo_usuario'] === 'Admin') {

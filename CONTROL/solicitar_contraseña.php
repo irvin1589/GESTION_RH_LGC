@@ -14,6 +14,8 @@ if (isset($_POST['submit_contraseña'])) {
 
    
     if ($contraseña_ingresada === $contraseña_correcta) {
+
+        $_SESSION['acceso_incidencias'] = true;
         
         header('Location: PANEL_AGREGAR_INCIDENCIA.php');
         exit();

@@ -1,5 +1,10 @@
 <?php
 session_start();
+if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
+    header('Location: SISTEMA_RH.php');
+    exit();
+}
+
 require_once '../MODELO/CL_CONEXION.php';
 
 if (!isset($_GET['id_asignacion'])) {
@@ -53,6 +58,7 @@ $respuestas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         <?php endforeach; ?>
         <button type="submit">Guardar Evaluación</button>
+        <button type="button" onclick="window.location.href='VER_FORMULARIOS.php'">Regresar</button>
     </form>
 </body>
 </html>

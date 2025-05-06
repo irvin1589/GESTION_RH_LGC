@@ -3,6 +3,12 @@ require_once '../MODELO/CL_CONEXION.php';
 $conn = new CL_CONEXION();
 $pdo = $conn->getPDO();
 
+session_start();
+if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
+    header('Location: SISTEMA_RH.php');
+    exit();
+}
+
 $idFormulario = $_GET['id_formulario'] ?? null;
 if (!$idFormulario) exit("Formulario no especificado");
 
@@ -14,7 +20,14 @@ $stmt = $pdo->prepare("
 ");
 $stmt->execute([$idFormulario]);
 $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+if (isset($_POST['click_regresar'])) {
+    header('Location: ../CONTROL/VER_FORMULARIOS.php');
+    exit();
+}
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -69,23 +82,39 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
             color: green;
             font-weight: bold;
         }
+        button[name="click_regresar"] {
+            padding: 10px 20px;
+            background-color: #dc3545; 
+            color: #fff;
+            border: none;
+            border-radius: 22px;
+            font-size: 16px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
     </style>
 </head>
 <body>
 
 <h2>Usuarios que respondieron</h2>
 <ul>
-<?php foreach ($usuarios as $u): ?>
-    <li>
-        <?= htmlspecialchars($u['usuario']) ?>
-        <?php if ($u['evaluado']): ?>
-            <span class="evaluado">Evaluado</span>
-        <?php else: ?>
-            <a href="evaluar_respuestas.php?id_asignacion=<?= $u['id_asignacion'] ?>">Evaluar respuestas</a>
-        <?php endif; ?>
-    </li>
-<?php endforeach; ?>
+<?php if (empty($usuarios)): ?>
+    <li>No hay respuestas aún.</li>
+<?php else: ?>
+    <?php foreach ($usuarios as $u): ?>
+        <li>
+            <?= htmlspecialchars($u['usuario']) ?>
+            <?php if ($u['evaluado']): ?>
+                <span class="evaluado">Evaluado</span>
+            <?php else: ?>
+                <a href="evaluar_respuestas.php?id_asignacion=<?= $u['id_asignacion'] ?>">Evaluar respuestas</a>
+            <?php endif; ?>
+        </li>
+    <?php endforeach; ?>
+<?php endif; ?>
 </ul>
-
+<form method="POST" action="">
+        <button type="submit" name="click_regresar"><i class="fas fa-arrow-left"></i> Regresar</button>
+    </form>
 </body>
 </html>

@@ -2,6 +2,17 @@
 ob_start();
 include('../MODELO/CL_CONEXION.php');
 
+session_start();
+if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
+    header('Location: SISTEMA_RH.php');
+    exit();
+}
+
+if ($_SESSION['tipo_usuario'] !== 'Admin' && $_SESSION['tipo_usuario'] !== 'RH') {
+    header('Location: acceso_denegado.php');
+    exit();
+}
+
 // Mostrar formulario de fechas, sucursal y departamento
 if (!isset($_GET['fecha_inicio']) || !isset($_GET['fecha_fin']) || !isset($_GET['id_sucursal']) || !isset($_GET['id_departamento'])) {
     // Obtener sucursales y departamentos disponibles

@@ -8,6 +8,12 @@ if (!isset($_GET['id_asignacion'])) {
     exit;
 }
 
+session_start();
+if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
+    header('Location: SISTEMA_RH.php');
+    exit();
+}
+
 $idAsignacion = $_GET['id_asignacion'];
 $conn = new CL_CONEXION();
 $pdo = $conn->getPDO();
