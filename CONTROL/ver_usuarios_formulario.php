@@ -9,6 +9,11 @@ if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
     exit();
 }
 
+if ($_SESSION['tipo_usuario'] !== 'Admin' && $_SESSION['tipo_usuario'] !== 'RH') {
+    header('Location: acceso_denegado.php');
+    exit();
+}
+
 $idFormulario = $_GET['id_formulario'] ?? null;
 if (!$idFormulario) exit("Formulario no especificado");
 
@@ -25,6 +30,7 @@ if (isset($_POST['click_regresar'])) {
     header('Location: ../CONTROL/VER_FORMULARIOS.php');
     exit();
 }
+$_POST['id_formulario'] = $idFormulario;
 ?>
 
 
@@ -34,6 +40,9 @@ if (isset($_POST['click_regresar'])) {
 <head>
     <meta charset="UTF-8">
     <title>Usuarios que respondieron</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM8d7j3z2l5e5c5e5e5e5e5e5e5e5e5e5e5e5" crossorigin="anonymous">
+    <link rel="icon" type="image/x-icon" href="../IMG/logo-blanco-1.ico">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -92,6 +101,39 @@ if (isset($_POST['click_regresar'])) {
             cursor: pointer;
             text-transform: uppercase;
         }
+        button{
+            padding: 10px 20px;
+            background-color:rgba(0, 123, 255, 0); 
+            color: #fff;
+            border: none;
+            border-radius: 22px;
+            font-size: 16px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .evaluado-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+button.icono {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+button.icono i {
+    font-size: 18px;
+    color:rgb(0, 149, 255); /* verde */
+    transition: color 0.3s ease;
+}
+
+button.icono i:hover {
+    color:rgb(10, 88, 184); /* verde más oscuro al pasar el mouse */
+}
     </style>
 </head>
 <body>
@@ -102,15 +144,20 @@ if (isset($_POST['click_regresar'])) {
     <li>No hay respuestas aún.</li>
 <?php else: ?>
     <?php foreach ($usuarios as $u): ?>
-        <li>
-            <?= htmlspecialchars($u['usuario']) ?>
-            <?php if ($u['evaluado']): ?>
-                <span class="evaluado">Evaluado</span>
-            <?php else: ?>
-                <a href="evaluar_respuestas.php?id_asignacion=<?= $u['id_asignacion'] ?>">Evaluar respuestas</a>
-            <?php endif; ?>
-        </li>
-    <?php endforeach; ?>
+    <li>
+        <?= htmlspecialchars($u['usuario']) ?>
+        <?php if ($u['evaluado']): ?>
+                <div class="evaluado-container">
+                    <span class="evaluado">Evaluado</span>
+                    <button class="icono" type="button" onclick="window.location.href='VER_RESPUESTA.php?id_asignacion=<?= $u['id_asignacion'] ?>'">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+        <?php else: ?>
+            <a href="evaluar_respuestas.php?id_asignacion=<?= $u['id_asignacion'] ?>">Evaluar respuestas</a>
+        <?php endif; ?>
+    </li>
+<?php endforeach; ?>
 <?php endif; ?>
 </ul>
 <form method="POST" action="">
