@@ -2,6 +2,12 @@
 session_start();
 require_once '../MODELO/CL_CONEXION.php';
 
+session_start();
+if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
+    header('Location: SISTEMA_RH.php');
+    exit();
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_POST['id_asignacion'])) {
         echo "ID de asignación no proporcionado.";
@@ -30,9 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$idAsignacion]);
 
         $pdo->commit();
-
-        echo "<script>alert('Respuestas guardadas y asignación completada.'); window.location.href='formulario_exito.php';</script>";
-        exit;
+        exit(header('Location: ../CONTROL/formulario_exito.php'));
 
     } catch (Exception $e) {
         $pdo->rollBack();

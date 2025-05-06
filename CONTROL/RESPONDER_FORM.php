@@ -3,6 +3,12 @@ session_start();
 require_once '../MODELO/CL_CONEXION.php';
 require_once '../MODELO/CL_TABLA_FORMULARIO.php';
 
+session_start();
+if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
+    header('Location: SISTEMA_RH.php');
+    exit();
+}
+
 if (!isset($_GET['id_asignacion'])) {
     echo "Formulario no especificado.";
     exit;

@@ -17,10 +17,11 @@ if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
     exit();
 }
 
-if ($_SESSION['tipo_usuario'] !== 'Empleado') { 
+if (!isset($_SESSION['acceso_incidencias']) || !$_SESSION['acceso_incidencias'] || $_SESSION['tipo_usuario'] !== 'Empleado') {
     header('Location: acceso_denegado.php');
     exit();
 }
+
 
 if (isset($_POST['click_regresar'])) {
     header('Location: ../CONTROL/PANEL_EMPLEADO.php');

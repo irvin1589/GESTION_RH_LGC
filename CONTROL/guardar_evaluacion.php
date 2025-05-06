@@ -1,5 +1,10 @@
 <?php
 require_once '../MODELO/CL_CONEXION.php';
+session_start();
+if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
+    header('Location: SISTEMA_RH.php');
+    exit();
+}
 
 if (!isset($_POST['id_asignacion'])) {
     echo "Asignación no especificada.";
