@@ -12,7 +12,6 @@ $interfaz->mostrar();
 
 session_start();
 
-echo 'EL ID DEL FORMULARIO ES: '. $_SESSION['formularioId'];
 if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
     header('Location: SISTEMA_RH.php'); // O la página de inicio de sesión
     exit();
@@ -58,9 +57,11 @@ if (!empty($rawInput)) {
                 }
             }
         }
-
+        ob_clean();
         echo "Formulario guardado correctamente.";
     } else {
         echo "No se recibieron preguntas válidas.";
     }
+
+    
 }
