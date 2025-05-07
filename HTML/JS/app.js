@@ -91,13 +91,22 @@ let contador = 1;
         body: JSON.stringify(datos)
       })
       .then(res => res.text())
-      .then(res => {
-        console.log("Respuesta del servidor:", res);
-        // alert("Formulario guardado con éxito.\n" + res);
-      })
-      .catch(err => {
-        console.error("Error al enviar:", err);
-        // alert("Error: " + err.message);
-      });
+  .then(res => {
+    console.log("Respuesta del servidor:", res);
+    
+    // Comprobamos si la respuesta contiene "Formulario guardado correctamente"
+    if (res === "Formulario guardado correctamente.") {
+      alert("Formulario guardado con éxito.");
+      // Redirigir a otra página después de guardar
+      window.location.href = 'ASIGNAR_FORMULARIO.php';  // Reemplaza con la URL deseada
+    } else {
+      alert("Hubo un problema al guardar el formulario.");
+    }
+  })
+  .catch(err => {
+    console.error("Error al enviar:", err);
+    alert("Error: " + err.message);
+  });
+
       
     }
