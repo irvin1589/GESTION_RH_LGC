@@ -1,0 +1,30 @@
+Preguntas
+¿Saluda cordialmente a los clientes al ingresar a la tienda?
+☐ Sí  ☐ No
+
+¿Ofrece ayuda de manera proactiva a los clientes?
+☐ Sí  ☐ No
+
+¿Conoce bien los productos que vende?
+☐ Sí  ☐ No
+
+¿Cumple con su horario de trabajo puntualmente?
+☐ Sí  ☐ No
+
+¿Mantiene su área de trabajo limpia y ordenada?
+☐ Sí  ☐ No
+
+¿Muestra una actitud positiva con los clientes y compañeros?
+☐ Sí  ☐ No
+
+¿Realiza correctamente el proceso de cobro y manejo de caja?
+☐ Sí  ☐ No
+
+¿Sigue las políticas y procedimientos de la tienda?
+☐ Sí  ☐ No
+
+¿Cumple con las metas de ventas establecidas?
+☐ Sí  ☐ No
+
+¿Resuelve conflictos o quejas de clientes de forma adecuada?
+☐ Sí  ☐ No
