@@ -80,6 +80,19 @@ class CL_TABLA_ASIGNACION_FORMULARIO extends CL_CONEXION
             return false;
         }
     }
+
+    public function listar_asignaciones_por_formulario($id_formulario) {
+        try {
+            $instruccion_sql = "SELECT * FROM asignacion_formulario WHERE id_formulario = :id_formulario";
+            $stmt = $this->getPDO()->prepare($instruccion_sql);
+            $stmt->bindParam(':id_formulario', $id_formulario, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error al listar asignaciones por formulario: " . $e->getMessage());
+            return false;
+        }
+    }
     
 }
 ?>

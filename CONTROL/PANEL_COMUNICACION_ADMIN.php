@@ -1,14 +1,28 @@
 <?php
 ob_start();
-session_start();
 
+session_start();
+// 1) Verificar si el usuario está autenticado y tiene permisos
+if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
+    header('Location: ../CONTROL/SISTEMA_RH.php');
+    exit();
+}
+if ($_SESSION['tipo_usuario'] !== 'Admin') {
+    header('Location: ../CONTROL/acceso_denegado.php');
+    exit();
+}
 
 if (isset($_POST['click_regresar'])) {
     header('Location: ../CONTROL/PANEL_ADMIN.php');
     exit();
 }
 if (isset($_POST['click_ver_revista'])) {
-    header('Location: PANEL_COMUNICACION.php');
+    header('Location: ELIMINAR_REVISTA.php');
+    exit();
+}
+
+if (isset($_POST['click_eliminar'])) {
+    header('Location: ../CONTROL/ELIMINAR_REVISTA.php');
     exit();
 }
 

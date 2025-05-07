@@ -17,7 +17,6 @@ if ($_SESSION['tipo_usuario'] !== 'Admin' && $_SESSION['tipo_usuario'] !== 'RH')
     exit();
 }
 
-// Verificar si es una solicitud AJAX
 if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
     $rawInput = file_get_contents('php://input');
 

@@ -50,7 +50,7 @@ if (isset($_POST['click_asignar_formulario'])) {
 }
 
 if (isset($_POST['click_evaluar'])) {
-    header('Location: http://localhost/GESTION_RH_LGC/CONTROL/EVALUAR_FORMULARIO.php');
+    header('Location: http://localhost/GESTION_RH_LGC/CONTROL/VER_FORMULARIOS.php');
     exit();
 }
 

@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once '../MODELO/CL_CONEXION.php';
 require_once '../MODELO/CL_TABLA_FORMULARIO.php';
 

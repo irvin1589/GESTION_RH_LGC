@@ -53,28 +53,51 @@ let contador = 1;
     }
 
     function guardarFormulario() {
+      
+      const preguntasHTML = document.querySelectorAll('.pregunta');
+      const preguntas = [];
+
+      preguntasHTML.forEach((div, index) => {
+        const texto = div.querySelector('input[name="texto"]').value;
+        const tipo = div.querySelector('select[name="tipo"]').value;
+        const pregunta = {
+          id: index + 1,
+          tipo: tipo,
+          texto: texto
+        };
+
+        if (tipo === 'cerrada' || tipo === 'multiple') {
+          const opciones = [];
+          div.querySelectorAll('.listaOpciones input').forEach(input => {
+            if (input.value.trim()) {
+              opciones.push(input.value.trim());
+            }
+          });
+          pregunta.opciones = opciones;
+        }
+
+        preguntas.push(pregunta);
+      });
+
       const datos = {
-          preguntas: preguntas
+        preguntas: preguntas
       };
-  
+
       console.log("Datos a enviar:", datos);
-  
+
       fetch('../CONTROL/CREAR_PREGUNTAS.php', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(datos)
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(datos)
       })
       .then(res => res.text())
       .then(res => {
-          console.log("Respuesta del servidor:", res.trim());
-          if (res.trim() === "ok") { // Verifica si la respuesta es exactamente "ok"
-              window.location.href = "../CONTROL/ASIGNAR_FORMULARIO.php"; // Redirige correctamente
-          } else {
-              alert("Error al guardar: " + res);
-          }
+        console.log("Respuesta del servidor:", res);
+        // alert("Formulario guardado con éxito.\n" + res);
       })
       .catch(err => {
-          console.error("Error al enviar:", err);
-          alert("Error: " + err.message);
+        console.error("Error al enviar:", err);
+        // alert("Error: " + err.message);
       });
-  }
+      
+    }

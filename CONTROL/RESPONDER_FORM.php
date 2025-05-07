@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once '../MODELO/CL_CONEXION.php';
 require_once '../MODELO/CL_TABLA_FORMULARIO.php';
 
@@ -13,6 +12,7 @@ if (!isset($_GET['id_asignacion'])) {
     echo "Formulario no especificado.";
     exit;
 }
+
 
 $idAsignacion = $_GET['id_asignacion'];
 $conn = new CL_CONEXION();
@@ -116,6 +116,14 @@ $preguntas = $stmt->fetchAll(PDO::FETCH_ASSOC);
         button:hover {
             background-color: #0056b3;
         }
+
+        .button-regresar {
+            background-color: #dc3545;
+        }
+
+        .button-regresar:hover {
+            background-color: #c82333;
+        }
     </style>
 </head>
 <body>
@@ -148,8 +156,11 @@ $preguntas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php endif; ?>
         </div>
     <?php endforeach; ?>
-
-    <button type="submit">Enviar respuestas</button>
+    <?php if ($_SESSION['tipo_usuario'] !== 'Admin' && $_SESSION['tipo_usuario'] !== 'RH'): ?>
+        <button type="submit">Enviar respuestas</button>
+<?php else: ?>
+    <button type="button" class="button-regresar" onclick="window.location.href='ASIGNAR_FORMULARIO.php'">Regresar</button>
+<?php endif; ?>
 </form>
 
 </body>
