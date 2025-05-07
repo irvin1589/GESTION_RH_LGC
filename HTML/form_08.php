@@ -12,6 +12,7 @@ $formularios = $tablaFormulario->listar_todos_los_formularios(); // Método que 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ASIGNAR FORMULARIO | LA GRAN CIUDAD</title>
     <link rel="icon" type="image/x-icon" href="../IMG/logo-blanco-1.ico">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -63,13 +64,30 @@ $formularios = $tablaFormulario->listar_todos_los_formularios(); // Método que 
             font-size: 14px;
         }
 
-        button[name="seleccionar_formulario"] {
-            background-color: #28a745;
-            color: #fff;
+        button[name="seleccionar_formulario"],
+        button[name="ver_formulario"],
+        button[name="eliminar_formulario"] {
+            background: none;
+            border: none;
+            padding: 8px;
+            margin: 0 5px;
+            cursor: pointer;
         }
 
-        button[name="seleccionar_formulario"]:hover {
-            background-color: #218838;
+        button[name="seleccionar_formulario"] i {
+            color: #28a745;
+        }
+
+        button[name="ver_formulario"] i {
+            color: #007bff;
+        }
+
+        button[name="eliminar_formulario"] i {
+            color: #dc3545;
+        }
+
+        button i:hover {
+            opacity: 0.7;
         }
 
         button[name="ver_asignaciones"] {
@@ -112,10 +130,12 @@ $formularios = $tablaFormulario->listar_todos_los_formularios(); // Método que 
                     <td><?= htmlspecialchars($formulario['nombre']) ?></td>
                     <td><?= htmlspecialchars($formulario['fecha_limite']) ?></td>
                     <td>
-                        <form method="POST" action="../CONTROL/ASIGNAR_FORMULARIO.php">
-                            <input type="hidden" name="id_formulario" value="<?= htmlspecialchars($formulario['id_formulario']) ?>">
-                            <button type="submit" name="seleccionar_formulario">Seleccionar</button>
-                        </form>
+                    <form method="POST" action="../CONTROL/ASIGNAR_FORMULARIO.php">
+                        <input type="hidden" name="id_formulario" value="<?= htmlspecialchars($formulario['id_formulario']) ?>">
+                        <button type="submit" name="seleccionar_formulario"><i class="fas fa-circle-check"></i></button>
+                        <button type="submit" name="ver_formulario"><i class="fas fa-eye"></i></button>
+                        <button type="submit" name="eliminar_formulario"><i class="fas fa-trash"></i></button>
+                    </form>
                     </td>
                 </tr>
             <?php endforeach; ?>

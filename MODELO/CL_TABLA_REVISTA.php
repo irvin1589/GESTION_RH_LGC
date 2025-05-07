@@ -36,5 +36,19 @@ class CL_TABLA_REVISTA extends CL_CONEXION
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function eliminar_revista($id_revista) {
+        $conexion = $this->conectar();
+        $sql = "DELETE FROM revista WHERE id_revista = ?";
+        $stmt = $conexion->prepare($sql);
+        $stmt->execute([$id_revista]);
+    }
+
+    public function buscar_por_id($id_revista) {
+        $conexion = $this->conectar();
+        $sql = "SELECT * FROM revista WHERE id_revista = ?";
+        $stmt = $conexion->prepare($sql);
+        $stmt->execute([$id_revista]); // En PDO se pasa como arreglo
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
 ?>
