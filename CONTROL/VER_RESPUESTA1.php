@@ -3,30 +3,27 @@ include('../MODELO/CL_CONEXION.php');
 
 session_start();
 
-// Verificar si el usuario está autenticado
+// Verificación de autenticación y permisos (sin cambios)
 if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
     header('Location: SISTEMA_RH.php');
     exit();
 }
 
-// Verificar si el usuario tiene permisos
 if ($_SESSION['tipo_usuario'] !== 'Admin' && $_SESSION['tipo_usuario'] !== 'RH') {
     header('Location: acceso_denegado.php');
     exit();
 }
 
-// Verificar si se recibió el ID de la asignación
 $id_asignacion = $_GET['id_asignacion'] ?? null;
 if (!$id_asignacion) {
     echo "ID de asignación no especificado o inválido.";
     exit();
 }
 
-// Conexión a la base de datos
+// Conexión y consultas (sin cambios)
 $conn = new CL_CONEXION();
 $pdo = $conn->getPDO();
 
-// Consultar las respuestas asociadas al ID de asignación
 $stmt = $pdo->prepare("SELECT p.texto AS pregunta, r.respuesta, r.calificacion, r.observacion 
                       FROM RESPUESTA r
                       JOIN PREGUNTA p ON r.id_pregunta = p.id_pregunta
@@ -34,16 +31,15 @@ $stmt = $pdo->prepare("SELECT p.texto AS pregunta, r.respuesta, r.calificacion, 
 $stmt->execute([$id_asignacion]);
 $respuestas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Depuración: Verifica si se obtuvieron resultados
 if (empty($respuestas)) {
     echo "No se encontraron respuestas para el ID de asignación: " . htmlspecialchars($id_asignacion);
     exit();
 }
+
 if (isset($_POST['regresar'])) {
     header('Location: ver_usuarios_formulario.php');
     exit();
 }
-
 
 $stmt_form = $pdo->prepare("SELECT id_formulario FROM ASIGNACION_FORMULARIO WHERE id_asignacion = ?");
 $stmt_form->execute([$id_asignacion]);
@@ -85,26 +81,33 @@ foreach ($respuestas as $respuesta) {
     }
 
     .container {
-        max-width: 1000px;
-        margin: auto;
+        max-width: 100%;
+        margin: 0 auto;
         background: #fff;
-        padding: 30px;
-        border-radius: 15px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
 
     h2 {
         text-align: center;
-        margin-bottom: 30px;
+        margin-bottom: 25px;
         color: #34495e;
-        border-bottom: 2px solid #3498db;
         padding-bottom: 10px;
+        border-bottom: 2px solid #3498db;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+        margin-bottom: 20px;
+        -webkit-overflow-scrolling: touch;
     }
 
     table {
         width: 100%;
         border-collapse: collapse;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
+        min-width: 600px;
     }
 
     table thead {
@@ -118,25 +121,34 @@ foreach ($respuestas as $respuesta) {
         border-bottom: 1px solid #ddd;
     }
 
+    table tbody tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+
     table tbody tr:hover {
-        background-color: #f1f1f1;
+        background-color: #e9ecef;
+    }
+
+    .btn-container {
+        text-align: center;
+        margin-top: 20px;
     }
 
     .btn {
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        padding: 12px 20px;
-        font-size: 15px;
+        padding: 10px 20px;
+        font-size: 14px;
         font-weight: 600;
-        text-transform: uppercase;
-        border: none;
-        border-radius: 25px;
+        text-decoration: none;
+        border-radius: 4px;
         background-color: transparent;
         color: #3498db;
         border: 2px solid #3498db;
         cursor: pointer;
         transition: all 0.3s ease;
+        text-transform: uppercase;
     }
 
     .btn:hover {
@@ -145,103 +157,222 @@ foreach ($respuestas as $respuesta) {
     }
 
     .btn i {
-        color: #3498db;
         transition: color 0.3s ease;
     }
 
     .btn:hover i {
         color: #fff;
     }
-    .graficar{
-        margin-bottom: 20px;
-    }
 
     .graficas {
         text-align: center;
-        margin-top: 20px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        margin: 20px auto;
+        max-width: 1000px;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
 
     #graficaCalificaciones {
-    width: 400px;
-    height: 400px;
-    margin: 0 auto;
-    display: none;
-}
-</style>
+        width: 100%;
+        max-width: 400px;
+        height: auto;
+        margin: 20px auto;
+        display: none;
+    }
+
+    /* Estilos responsivos */
+    @media (max-width: 768px) {
+        .container, .graficas {
+            padding: 15px;
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+        }
+        
+        table th, table td {
+            padding: 8px 10px;
+            font-size: 14px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        body {
+            padding: 10px;
+        }
+        
+        .container, .graficas {
+            padding: 10px;
+        }
+        
+        .btn {
+            width: 100%;
+            justify-content: center;
+            padding: 12px;
+        }
+    }
+
+    /* Estilo para móviles muy pequeños */
+    @media (max-width: 480px) {
+        table {
+            display: block;
+            width: 100%;
+        }
+        
+        table thead {
+            display: none;
+        }
+        
+        table tbody tr {
+            display: block;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        table tbody td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            text-align: right;
+            border-bottom: 1px solid #eee;
+        }
+        
+        table tbody td::before {
+            content: attr(data-label);
+            font-weight: bold;
+            margin-right: 10px;
+            text-align: left;
+        }
+        
+        #graficaCalificaciones {
+            max-width: 300px;
+        }
+    @media (min-width: 780px) {
+        #graficaCalificaciones {
+            max-width: 500px;
+            height: 400px !important;
+            display: none; /* Mantenemos oculta inicialmente */
+        }
+        
+        .graficas {
+            max-width: 600px;
+        }
+    }
+    </style>
 </head>
 <body>
     <div class="container">
         <h2>Respuestas del Formulario</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Pregunta</th>
-                    <th>Respuesta</th>
-                    <th>Calificación</th>
-                    <th>Observación</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($respuestas as $respuesta): ?>
+        
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
                     <tr>
-                        <td><?= htmlspecialchars($respuesta['pregunta']) ?></td>
-                        <td><?= htmlspecialchars($respuesta['respuesta']) ?></td>
-                        <td><?= $respuesta['calificacion'] == 1 ? 'Bien' : 'Mal' ?></td>
-                        <td><?= htmlspecialchars($respuesta['observacion']) ?></td>
+                        <th>Pregunta</th>
+                        <th>Respuesta</th>
+                        <th>Calificación</th>
+                        <th>Observación</th>
                     </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-        <form action="ver_usuarios_formulario1.php" method="get">
-            <input type="hidden" name="id_formulario" value="<?= htmlspecialchars($id_formulario) ?>">
-            <button type="submit" class="btn"><i class="fas fa-arrow-left"></i> Regresar</button>
-        </form>
+                </thead>
+                <tbody>
+                    <?php foreach ($respuestas as $respuesta): ?>
+                        <tr>
+                            <td data-label="Pregunta"><?= htmlspecialchars($respuesta['pregunta']) ?></td>
+                            <td data-label="Respuesta"><?= htmlspecialchars($respuesta['respuesta']) ?></td>
+                            <td data-label="Calificación"><?= $respuesta['calificacion'] == 1 ? 'Bien' : 'Mal' ?></td>
+                            <td data-label="Observación"><?= htmlspecialchars($respuesta['observacion']) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="btn-container">
+            <form action="ver_usuarios_formulario1.php" method="get">
+                <input type="hidden" name="id_formulario" value="<?= htmlspecialchars($id_formulario) ?>">
+                <button type="submit" class="btn"><i class="fas fa-arrow-left"></i> Regresar</button>
+            </form>
+        </div>
     </div>
 
     <div class="graficas">
-        <button type="button" id="btnGraficar" class="btn graficar"><i class="fas fa-chart-pie"></i> GRAFICAR</button>
-        <canvas id="graficaCalificaciones" style="display:none; width:400px; height:400px;"></canvas>
+        <button type="button" id="btnGraficar" class="btn"><i class="fas fa-chart-pie"></i> Graficar</button>
+        <canvas id="graficaCalificaciones"></canvas>
     </div>
+
     <script>
     const btnGraficar = document.getElementById('btnGraficar');
     const canvas = document.getElementById('graficaCalificaciones');
-    let graficaInicializada = false;
-    let grafica;
+    let grafica = null;
 
-    btnGraficar.addEventListener('click', () => {
-        if (!graficaInicializada) {
-            const ctx = canvas.getContext('2d');
-            grafica = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: ['Bien', 'Mal'],
-                    datasets: [{
-                        label: 'Respuestas',
-                        data: [<?= $Bien ?>, <?= $Mal ?>],
-                        backgroundColor: ['#2b95f2', '#c55bf6'],
-                        borderColor: ['#0088ff', '#af04ff'],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: false,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                        },
-                        title: {
-                            display: true,
-                            text: 'Resumen de Calificaciones Individuales',
+    btnGraficar.addEventListener('click', function() {
+        // Alternar visibilidad
+        if (canvas.style.display === 'none') {
+            // Mostrar gráfica
+            canvas.style.display = 'block';
+            
+            // Si la gráfica no existe, crearla
+            if (!grafica) {
+                crearGrafica();
+            } else {
+                // Si ya existe, redibujarla
+                grafica.update();
+            }
+        } else {
+            // Ocultar gráfica
+            canvas.style.display = 'none';
+        }
+    });
+
+    function crearGrafica() {
+        const ctx = canvas.getContext('2d');
+        
+        // Configuración específica para pantallas grandes
+        const isLargeScreen = window.matchMedia("(min-width: 780px)").matches;
+        const aspectRatio = isLargeScreen ? 1.5 : 1;
+        
+        grafica = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Bien', 'Mal'],
+                datasets: [{
+                    label: 'Respuestas',
+                    data: [<?= $Bien ?>, <?= $Mal ?>],
+                    backgroundColor: ['#2b95f2', '#c55bf6'],
+                    borderColor: ['#0088ff', '#af04ff'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                aspectRatio: aspectRatio,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Resumen de Calificaciones Individuales',
+                        font: {
+                            size: isLargeScreen ? 16 : 14
                         }
                     }
                 }
-            });
-            graficaInicializada = true;
+            }
+        });
+    }
+
+    // Redimensionar gráfica cuando cambia el tamaño de la ventana
+    window.addEventListener('resize', function() {
+        if (grafica) {
+            grafica.resize();
         }
-        canvas.style.display = canvas.style.display === 'none' ? 'block' : 'none';
     });
-</script>
+    </script>
 </body>
 </html>
