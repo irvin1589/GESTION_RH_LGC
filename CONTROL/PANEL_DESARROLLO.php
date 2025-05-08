@@ -35,27 +35,27 @@ if (isset($_GET['mensaje'])) {
     }
 }
 if (isset($_POST['click_ver_usuarios'])) {
-    header('Location: http://localhost/GESTION_RH_LGC/CONTROL/VER_USUARIOS.php');
+    header('Location: VER_USUARIOS.php');
     exit();
 }
 
 if (isset($_POST['click_crear_formulario'])) {
-    header('Location: http://localhost/GESTION_RH_LGC/CONTROL/CREAR_FORMULARIO.php');
+    header('Location: CREAR_FORMULARIO.php');
     exit();
 }
 
 if (isset($_POST['click_asignar_formulario'])) {
-    header('Location: http://localhost/GESTION_RH_LGC/CONTROL/ASIGNAR_FORMULARIO.php');
+    header('Location: ASIGNAR_FORMULARIO.php');
     exit();
 }
 
 if (isset($_POST['click_evaluar'])) {
-    header('Location: http://localhost/GESTION_RH_LGC/CONTROL/VER_FORMULARIOS.php');
+    header('Location: VER_FORMULARIOS.php');
     exit();
 }
 
 if (isset($_POST['click_resultados'])) {
-    header('Location: http://localhost/GESTION_RH_LGC/CONTROL/RESULTADOS.php');
+    header('Location: VER_RESULTADOS.php');
     exit();
 }
 
@@ -64,15 +64,14 @@ if (isset($_POST['click_cerrar_sesion'])) {
     session_unset();
     session_destroy();
     echo "Redirigiendo...";
-    header('Location: http://localhost/GESTION_RH_LGC/CONTROL/SISTEMA_RH.php');
+    header('Location: SISTEMA_RH.php');
     exit();
 }
 
 if (isset($_POST['click_regresar'])) {
-    header('Location: http://localhost/GESTION_RH_LGC/CONTROL/PANEL_RH.php');
+    header('Location: PANEL_RH.php');
     exit();
 }
-
 
 ?>
 
@@ -81,281 +80,323 @@ if (isset($_POST['click_regresar'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PANEL ADMINISTRADOR | LA GRAN CIUDAD</title>
+    <title>PANEL DESARROLLO ORGANIZACIONAL | LA GRAN CIUDAD</title>
     <link rel="icon" type="image/x-icon" href="../IMG/logo-blanco-1.ico">
-    <!-- Enlace a Font Awesome para los íconos -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../HTML/css/normalize.css">
     <style>
-        html, body {
-            height: 100%;
+        /* Estilos generales */
+        html {
+            font-size: 62.5%;
+            box-sizing: border-box;
+        }
+        *, *::before, *::after {
+            box-sizing: inherit;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            font-style: normal;
+            font-size: 2rem;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
-        }
-
-        body {
-            background-image: url('../IMG/DEPARTAMENTAL.jpg'); /* Imagen de fondo */
+            background-image: url('../IMG/fondo2.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            display: flex;
-            flex-direction: column;
         }
 
+        /* Header */
         .header {
-            background-color: rgba(31, 58, 84, 0.9); /* Fondo azul con transparencia */
-            color: #ffffff;
-            padding: 20px 30px;
-            text-align: center;
-        }
-
-        .container {
-            margin: 20px auto;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.5); /* Fondo blanco semitransparente */
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            max-width: 1200px;
-        }
-
-        .button-container {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr); /* Cuatro columnas */
-            gap: 20px; /* Espacio entre los botones */
-            margin-top: 20px;
-        }
-
-        button {
-            background-color: rgba(31, 58, 84, 0.6);
-            color: #ffffff;
-            border: 1px solid #003f7f;
-            border-radius: 250px;
-            padding: 15px 20px; /* Aumenta el tamaño de los botones */
-            font-size: 18px; /* Aumenta el tamaño del texto de los botones */
-            cursor: pointer;
-            transition: background-color 0.3s ease;
+            background-color: #313131;
+            padding: 1rem 0;
             width: 100%;
         }
 
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        button:active {
-            background-color: #003f7f;
-        }
-        .logout-container {
+        .header__contenedor {
+            max-width: 120rem;
+            margin: 0 auto;
+            padding: 0 2rem;
             display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 30px;
+            align-items: center;
+            justify-content: space-between;
         }
 
+        .header__logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header__img {
+            width: 5rem;
+            height: 5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .header__img:hover {
+            transform: scale(1.1);
+        }
+
+        .header__titulo {
+            color: #ffffff;
+            font-size: 2.5rem;
+            margin: 0;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .boton-regresar {
+            background-color: #941C82;
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 100px;
+            cursor: pointer;
+            font-size: 1.6rem;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .boton-regresar:hover {
+            background-color: #641d59;
+        }
+
+        .boton-regresar i {
+            font-size: 1.8rem;
+        }
+
+        @media (min-width: 479px){
+        .button-container{
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .button-container{
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+    
+    }
+
+        /* Media queries para responsive */
+        @media (max-width: 768px) {
+            .header__contenedor {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .header__logo {
+                margin-bottom: 1rem;
+            }
+
+            .header__titulo {
+                font-size: 2rem;
+                margin: 1rem 0;
+            }
+
+            .header__img {
+                width: 4rem;
+                height: 4rem;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .header__titulo {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .header__titulo {
+                font-size: 2.8rem;
+            }
+        }
+
+        .button-container button {
+            background-color: #1f3a54;
+            color: #fff;
+            border: none;
+            padding: 2rem;
+            border-radius: 1rem;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            min-width: 14rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            margin-bottom: 1rem;
+        }
+
+        .button-container button:hover {
+            background-color: #2c577c;
+            transform: translateY(-3px);
+        }
+
+        .button-container i {
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Botones de cerrar sesión y regresar */
         .logout-button {
-            background-color: #dc3545;
-            border: 1px solid #dc3545;
-            font-size: 16px; /* Aumenta el tamaño del texto del botón de cerrar sesión */
-            padding: 10px 20px; /* Aumenta el tamaño del botón de cerrar sesión */
-            margin: 0px;
-            width: auto;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
+            background-color: #444;
+            color: white;
+            padding: 1rem 2rem;
+            font-size: 1.6rem;
+            border: none;
+            border-radius: 0.8rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
         .logout-button:hover {
-            background-color: #a71d2a;
+            background-color: #666;
         }
 
-        .logout-button:active {
-            background-color: #7f1420;
-        }
-
-        .sucursales-table {
+        /* Tabla de sucursales */
+        table.sucursales-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
-            background-color: rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-top: 4rem;
+            font-size: 1.6rem;
         }
 
-        .sucursales-table th,
-        .sucursales-table td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
+        table.sucursales-table th, table.sucursales-table td {
+            border: 1px solid #ddd;
+            padding: 1.2rem;
         }
 
-        .sucursales-table th {
-            background-color: rgba(31, 58, 84, 0.9);
+        table.sucursales-table th {
+            background-color: #1f3a54;
             color: white;
+            text-align: center;
         }
 
-        .sucursales-table tr:hover {
-            background-color: rgba(31, 58, 84, 0.1);
+        table.sucursales-table td {
+            text-align: center;
+            background-color: rgba(249, 249, 249, 0.7);
         }
 
+        table.sucursales-table tr:hover {
+            background-color: rgba(241, 241, 241, 0.7);
+        }
+
+        /* Botones de acción en la tabla */
         .action-buttons {
             display: flex;
-            gap: 10px;
+            justify-content: center;
+        }
+        
+        .action-buttons button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 2rem;
+            margin: 0 0.5rem;
+            transition: transform 0.2s;
         }
 
-        .action-buttons button {
-            background: none; /* Sin fondo */
-            border: none; /* Sin bordes */
-            cursor: pointer;
-            padding: 0; /* Sin relleno */
-            transition: transform 0.2s ease; /* Efecto al pasar el mouse */
+        .action-buttons button.edit {
+            color: #2c7;
+        }
+
+        .action-buttons button.delete {
+            color: #d33;
         }
 
         .action-buttons button:hover {
-            transform: scale(1.2); /* Aumenta el tamaño al pasar el mouse */
+            transform: scale(1.2);
         }
 
-        .action-buttons .edit i {
-            color:  #007bff; /* Verde para el ícono de editar */
-            font-size: 18px; /* Tamaño del ícono */
+        h2 {
+            font-size: 3rem;
+            color: #1f3a54;
+            margin-top: 3rem;
+            text-align: center;
         }
 
-        .action-buttons .delete i {
-            color: #f44336; /* Rojo para el ícono de eliminar */
-            font-size: 18px; /* Tamaño del ícono */
+        .tabla-responsive {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 2rem;
         }
-
-        .action-buttons .edit i:hover {
-            color:  #007bff; /* Verde más claro al pasar el mouse */
+        .contenedor {
+            max-width: 120rem;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 1rem;
         }
-
-        .action-buttons .delete i:hover {
-            color: #e53935; /* Rojo más claro al pasar el mouse */
-        }
-
-        @media (max-width: 768px) {
-        /* Ocultar columnas Dirección, Teléfono y Acciones en pantallas pequeñas */
-        .sucursales-table th:nth-child(3),
-        .sucursales-table th:nth-child(4),
-        .sucursales-table td:nth-child(3),
-        .sucursales-table td:nth-child(4) {
-            display: none;
-        }
-    }
-    @media (max-width: 768px) {
-    .button-container {
-        grid-template-columns: repeat(2, 1fr); /* Dos columnas en móvil */
-    }
-}
-    .notification {
-        position: fixed;
-        top: 20%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: rgba(31, 58, 84, 0.9); /* Fondo azul con transparencia */
-        padding: 20px 30px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        text-align: center;
-        z-index: 1000;
-        color: white;
-        display: none; /* Oculto por defecto */
-    }
-
-    .notification.success {
-        background-color: rgba(31, 58, 84, 0.9); /* Verde para éxito */
-    }
-
-    .notification.error {
-        background-color: rgba(31, 58, 84, 0.9); /* Rojo para error */
-    }
-
-    .button-container button i {
-    font-size: 60px; /* tamaño del ícono */
-    margin-bottom: 8px; /* espacio entre ícono y texto */
-}
-
-    .notification button {
-        margin-top: 10px;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        background-color: #ffffff;
-        color: #333333;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
-    .notification button:hover {
-        background-color: #dddddd;
-    }
+        
+        /* ... (mantén el resto de tus estilos igual) ... */
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Panel de Desarrollo Organizacional</h1>
-    </div>
+    <header class="header">
+        <div class="header__contenedor">
+        <form method="post" style="display: inline;">
+            <button type="submit" name="click_regresar" style="background: none; border: none; padding: 0; cursor: pointer;">
+                <img class="header__img" src="../IMG/logo-blanco-1.ico" alt="Regresar">
+            </button>
+        </form>
+            
+            <h1 class="header__titulo">PANEL DESARROLLO ORGANIZACIONAL</h1>
+            
+            <form method="post">
+                <button type="submit" name="click_cerrar_sesion" class="boton-regresar">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </form>
+        </div>
+    </header>
 
-    <div class="container">
+    <main class="contenedor">
         <!-- Botones de acciones -->
         <form method="POST" action="">
             <div class="button-container">
-            <button type="submit" name="click_crear_formulario">
-            <div style="display: flex; flex-direction: column; align-items: center;">
-                <i class="fas fa-file-alt"></i>
-                <span>Crear Formulario</span>
-            </div>
-            </button>
+                <button type="submit" name="click_crear_formulario">
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Crear Formulario</span>
+                    </div>
+                </button>
+                
                 <button type="submit" name="click_asignar_formulario">
-                <div style="display: flex; flex-direction: column; align-items: center;">
-                    <i class="fas fa-share-square"></i>
-                    <span>Asignar Formulario</span>  
-                </div>
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <i class="fas fa-share-square"></i>
+                        <span>Asignar Formulario</span>  
+                    </div>
                 </button>
+                
                 <button type="submit" name="click_evaluar">
-                <div style="display: flex; flex-direction: column; align-items: center;">
-                    <i class="fas fa-check"></i>
-                    <span>Evaluar Formulario</span>
-                </div>
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <i class="fas fa-check"></i>
+                        <span>Evaluar Formulario</span>
+                    </div>
                 </button>
+                
                 <button type="submit" name="click_resultados">
-                <div style="display: flex; flex-direction: column; align-items: center;">
-                    <i class="fas fa-chart-pie"></i>
-                    <span>Resultados</span>
-                </div>
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <i class="fas fa-chart-pie"></i>
+                        <span>Resultados</span>
+                    </div>
                 </button>
+                
                 <button type="submit" name="click_ver_usuarios">
-                <div style="display: flex; flex-direction: column; align-items: center;">
-                    <i class="fas fa-users"></i>
-                    <span>Ver Usuarios</span>
-                </div>
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <i class="fas fa-users"></i>
+                        <span>Ver Usuarios</span>
+                    </div>
                 </button>
-            </div>
-            <div style="display: flex; justify-content: center; gap: 20px; margin-top: 30px;">
-            <div class="logout-container">
-                <button type="submit" name="click_cerrar_sesion" class="logout-button">
-                    <i class="fas fa-sign-out-alt"></i>  Cerrar Sesión</button>
-                <button type="submit" name="click_regresar" class="logout-button">
-                <i class="fas fa-arrow-left"></i>  Regresar</button>
-            </div>
             </div>
         </form>
-
-        <!-- Notificación -->
-        <div class="notification <?php echo $tipo_mensaje ?? ''; ?>" id="notification" style="display: <?php echo !empty($mensaje) ? 'block' : 'none'; ?>;">
-            <p><?php echo $mensaje ?? ''; ?></p>
-            <button onclick="closeNotification()">Cerrar</button>
-        </div>
-    </div>
-    <script>
-        // Función para cerrar la notificación
-        function closeNotification() {
-            const notification = document.getElementById('notification');
-            if (notification) {
-                notification.style.display = 'none';
-            }
-        }
-    </script>
+    </main>
 </body>
 </html>

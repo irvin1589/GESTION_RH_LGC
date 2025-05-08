@@ -3,30 +3,27 @@ include('../MODELO/CL_CONEXION.php');
 
 session_start();
 
-// Verificar si el usuario está autenticado
+// Verificación de autenticación (sin cambios)
 if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
     header('Location: SISTEMA_RH.php');
     exit();
 }
 
-// Verificar si el usuario tiene permisos
 if ($_SESSION['tipo_usuario'] !== 'Admin' && $_SESSION['tipo_usuario'] !== 'RH') {
     header('Location: acceso_denegado.php');
     exit();
 }
 
-// Verificar si se recibió el ID de la asignación
 $id_asignacion = $_GET['id_asignacion'] ?? null;
 if (!$id_asignacion) {
     echo "ID de asignación no especificado o inválido.";
     exit();
 }
 
-// Conexión a la base de datos
+// Conexión y consultas (sin cambios)
 $conn = new CL_CONEXION();
 $pdo = $conn->getPDO();
 
-// Consultar las respuestas asociadas al ID de asignación
 $stmt = $pdo->prepare("SELECT p.texto AS pregunta, r.respuesta, r.calificacion, r.observacion 
                       FROM RESPUESTA r
                       JOIN PREGUNTA p ON r.id_pregunta = p.id_pregunta
@@ -34,11 +31,11 @@ $stmt = $pdo->prepare("SELECT p.texto AS pregunta, r.respuesta, r.calificacion, 
 $stmt->execute([$id_asignacion]);
 $respuestas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Depuración: Verifica si se obtuvieron resultados
 if (empty($respuestas)) {
     echo "No se encontraron respuestas para el ID de asignación: " . htmlspecialchars($id_asignacion);
     exit();
 }
+
 if (isset($_POST['regresar'])) {
     header('Location: ver_usuarios_formulario.php');
     exit();
@@ -64,6 +61,7 @@ if (!$id_formulario) {
     <link rel="icon" type="image/x-icon" href="../IMG/logo-blanco-1.ico">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
+    /* Manteniendo tus colores originales */
     body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         background-color: #f4f7fb;
@@ -73,26 +71,32 @@ if (!$id_formulario) {
     }
 
     .container {
-        max-width: 1000px;
-        margin: auto;
+        max-width: 100%;
+        margin: 0 auto;
         background: #fff;
-        padding: 30px;
-        border-radius: 15px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
 
     h2 {
         text-align: center;
-        margin-bottom: 30px;
+        margin-bottom: 25px;
         color: #34495e;
-        border-bottom: 2px solid #3498db;
         padding-bottom: 10px;
+        border-bottom: 2px solid #3498db;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+        margin-bottom: 20px;
     }
 
     table {
         width: 100%;
         border-collapse: collapse;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
+        min-width: 600px;
     }
 
     table thead {
@@ -106,20 +110,28 @@ if (!$id_formulario) {
         border-bottom: 1px solid #ddd;
     }
 
+    table tbody tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+
     table tbody tr:hover {
-        background-color: #f1f1f1;
+        background-color: #e9ecef;
+    }
+
+    .btn-container {
+        text-align: center;
+        margin-top: 20px;
     }
 
     .btn {
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        padding: 12px 20px;
-        font-size: 15px;
+        padding: 10px 20px;
+        font-size: 14px;
         font-weight: 600;
-        text-transform: uppercase;
-        border: none;
-        border-radius: 25px;
+        text-decoration: none;
+        border-radius: 4px;
         background-color: transparent;
         color: #3498db;
         border: 2px solid #3498db;
@@ -133,42 +145,115 @@ if (!$id_formulario) {
     }
 
     .btn i {
-        color: #3498db;
         transition: color 0.3s ease;
     }
 
     .btn:hover i {
         color: #fff;
     }
-</style>
+
+    /* Estilos responsivos */
+    @media (max-width: 768px) {
+        .container {
+            padding: 15px;
+            border-radius: 0;
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+        }
+        
+        table th, table td {
+            padding: 8px 10px;
+            font-size: 14px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        body {
+            padding: 10px;
+        }
+        
+        .container {
+            padding: 10px;
+        }
+        
+        .btn {
+            width: 100%;
+            justify-content: center;
+            padding: 12px;
+        }
+    }
+
+    /* Estilo para móviles muy pequeños */
+    @media (max-width: 480px) {
+        table {
+            display: block;
+            width: 100%;
+        }
+        
+        table thead {
+            display: none;
+        }
+        
+        table tbody tr {
+            display: block;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        table tbody td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            text-align: right;
+            border-bottom: 1px solid #eee;
+        }
+        
+        table tbody td::before {
+            content: attr(data-label);
+            font-weight: bold;
+            margin-right: 10px;
+            text-align: left;
+        }
+    }
+    </style>
 </head>
 <body>
     <div class="container">
         <h2>Respuestas del Formulario</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Pregunta</th>
-                    <th>Respuesta</th>
-                    <th>Calificación</th>
-                    <th>Observación</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($respuestas as $respuesta): ?>
+        
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
                     <tr>
-                        <td><?= htmlspecialchars($respuesta['pregunta']) ?></td>
-                        <td><?= htmlspecialchars($respuesta['respuesta']) ?></td>
-                        <td><?= $respuesta['calificacion'] == 1 ? 'Bien' : 'Mal' ?></td>
-                        <td><?= htmlspecialchars($respuesta['observacion']) ?></td>
+                        <th>Pregunta</th>
+                        <th>Respuesta</th>
+                        <th>Calificación</th>
+                        <th>Observación</th>
                     </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-        <form action="ver_usuarios_formulario.php" method="get">
-            <input type="hidden" name="id_formulario" value="<?= htmlspecialchars($id_formulario) ?>">
-            <button type="submit" class="btn"><i class="fas fa-arrow-left"></i> Regresar</button>
-        </form>
+                </thead>
+                <tbody>
+                    <?php foreach ($respuestas as $respuesta): ?>
+                        <tr>
+                            <td data-label="Pregunta"><?= htmlspecialchars($respuesta['pregunta']) ?></td>
+                            <td data-label="Respuesta"><?= htmlspecialchars($respuesta['respuesta']) ?></td>
+                            <td data-label="Calificación"><?= $respuesta['calificacion'] == 1 ? 'Bien' : 'Mal' ?></td>
+                            <td data-label="Observación"><?= htmlspecialchars($respuesta['observacion']) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="btn-container">
+            <form action="ver_usuarios_formulario.php" method="get">
+                <input type="hidden" name="id_formulario" value="<?= htmlspecialchars($id_formulario) ?>">
+                <button type="submit" class="btn"><i class="fas fa-arrow-left"></i> Regresar</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>

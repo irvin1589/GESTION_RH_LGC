@@ -22,9 +22,9 @@ if ($_SESSION['tipo_usuario'] !== 'Admin' && $_SESSION['tipo_usuario'] !== 'RH')
 
 if (isset($_POST['click_regresar'])) {
     if ($_SESSION['tipo_usuario'] === 'Admin') {
-        header('Location: ../CONTROL/PANEL_ADMIN.php');
+        header('Location: ../CONTROL/VER_USUARIOS.php');
     } elseif ($_SESSION['tipo_usuario'] === 'RH') {
-        header('Location: ../CONTROL/PANEL_DESARROLLO.php');
+        header('Location: ../CONTROL/VER_USUARIOS.php');
     } else {
         header('Location: ../CONTROL/acceso_denegado.php');
     }
