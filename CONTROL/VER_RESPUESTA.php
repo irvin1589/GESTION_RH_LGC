@@ -159,7 +159,7 @@ if (!$id_formulario) {
                     <tr>
                         <td><?= htmlspecialchars($respuesta['pregunta']) ?></td>
                         <td><?= htmlspecialchars($respuesta['respuesta']) ?></td>
-                        <td><?= htmlspecialchars($respuesta['calificacion']) ?></td>
+                        <td><?= $respuesta['calificacion'] == 1 ? 'Bien' : 'Mal' ?></td>
                         <td><?= htmlspecialchars($respuesta['observacion']) ?></td>
                     </tr>
                 <?php endforeach; ?>

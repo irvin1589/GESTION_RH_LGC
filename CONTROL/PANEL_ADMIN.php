@@ -454,14 +454,14 @@ if (isset($_POST['click_editar_sucursal'])) {
                 </div>
                 </button>
             </div>
-            <div style="display: flex; justify-content: center; gap: 20px; margin-top: 30px;">
+            <!-- <div style="display: flex; justify-content: center; gap: 20px; margin-top: 30px;">
             <div class="logout-container">
                 <button type="submit" name="click_cerrar_sesion" class="logout-button">
                     <i class="fas fa-sign-out-alt"></i>  Cerrar Sesión</button>
                 <button type="submit" name="click_regresar" class="logout-button">
                 <i class="fas fa-arrow-left"></i>  Regresar</button>
             </div>
-            </div>
+            </div> -->
         </form>
 
         <div class="notification <?php echo $tipo_mensaje ?? ''; ?>" id="notification" style="display: <?php echo !empty($mensaje) ? 'block' : 'none'; ?>;">
