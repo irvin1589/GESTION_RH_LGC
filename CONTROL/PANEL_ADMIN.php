@@ -33,43 +33,45 @@ if (isset($_GET['mensaje'])) {
         $tipo_mensaje = "error";
     }
 }
+
+// Resto de las funciones de redirección...
 if (isset($_POST['click_ver_usuarios'])) {
-    header('Location: http://localhost/GESTION_RH_LGC/CONTROL/VER_USUARIOS.php');
+    header('Location: VER_USUARIOS.php');
     exit();
 }
 
 if (isset($_POST['click_crear_formulario'])) {
-    header('Location: http://localhost/GESTION_RH_LGC/CONTROL/CREAR_FORMULARIO.php');
+    header('Location: CREAR_FORMULARIO.php');
     exit();
 }
 
 if (isset($_POST['click_crear_sucursal'])) {
-    header('Location: http://localhost/GESTION_RH_LGC/CONTROL/CREAR_SUCURSAL.php');
+    header('Location: CREAR_SUCURSAL.php');
     exit();
 }
 
 if (isset($_POST['click_crear_departamento'])) {
-    header('Location: http://localhost/GESTION_RH_LGC/CONTROL/CREAR_DEPARTAMENTO.php');
+    header('Location: CREAR_DEPARTAMENTO.php');
     exit();
 }
 
 if (isset($_POST['click_crear_puesto'])) {
-    header('Location: http://localhost/GESTION_RH_LGC/CONTROL/CREAR_PUESTO.php');
+    header('Location: CREAR_PUESTO.php');
     exit();
 }
 
 if (isset($_POST['click_asignar_formulario'])) {
-    header('Location: http://localhost/GESTION_RH_LGC/CONTROL/ASIGNAR_FORMULARIO.php');
+    header('Location: ASIGNAR_FORMULARIO.php');
     exit();
 }
 
 if (isset($_POST['click_evaluar'])) {
-    header('Location: http://localhost/GESTION_RH_LGC/CONTROL/VER_FORMULARIOS.php');
+    header('Location: VER_FORMULARIOS.php');
     exit();
 }
 
 if (isset($_POST['click_resultados'])) {
-    header('Location: http://localhost/GESTION_RH_LGC/CONTROL/RESULTADOS.php');
+    header('Location: VER_RESULTADOS.php');
     exit();
 }
 
@@ -77,13 +79,12 @@ if (isset($_POST['click_cerrar_sesion'])) {
     session_start();
     session_unset();
     session_destroy();
-    echo "Redirigiendo...";
-    header('Location: http://localhost/GESTION_RH_LGC/CONTROL/SISTEMA_RH.php');
+    header('Location: SISTEMA_RH.php');
     exit();
 }
 
 if (isset($_POST['click_regresar'])) {
-    header('Location: http://localhost/GESTION_RH_LGC/CONTROL/PANEL_ADMIN1.php');
+    header('Location: PANEL_ADMIN1.php');
     exit();
 }
 
@@ -106,7 +107,7 @@ if (isset($_POST['click_editar_sucursal'])) {
     $id_sucursal = $_POST['id_sucursal'] ?? '';
 
     if (!empty($id_sucursal)) {
-        header("Location: http://localhost/GESTION_RH_LGC/CONTROL/EDITAR_SUCURSAL.php?id_sucursal=$id_sucursal");
+        header("Location: EDITAR_SUCURSAL.php?id_sucursal=$id_sucursal");
         exit();
     }
 }
@@ -119,276 +120,315 @@ if (isset($_POST['click_editar_sucursal'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PANEL ADMINISTRADOR | LA GRAN CIUDAD</title>
     <link rel="icon" type="image/x-icon" href="../IMG/logo-blanco-1.ico">
-
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="../HTML/css/normalize.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #1f3a54;
+            --secondary-color: #941C82;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --danger-color: #dc3545;
+            --success-color: #28a745;
+        }
 
-        html{
+        html {
             font-size: 62.5%;
             box-sizing: border-box;
         }
-        *, *::before, *::after{
+        
+        * {
             box-sizing: inherit;
+            margin: 0;
+            padding: 0;
         }
+        
         body {
             font-family: Arial, sans-serif;
-            font-style: normal;
-            font-size: 2rem;
+            font-size: 1.6rem;
+            background-image: url('../IMG/fondo2.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #333;
         }
 
-        .header{
+        /* Header */
+        .header {
             background-color: #313131;
+            padding: 1rem;
         }
 
         .header__contenedor {
-            display: block;
-            padding: 1rem;
-        }
-        @media(min-width: 768px) {
-            .header__contenedor {
-                display: flex;
-                align-items: center;      
-                justify-content: space-between; 
-            }
-
-            .header__titulo{
-                font-size: 3.8rem;
-            }
-
-            .header__img{
-                width: 7rem;
-                height: 7rem;
-            }
-
-
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-
-        .header__titulo{
+        .header__titulo {
             color: #ffffff;
             font-size: 2.5rem;
-            padding: 1rem 0;
-            margin: auto;
-            align-items: center;
             text-align: center;
-            justify-content: center;
+            flex-grow: 1;
         }
 
-        .header__img{
-            width: 3rem;
-            height: 3rem;
-            margin: 1rem 0;
+        .header__img {
+            width: 4rem;
+            height: 4rem;
+            transition: transform 0.3s ease;
         }
 
-        .header__img:hover{
+        .header__img:hover {
             transform: scale(1.1);
-            transition: all 0.3s ease;
         }
 
         .boton-regresar {
-            background-color:#941C82; 
+            background-color: var(--secondary-color);
             color: white;
             border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
+            padding: 0.8rem 1.5rem;
             border-radius: 100px;
+            cursor: pointer;
+            font-size: 1.6rem;
+            transition: background-color 0.3s;
         }
+
         .boton-regresar:hover {
-            background-color:#641d59;
+            background-color: #641d59;
         }
-        
-        .contenedor{
+
+        /* Contenedor principal */
+        .contenedor {
             max-width: 120rem;
-            text-align: center;
-            margin: 0 auto;
+            margin: 2rem auto;
+            padding: 0 2rem;
         }
-        
-    .notification {
-        position: fixed;
-        top: 20%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: rgba(31, 58, 84, 0.9); 
-        padding: 20px 30px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        text-align: center;
-        z-index: 1000;
-        color: white;
-        display: none; 
-    }
 
-    .notification.success {
-        background-color: rgba(31, 58, 84, 0.9); 
-    }
-
-    .notification.error {
-        background-color: rgba(31, 58, 84, 0.9); 
-    }
-
-    .notification button {
-        margin-top: 10px;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        background-color: #ffffff;
-        color: #333333;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
-    .notification button:hover {
-        background-color: #dddddd;
-    }
-
-    .button-container {
-        justify-content: center;
-        
-        margin: 3rem;
-    }
-
-    .button-container{
-        display: grid;
-    }
-
-    @media (min-width: 479px){
-        .button-container{
+        /* Botones de acción */
+        .button-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 2rem;
+            margin: 3rem 0;
         }
-    }
 
-    @media (min-width: 1024px) {
-        .button-container{
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
+        @media (min-width: 768px) {
+            .button-container {
+                grid-template-columns: repeat(4, 1fr);
+            }
         }
-    
-    }
 
+        .button-container button {
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            padding: 2rem;
+            border-radius: 1rem;
+            font-size: 1.6rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 8rem;
+        }
 
-    .button-container button {
-        background-color: #1f3a54;
-        color: #fff;
-        border: none;
-        padding: 2rem;
-        border-radius: 1rem;
-        font-size: 2rem;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease;
-        min-width: 14rem;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-        margin-bottom: 1rem;
-    }
+        .button-container button:hover {
+            background-color: #2c577c;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
 
-    .button-container button:hover {
-        background-color: #2c577c;
-        transform: translateY(-3px);
-    }
+        .button-container i {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
 
-    .button-container i {
-        font-size: 2.5rem;
-        margin-bottom: 0.5rem;
-    }
+        /* Notificaciones */
+        .notification {
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(31, 58, 84, 0.9);
+            padding: 2rem 3rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            text-align: center;
+            z-index: 1000;
+            color: white;
+            display: none;
+        }
 
-    /* Botones de cerrar sesión y regresar */
-    .logout-button {
-        background-color: #444;
-        color: white;
-        padding: 1rem 2rem;
-        font-size: 1.6rem;
-        border: none;
-        border-radius: 0.8rem;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
+        .notification button {
+            margin-top: 1rem;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 0.5rem;
+            background-color: #ffffff;
+            color: #333333;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
-    .logout-button:hover {
-        background-color: #666;
-    }
+        .notification button:hover {
+            background-color: #dddddd;
+        }
 
-    /* Tabla de sucursales */
-    table.sucursales-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 4rem;
-        font-size: 1.6rem;
-    }
+        /* Tabla responsiva */
+        .tabla-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 3rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 0.8rem;
+            background-color: white;
+        }
 
-    table.sucursales-table th, table.sucursales-table td {
-        border: 1px solid #ddd;
-        padding: 1.2rem;
-    }
+        .sucursales-table {
+            width: 100%;
+            min-width: 600px;
+            border-collapse: collapse;
+            font-size: 1.4rem;
+        }
 
-    table.sucursales-table th {
-        background-color: #1f3a54;
-        color: white;
-        text-align: center;
-    }
+        .sucursales-table th,
+        .sucursales-table td {
+            padding: 1.2rem 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
 
-    table.sucursales-table td {
-        text-align: center;
-        background-color: #f9f9f9;
-    }
+        .sucursales-table th {
+            background:  #1f3a54;
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 1.3rem;
+            position: sticky;
+            top: 0;
+        }
 
-    table.sucursales-table tr:hover {
-        background-color: #f1f1f1;
-    }
+        .sucursales-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
 
-    /* Botones de acción en la tabla */
-    .action-buttons{
-        display: flex;
-    }
-    .action-buttons button {
-        background: none;
-        border: none;
-        cursor: pointer;
-        font-size: 2rem;
-        margin: 0 0.5rem;
-        transition: transform 0.2s;
-    }
+        .sucursales-table tr:hover {
+            background-color: #f1f1f1;
+        }
 
-    .action-buttons button.edit {
-        color: #2c7;
-    }
+        /* Acciones */
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+        }
 
-    .action-buttons button.delete {
-        color: #d33;
-    }
+        .action-buttons button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.6rem;
+            padding: 0.5rem;
+            border-radius: 0.4rem;
+            transition: all 0.2s;
+        }
 
-    .action-buttons button:hover {
-        transform: scale(1.2);
-    }
+        .action-buttons button.edit {
+            color: var(--success-color);
+            background-color: rgba(40, 167, 69, 0.1);
+        }
 
-    h2 {
-        font-size: 3rem;
-        color: #1f3a54;
-        margin-top: 3rem;
-        text-align: center;
-    }
+        .action-buttons button.delete {
+            color: var(--danger-color);
+            background-color: rgba(220, 53, 69, 0.1);
+        }
 
-    .tabla-responsive {
-        width: 100%;
-        overflow-x: auto;
-        margin-top: 2rem;
-    }
+        .action-buttons button:hover {
+            transform: scale(1.1);
+        }
 
+        /* Títulos */
+        h2 {
+            font-size: 2.4rem;
+            color: var(--primary-color);
+            margin: 2rem 0;
+            text-align: center;
+        }
 
-    .footer {
-        text-align: center;
-    }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header__titulo {
+                font-size: 2rem;
+            }
+            
+            .sucursales-table th,
+            .sucursales-table td {
+                padding: 1rem;
+                font-size: 1.3rem;
+            }
+            
+            .sucursales-table .col-telefono {
+                display: none;
+            }
+            
+            .action-buttons button {
+                font-size: 1.8rem;
+                padding: 0.6rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .header__contenedor {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .header__titulo {
+                font-size: 1.8rem;
+                order: -1;
+            }
+            
+            .button-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sucursales-table .col-direccion {
+                display: none;
+            }
+            
+            .sucursales-table th,
+            .sucursales-table td {
+                padding: 0.8rem;
+                font-size: 1.2rem;
+            }
+            
+            .tabla-responsive::after {
+                content: "Desliza para ver más columnas →";
+                display: block;
+                text-align: center;
+                padding: 0.8rem;
+                font-size: 1.2rem;
+                color: #666;
+                background-color: #f5f5f5;
+                border-top: 1px solid #ddd;
+            }
+        }
     </style>
 </head>
 <body>
-<header class="header">
-        <div class="contenedor header__contenedor">
-            <img class="header__img" src="../IMG/logo-blanco-1.ico" alt="Nuestro logo">
+    <header class="header">
+        <div class="header__contenedor">
+            <form method="post" style="display: inline;">
+                <button type="submit" name="click_regresar" style="background: none; border: none; padding: 0; cursor: pointer;">
+                    <img class="header__img" src="../IMG/logo-blanco-1.ico" alt="Regresar">
+                </button>
+            </form>
+            
             <h1 class="header__titulo">PANEL DESARROLLO ORGANIZACIONAL</h1>
 
             <form method="post">
@@ -396,7 +436,6 @@ if (isset($_POST['click_editar_sucursal'])) {
                     <i class="fas fa-sign-out-alt"></i>
                 </button>
             </form>
-
         </div>
     </header>
 
@@ -404,64 +443,55 @@ if (isset($_POST['click_editar_sucursal'])) {
         <!-- Botones de acciones -->
         <form method="POST" action="">
             <div class="button-container">
-            <button type="submit" name="click_crear_formulario">
-            <div style="display: flex; flex-direction: column; align-items: center;" >
-                <i class="fas fa-file-alt"></i>
-                <span>Crear Formulario</span>
-            </div>
-            </button>
-            <button type="submit" name="click_crear_sucursal">
-                <div style="display: flex; flex-direction: column; align-items: center;">
-                    <i class="fas fa-building"></i>
-                    <span>Crear Sucursal</span>
-                </div>
-            </button>
-               
+                <button type="submit" name="click_crear_formulario">
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Crear Formulario</span>
+                    </div>
+                </button>
+                <button type="submit" name="click_crear_sucursal">
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <i class="fas fa-building"></i>
+                        <span>Crear Sucursal</span>
+                    </div>
+                </button>
                 <button type="submit" name="click_crear_departamento">
-                <div style="display: flex; flex-direction: column; align-items: center;">
-                    <i class="fas fa-sitemap"></i>
-                    <span>Crear Departamento</span>
-                </div>
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <i class="fas fa-sitemap"></i>
+                        <span>Crear Departamento</span>
+                    </div>
                 </button>
                 <button type="submit" name="click_crear_puesto">
-                <div style="display: flex; flex-direction: column; align-items: center;">
-                    <i class="fas fa-briefcase"></i>
-                    <span>Crear Puesto</span>
-                </div>
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <i class="fas fa-briefcase"></i>
+                        <span>Crear Puesto</span>
+                    </div>
                 </button> 
                 <button type="submit" name="click_asignar_formulario">
-                <div style="display: flex; flex-direction: column; align-items: center;">
-                    <i class="fas fa-share-square"></i>
-                    <span>Asignar Formulario</span>  
-                </div>
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <i class="fas fa-share-square"></i>
+                        <span>Asignar Formulario</span>  
+                    </div>
                 </button>
                 <button type="submit" name="click_evaluar">
-                <div style="display: flex; flex-direction: column; align-items: center;">
-                    <i class="fas fa-check"></i>
-                    <span>Evaluar Formulario</span>
-                </div>
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <i class="fas fa-check"></i>
+                        <span>Evaluar Formulario</span>
+                    </div>
                 </button>
                 <button type="submit" name="click_resultados">
-                <div style="display: flex; flex-direction: column; align-items: center;">
-                    <i class="fas fa-chart-pie"></i>
-                    <span>Resultados</span>
-                </div>
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <i class="fas fa-chart-pie"></i>
+                        <span>Resultados</span>
+                    </div>
                 </button>
                 <button type="submit" name="click_ver_usuarios">
-                <div style="display: flex; flex-direction: column; align-items: center;">
-                    <i class="fas fa-users"></i>
-                    <span>Ver Usuarios</span>
-                </div>
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <i class="fas fa-users"></i>
+                        <span>Ver Usuarios</span>
+                    </div>
                 </button>
             </div>
-            <!-- <div style="display: flex; justify-content: center; gap: 20px; margin-top: 30px;">
-            <div class="logout-container">
-                <button type="submit" name="click_cerrar_sesion" class="logout-button">
-                    <i class="fas fa-sign-out-alt"></i>  Cerrar Sesión</button>
-                <button type="submit" name="click_regresar" class="logout-button">
-                <i class="fas fa-arrow-left"></i>  Regresar</button>
-            </div>
-            </div> -->
         </form>
 
         <div class="notification <?php echo $tipo_mensaje ?? ''; ?>" id="notification" style="display: <?php echo !empty($mensaje) ? 'block' : 'none'; ?>;">
@@ -471,45 +501,51 @@ if (isset($_POST['click_editar_sucursal'])) {
 
         <h2>Lista de Sucursales</h2>
         <div class="tabla-responsive">
-        <table class="sucursales-table">
-            <thead>
-                <tr>
-                    <th>ID Sucursal</th>
-                    <th>Nombre</th>
-                    <th>Dirección</th>
-                    <th>Teléfono</th>
-                    <th>Acciones</th>
-                </tr>   
-            </thead>
-            <tbody>
-                <?php
-                if (!empty($sucursales)) {
-                    foreach ($sucursales as $sucursal) {
-                        echo "<tr>";
-                        echo "<td>" . htmlspecialchars($sucursal['id_sucursal']) . "</td>";
-                        echo "<td>" . htmlspecialchars($sucursal['nombre']) . "</td>";
-                        echo "<td>" . htmlspecialchars($sucursal['direccion']) . "</td>";
-                        echo "<td>" . htmlspecialchars($sucursal['telefono']) . "</td>";
-                        echo "<td class='action-buttons'>";
-                        echo "<form method='POST' action='' style='display:inline;'>";
-                        echo "<input type='hidden' name='id_sucursal' value='" . htmlspecialchars($sucursal['id_sucursal']) . "'>";
-                        echo "<button type='submit' name='click_editar_sucursal' class='edit'><i class='fas fa-edit'></i></button>";
-                        echo "</form>";
-                        echo "<form method='POST' action='' style='display:inline;'>";
-                        echo "<input type='hidden' name='id_sucursal' value='" . htmlspecialchars($sucursal['id_sucursal']) . "'>";
-                        echo "<button type='submit' name='click_eliminar_sucursal' class='delete'><i class='fas fa-trash'></i></button>";
-                        echo "</form>";
-                        echo "</td>";
-                        echo "</tr>";
-                    }
-                } else {
-                    echo "<tr><td colspan='5'>No hay sucursales registradas.</td></tr>";
-                }
-                ?>
-            </tbody>
-        </table>
-    </main>
+            <table class="sucursales-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th class="col-direccion">Dirección</th>
+                        <th class="col-telefono">Teléfono</th>
+                        <th>Acciones</th>
+                    </tr>   
+                </thead>
+                <tbody>
+                    <?php if (!empty($sucursales)): ?>
+                        <?php foreach ($sucursales as $sucursal): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($sucursal['id_sucursal']) ?></td>
+                                <td><?= htmlspecialchars($sucursal['nombre']) ?></td>
+                                <td class="col-direccion"><?= htmlspecialchars($sucursal['direccion']) ?></td>
+                                <td class="col-telefono"><?= htmlspecialchars($sucursal['telefono']) ?></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <form method="POST" style="display: inline;">
+                                            <input type="hidden" name="id_sucursal" value="<?= htmlspecialchars($sucursal['id_sucursal']) ?>">
+                                            <button type="submit" name="click_editar_sucursal" class="edit" title="Editar">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                        </form>
+                                        <form method="POST" style="display: inline;">
+                                            <input type="hidden" name="id_sucursal" value="<?= htmlspecialchars($sucursal['id_sucursal']) ?>">
+                                            <button type="submit" name="click_eliminar_sucursal" class="delete" title="Eliminar">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="5" style="text-align: center;">No hay sucursales registradas</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
         </div>
+    </main>
         
     <script>
         // Función para cerrar la notificación
@@ -519,9 +555,11 @@ if (isset($_POST['click_editar_sucursal'])) {
                 notification.style.display = 'none';
             }
         }
+        
+        // Cerrar notificación automáticamente después de 5 segundos
+        setTimeout(() => {
+            closeNotification();
+        }, 5000);
     </script>
-
-
-<!-- <footer>Todos los derechos reservados &copy; 2025</footer> -->
 </body>
 </html>

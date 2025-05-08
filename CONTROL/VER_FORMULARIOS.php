@@ -40,6 +40,9 @@ if (isset($_POST['click_regresar'])) {
 <head>
     <meta charset="UTF-8">
     <title>Formularios Disponibles</title>
+    <link rel="stylesheet" href="../CSS/estilos.css">
+    <link rel="icon" type="image/x-icon" href="../IMG/logo-blanco-1.ico">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;

@@ -13,6 +13,20 @@ if ($_SESSION['tipo_usuario'] !== 'Admin' && $_SESSION['tipo_usuario'] !== 'RH')
     exit();
 }
 
+$connexion = new CL_CONEXION();
+$conn = $connexion->conectar();
+
+// Obtener sucursales y departamentos para todo el script
+$query_sucursales = "SELECT * FROM SUCURSAL";
+$stmt_sucursales = $conn->prepare($query_sucursales);
+$stmt_sucursales->execute();
+$sucursales = $stmt_sucursales->fetchAll(PDO::FETCH_ASSOC);
+
+$query_departamentos = "SELECT * FROM DEPARTAMENTO";
+$stmt_departamentos = $conn->prepare($query_departamentos);
+$stmt_departamentos->execute();
+$departamentos = $stmt_departamentos->fetchAll(PDO::FETCH_ASSOC);
+
 // Mostrar formulario de fechas, sucursal y departamento
 if (!isset($_GET['fecha_inicio']) || !isset($_GET['fecha_fin']) || !isset($_GET['id_sucursal']) || !isset($_GET['id_departamento'])) {
     // Obtener sucursales y departamentos disponibles
@@ -31,27 +45,123 @@ if (!isset($_GET['fecha_inicio']) || !isset($_GET['fecha_fin']) || !isset($_GET[
     $stmt_departamentos->execute();
     $departamentos = $stmt_departamentos->fetchAll(PDO::FETCH_ASSOC);
 
-    ob_start();
-
-    echo '<form method="get">
-            <label>Fecha inicio: <input type="date" name="fecha_inicio" required></label>
-            <label>Fecha fin: <input type="date" name="fecha_fin" required></label>
-            <label>Sucursal: 
-                <select name="id_sucursal" required>';
-                foreach ($sucursales as $sucursal) {
-                    echo "<option value='" . $sucursal['id_sucursal'] . "'>" . htmlspecialchars($sucursal['nombre']) . "</option>";
-                }
-    echo    '</select>
-            </label>
-            <label>Departamento: 
-                <select name="id_departamento" required>';
-                foreach ($departamentos as $departamento) {
-                    echo "<option value='" . $departamento['id_departamento'] . "'>" . htmlspecialchars($departamento['nombre']) . "</option>";
-                }
-    echo    '</select>
-            </label>
-            <button type="submit">Generar reporte</button>
-          </form>';
+    echo '<!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>FILTROS INCIDENCIAS | LA GRAN CIUDAD RH</title>
+        <link rel="icon" type="image/x-icon" href="../IMG/logo-blanco-1.ico">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+        <style>
+            :root {
+                --primary-color: #1f3a54;
+                --secondary-color: #941C82;
+                --light-color: #f8f9fa;
+                --dark-color: #343a40;
+                --border-radius: 8px;
+                --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            }
+            body {
+                font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+                background-color: #f0f2f5;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                margin: 0;
+                padding: 20px;
+            }
+            .form-container {
+                background-color: white;
+                padding: 30px;
+                border-radius: var(--border-radius);
+                box-shadow: var(--box-shadow);
+                width: 100%;
+                max-width: 500px;
+            }
+            .form-header {
+                text-align: center;
+                margin-bottom: 25px;
+                color: var(--primary-color);
+            }
+            .form-header h2 {
+                margin-bottom: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+            }
+            .form-group {
+                margin-bottom: 20px;
+            }
+            .form-group label {
+                display: block;
+                margin-bottom: 8px;
+                font-weight: 600;
+                color: var(--primary-color);
+            }
+            .form-control {
+                width: 100%;
+                padding: 12px 15px;
+                border: 1px solid #ddd;
+                border-radius: var(--border-radius);
+                font-size: 1rem;
+                background-color: var(--light-color);
+            }
+            .btn-submit {
+                width: 100%;
+                padding: 12px;
+                background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+                color: white;
+                border: none;
+                border-radius: var(--border-radius);
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+            .btn-submit:hover {
+                opacity: 0.9;
+                transform: translateY(-2px);
+            }
+        </style>
+    </head>
+    <body>
+        <div class="form-container">
+            <div class="form-header">
+                <h2><i class="fas fa-filter"></i> FILTROS DE REPORTE</h2>
+                <p>Seleccione los parámetros para generar el reporte</p>
+            </div>
+            <form method="get">
+                <div class="form-group">
+                    <label for="fecha_inicio"><i class="fas fa-calendar-day"></i> Fecha inicio</label>
+                    <input type="date" id="fecha_inicio" name="fecha_inicio" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="fecha_fin"><i class="fas fa-calendar-check"></i> Fecha fin</label>
+                    <input type="date" id="fecha_fin" name="fecha_fin" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="id_sucursal"><i class="fas fa-store"></i> Sucursal</label>
+                    <select id="id_sucursal" name="id_sucursal" class="form-control" required>';
+                    foreach ($sucursales as $sucursal) {
+                        echo "<option value='" . $sucursal['id_sucursal'] . "'>" . htmlspecialchars($sucursal['nombre']) . "</option>";
+                    }
+                    echo '</select>
+                </div>
+                <div class="form-group">
+                    <label for="id_departamento"><i class="fas fa-building"></i> Departamento</label>
+                    <select id="id_departamento" name="id_departamento" class="form-control" required>';
+                    foreach ($departamentos as $departamento) {
+                        echo "<option value='" . $departamento['id_departamento'] . "'>" . htmlspecialchars($departamento['nombre']) . "</option>";
+                    }
+                    echo '</select>
+                </div>
+                <button type="submit" class="btn-submit">Generar Reporte</button>
+            </form>
+        </div>
+    </body>
+    </html>';
     exit;
 }
 
@@ -62,14 +172,15 @@ $id_departamento = $_GET['id_departamento'];
 
 // Validación básica
 if ($fecha_inicio > $fecha_fin) {
-    echo "La fecha de inicio no puede ser mayor que la fecha de fin.";
+    echo '<div style="padding: 20px; background-color: #f8d7da; color: #721c24; border-radius: 5px; max-width: 500px; margin: 20px auto; text-align: center;">
+            <i class="fas fa-exclamation-triangle"></i> La fecha de inicio no puede ser mayor que la fecha de fin.
+          </div>';
     exit;
 }
 
 $connexion = new CL_CONEXION();
 $conn = $connexion->conectar();
 
-// Modificar consulta para incluir filtro por sucursal y departamento
 $query = "
     SELECT 
         u.id_usuario,
@@ -103,65 +214,286 @@ $stmt->bindParam(':id_sucursal', $id_sucursal);
 $stmt->bindParam(':id_departamento', $id_departamento);
 $stmt->execute();
 
-echo '
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DETALLE INCIDENCIA | LA GRAN CIUDAD RH</title>
-  <link rel="icon" type="image/x-icon" href="../IMG/logo-blanco-1.ico" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />';
-echo "<h2>Reporte de Incidencias desde $fecha_inicio hasta $fecha_fin</h2>";
-
-echo '
-<style>
-    table {
-        border-collapse: collapse;
-        width: 100%;
-        margin-top: 20px;
-        font-family: Arial, sans-serif;
-    }
-    th, td {
-        border: 1px solid #cccccc;
-        padding: 8px;
-        text-align: center;
-    }
-    th {
-        background-color: #007BFF;
-        color: white;
-    }
-    tr:nth-child(even) {
-        background-color: #f9f9f9;
-    }
-    tr:hover {
-        background-color: #f1f1f1;
-    }
-    h2 {
-        font-family: Arial, sans-serif;
-        color: #333333;
-    }
-    form {
-        margin-top: 20px;
-    }
-    button {
-        background-color: #28a745;
-        color: white;
-        padding: 10px 15px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-    button:hover {
-        background-color: #218838;
-    }
-</style>';
+echo '<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REPORTE INCIDENCIAS | LA GRAN CIUDAD RH</title>
+    <link rel="icon" type="image/x-icon" href="../IMG/logo-blanco-1.ico">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1f3a54;
+            --secondary-color: #941C82;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            color: var(--dark-color);
+            margin: 0;
+            padding: 20px;
+        }
+        .report-container {
+            max-width: 100%;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 30px;
+            overflow-x: auto;
+        }
+        .report-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        .report-header h2 {
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .report-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .info-card {
+            flex: 1;
+            min-width: 200px;
+            background-color: var(--light-color);
+            padding: 15px;
+            border-radius: var(--border-radius);
+        }
+        .info-card h3 {
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 10px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        tr:nth-child(even) {
+            background-color: var(--light-color);
+        }
+        tr:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+        .currency {
+            text-align: right;
+        }
+        .total-row {
+            background-color: rgba(31, 58, 84, 0.1);
+            font-weight: bold;
+        }
+        .total-row td {
+            padding: 15px;
+        }
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            justify-content: flex-end;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+        }
+        .btn-success {
+            background-color: var(--success-color);
+            color: white;
+        }
+        .btn-success:hover {
+            opacity: 0.9;
+        }
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+        }
+        @media (max-width: 768px) {
+            .report-container {
+                padding: 15px;
+            }
+            .button-group {
+                flex-direction: column;
+            }
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="report-container">
+        <div class="report-header">
+            <h2><i class="fas fa-file-alt"></i> REPORTE DE INCIDENCIAS</h2>
+        </div>
+        
+        <div class="report-info">
+            <div class="info-card">
+                <h3>Periodo del reporte</h3>
+                <p>'.htmlspecialchars($fecha_inicio).' - '.htmlspecialchars($fecha_fin).'</p>
+            </div>
+            <div class="info-card">
+                <h3>Sucursal</h3>
+                <p>';
+                foreach ($sucursales as $sucursal) {
+                    if ($sucursal['id_sucursal'] == $id_sucursal) {
+                        echo htmlspecialchars($sucursal['nombre']);
+                        break;
+                    }
+                }
+                echo '</p>
+            </div>
+            <div class="info-card">
+                <h3>Departamento</h3>
+                <p>';
+                foreach ($departamentos as $departamento) {
+                    if ($departamento['id_departamento'] == $id_departamento) {
+                        echo htmlspecialchars($departamento['nombre']);
+                        break;
+                    }
+                }
+                echo '</p>
+            </div>
+        </div>';
 
 if ($stmt->rowCount() > 0) {
-    echo "<table border='1'>
+    echo '<table>
             <thead>
                 <tr>
                     <th>ID Usuario</th>
                     <th>Nombre</th>
-                    <th>Apellido 1</th>
-                    <th>Apellido 2</th>
+                    <th>Apellidos</th>
+                    <th>Sucursal</th>
+                    <th>Departamento</th>
+                    <th>Código</th>
+                    <th>Descripción</th>
+                    <th>Cantidad</th>
+                    <th>Fechas</th>
+                    <th class="currency">Descuento</th>
+                    <th class="currency">Total</th>
+                </tr>
+            </thead>
+            <tbody>';
+
+    $total_descuento = 0;
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $descuento_total = $row['descuento'] * $row['cantidad'];
+        $total_descuento += $descuento_total;
+
+        echo '<tr>
+                <td>'.htmlspecialchars($row['id_usuario']).'</td>
+                <td>'.htmlspecialchars($row['nombre']).'</td>
+                <td>'.htmlspecialchars($row['apellido1'].' '.$row['apellido2']).'</td>
+                <td>'.htmlspecialchars($row['sucursal']).'</td>
+                <td>'.htmlspecialchars($row['departamento']).'</td>
+                <td>'.htmlspecialchars($row['codigo_incidencia']).'</td>
+                <td>'.htmlspecialchars($row['descripcion_incidencia']).'</td>
+                <td>'.htmlspecialchars($row['cantidad']).'</td>
+                <td>'.htmlspecialchars($row['fecha_inicio']).'<br>'.htmlspecialchars($row['fecha_termino']).'</td>
+                <td class="currency">$'.number_format($row['descuento'], 2).'</td>
+                <td class="currency">$'.number_format($descuento_total, 2).'</td>
+              </tr>';
+    }
+
+    echo '<tr class="total-row">
+            <td colspan="9"></td>
+            <td style="text-align: right; font-weight: bold;">Total:</td>
+            <td class="currency">$'.number_format($total_descuento, 2).'</td>
+          </tr>
+          </tbody>
+        </table>
+        
+        <div class="button-group">
+            <form method="post">
+                <button type="submit" name="exportar_excel" class="btn btn-success">
+                    <i class="fas fa-file-excel"></i> Exportar a Excel
+                </button>
+            </form>
+            <form method="post">
+                <button type="submit" name="click_regresar" class="btn btn-primary">
+                    <i class="fas fa-arrow-left"></i> Regresar
+                </button>
+            </form>
+        </div>';
+} else {
+    echo '<div class="no-data">
+            <i class="fas fa-info-circle" style="font-size: 2rem; margin-bottom: 15px;"></i>
+            <p>No se encontraron incidencias en el rango de fechas seleccionado.</p>
+            <form method="post" style="margin-top: 20px;">
+                <button type="submit" name="click_regresar" class="btn btn-primary">
+                    <i class="fas fa-arrow-left"></i> Regresar
+                </button>
+            </form>
+          </div>';
+}
+
+echo '</div></body></html>';
+
+$conn = null;
+
+if (isset($_POST['click_regresar'])) {
+    ob_clean();
+    header('Location: ../CONTROL/PANEL_INCIDENCIAS.php');
+    exit();
+}
+
+if (isset($_POST['exportar_excel'])) {
+    ob_clean();
+
+    $nombre_archivo = "reporte_incidencias_" . $fecha_inicio . "_a_" . $fecha_fin . ".xls";
+
+    header("Content-Type: application/vnd.ms-excel");
+    header("Content-Disposition: attachment; filename=$nombre_archivo");
+    header("Pragma: no-cache");
+    header("Expires: 0");
+
+    echo '<table border="1">
+            <thead>
+                <tr>
+                    <th>ID Usuario</th>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
                     <th>Sucursal</th>
                     <th>Departamento</th>
                     <th>Código Incidencia</th>
@@ -170,134 +502,42 @@ if ($stmt->rowCount() > 0) {
                     <th>Fecha Inicio</th>
                     <th>Fecha Término</th>
                     <th>Descuento</th>
-                    <th>Descuento Total</th> 
-                </tr>
-            </thead>
-            <tbody>";
-
-    $total_descuento = 0;
-
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        // Calcular el descuento total por incidencia (descuento * cantidad)
-        $descuento_total = $row['descuento'] * $row['cantidad'];
-
-        // Acumular el total descuento
-        $total_descuento += $descuento_total;
-
-        echo "<tr>
-                <td>" . htmlspecialchars($row['id_usuario']) . "</td>
-                <td>" . htmlspecialchars($row['nombre']) . "</td>
-                <td>" . htmlspecialchars($row['apellido1']) . "</td>
-                <td>" . htmlspecialchars($row['apellido2']) . "</td>
-                <td>" . htmlspecialchars($row['sucursal']) . "</td>
-                <td>" . htmlspecialchars($row['departamento']) . "</td>
-                <td>" . htmlspecialchars($row['codigo_incidencia']) . "</td>
-                <td>" . htmlspecialchars($row['descripcion_incidencia']) . "</td>
-                <td>" . htmlspecialchars($row['cantidad']) . "</td>
-                <td>" . htmlspecialchars($row['fecha_inicio']) . "</td>
-                <td>" . htmlspecialchars($row['fecha_termino']) . "</td>
-                <td>$" . number_format($row['descuento'], 2) . "</td> 
-                <td>$" . number_format($descuento_total, 2) . "</td>
-              </tr>";
-    }
-
-    // Mostrar el total de descuentos al final
-    echo "<tr>
-            <td colspan='12' style='text-align:right; font-weight:bold;'>Total Descuento:</td>
-            <td style='font-weight:bold;'>$" . number_format($total_descuento, 2) . "</td>
-          </tr>";
-
-    echo "</tbody></table>";
-
-    // Botón de "Siguiente"
-    echo '<form method="post">
-            <button type="submit" name="click_regresar">Regresar</button>
-          </form>';
-
-    echo '<form method="post">
-                <button type="submit" name="exportar_excel">
-                    <i class="fas fa-file-excel"></i> Exportar a Excel
-                </button>
-            </form>';
-
-} else {
-    echo "No se encontraron incidencias en el rango de fechas seleccionado.";
-}
-
-$conn = null;
-
-if (isset($_POST['click_regresar'])) {
-    ob_clean(); // Limpia el buffer de salida
-    header('Location: ../CONTROL/PANEL_INCIDENCIAS.php');
-    exit();
-}
-
-if (isset($_POST['exportar_excel'])) {
-    ob_clean(); // Limpia el buffer de salida
-
-    $nombre_archivo = "reporte_incidencias_" . $fecha_inicio . "_a_" . $fecha_fin . ".xls";
-
-    // Configuración de las cabeceras para la descarga del archivo Excel
-    header("Content-Type: application/vnd.ms-excel");
-    header("Content-Disposition: attachment; filename=$nombre_archivo");
-    header("Pragma: no-cache");
-    header("Expires: 0");
-
-    // Generar el contenido del archivo Excel
-    echo "<table border='1'>
-            <thead>
-                <tr>
-                    <th>ID Usuario</th>
-                    <th>Nombre</th>
-                    <th>Apellido 1</th>
-                    <th>Apellido 2</th>
-                    <th>Sucursal</th>
-                    <th>Departamento</th>
-                    <th>Codigo Incidencia</th>
-                    <th>Descripcion</th>
-                    <th>Cantidad</th>
-                    <th>Fecha Inicio</th>
-                    <th>Fecha Termino</th>
-                    <th>Descuento</th>
                     <th>Descuento Total</th>
                 </tr>
             </thead>
-            <tbody>";
+            <tbody>';
 
     $total_descuento = 0;
-
-    // Reejecutar la consulta para obtener los datos
     $stmt->execute();
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $descuento_total = $row['descuento'] * $row['cantidad'];
         $total_descuento += $descuento_total;
 
-        echo "<tr>
-                <td>" . htmlspecialchars($row['id_usuario']) . "</td>
-                <td>" . htmlspecialchars($row['nombre']) . "</td>
-                <td>" . htmlspecialchars($row['apellido1']) . "</td>
-                <td>" . htmlspecialchars($row['apellido2']) . "</td>
-                <td>" . htmlspecialchars($row['sucursal']) . "</td>
-                <td>" . htmlspecialchars($row['departamento']) . "</td>
-                <td>" . htmlspecialchars($row['codigo_incidencia']) . "</td>
-                <td>" . htmlspecialchars($row['descripcion_incidencia']) . "</td>
-                <td>" . htmlspecialchars($row['cantidad']) . "</td>
-                <td>" . htmlspecialchars($row['fecha_inicio']) . "</td>
-                <td>" . htmlspecialchars($row['fecha_termino']) . "</td>
-                <td>$" . number_format($row['descuento'], 2) . "</td>
-                <td>$" . number_format($descuento_total, 2) . "</td>
-              </tr>";
+        echo '<tr>
+                <td>'.htmlspecialchars($row['id_usuario']).'</td>
+                <td>'.htmlspecialchars($row['nombre']).'</td>
+                <td>'.htmlspecialchars($row['apellido1'].' '.$row['apellido2']).'</td>
+                <td>'.htmlspecialchars($row['sucursal']).'</td>
+                <td>'.htmlspecialchars($row['departamento']).'</td>
+                <td>'.htmlspecialchars($row['codigo_incidencia']).'</td>
+                <td>'.htmlspecialchars($row['descripcion_incidencia']).'</td>
+                <td>'.htmlspecialchars($row['cantidad']).'</td>
+                <td>'.htmlspecialchars($row['fecha_inicio']).'</td>
+                <td>'.htmlspecialchars($row['fecha_termino']).'</td>
+                <td>$'.number_format($row['descuento'], 2).'</td>
+                <td>$'.number_format($descuento_total, 2).'</td>
+              </tr>';
     }
 
-    echo "<tr>
-            <td colspan='12' style='text-align:right; font-weight:bold;'>Total Descuento:</td>
-            <td style='font-weight:bold;'>$" . number_format($total_descuento, 2) . "</td>
-          </tr>";
+    echo '<tr>
+            <td colspan="11" style="text-align:right; font-weight:bold;">Total Descuento:</td>
+            <td style="font-weight:bold;">$'.number_format($total_descuento, 2).'</td>
+          </tr>
+          </tbody>
+        </table>';
 
-    echo "</tbody></table>";
-
-    exit(); // Finaliza el script aquí
+    exit();
 }
 
 ob_end_flush();

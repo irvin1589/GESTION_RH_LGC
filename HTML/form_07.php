@@ -5,163 +5,277 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CREAR PUESTO | LA GRAN CIUDAD</title>
     <link rel="icon" type="image/x-icon" href="../IMG/logo-blanco-1.ico">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Estilos generales */
-        body {
-            font-family: Arial, sans-serif;
+        :root {
+            --primary-color: #1f3a54;
+            --secondary-color: #941C82;
+            --danger-color: #e74c3c;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            height: 100vh;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-image: url('../IMG/puesto.jpg'); /* Ruta de la imagen de fondo */
-            background-size: cover; /* Ajusta la imagen para cubrir todo el fondo */
-            background-position: center; /* Centra la imagen */
-            background-repeat: no-repeat; /* Evita que la imagen se repita */
+            background-image: url('../IMG/puesto.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            position: relative;
+            color: var(--dark-color);
         }
 
-        /* Overlay azul transparente */
-        .overlay {
+        body::before {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(31, 58, 84, 0.7); /* Fondo azul con transparencia */
-            z-index: 1; /* Detrás del formulario */
+            background-color: rgba(31, 58, 84, 0.85);
+            z-index: 1;
         }
 
-        /* Imagen del logo */
         .logo {
-                position: absolute;
-                top: 10px;
-                left: 10px;
-                width: 100px; /* Cambia el tamaño de la imagen */
-                height: auto; /* Mantén la proporción */
-                z-index: 3; /* Asegura que esté encima del overlay */
-            }
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 120px;
+            height: auto;
+            z-index: 3;
+            filter: brightness(0) invert(1);
+        }
 
-        /* Contenedor del formulario */
         .form-container {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            width: 100%;
+            max-width: 450px;
+            margin: 2rem;
             position: relative;
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            max-width: 400px;
-            z-index: 3; /* Encima del overlay */
+            z-index: 2;
         }
 
-        .form-container h2 {
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .form-header {
             text-align: center;
-            margin-bottom: 20px;
-            color: #333333;
+            margin-bottom: 2rem;
+            position: relative;
         }
 
-        .form-container label {
+        .form-header h2 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-header::after {
+            content: '';
             display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #555555;
+            width: 60px;
+            height: 3px;
+            background: var(--secondary-color);
+            margin: 0.8rem auto;
+            border-radius: 3px;
         }
 
-        .form-container select,
-        .form-container input[type="text"],
-        .form-container input[type="submit"],
-        .form-container button {
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 0.9rem;
+        }
+
+        .form-control {
             width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #cccccc;
-            border-radius: 5px;
-            font-size: 16px;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 0.95rem;
+            transition: var(--transition);
+            background-color: var(--light-color);
         }
 
-        .form-container select:focus,
-        .form-container input[type="text"]:focus {
-            border-color: #007BFF;
+        .form-control:focus {
             outline: none;
-            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(31, 58, 84, 0.2);
         }
 
-        .form-container input[type="submit"] {
-            background-color: #007BFF;
-            color: white;
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.7rem center;
+            background-size: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
             border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            font-size: 1rem;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: var(--transition);
+            text-align: center;
+            width: 100%;
         }
 
-        .form-container input[type="submit"]:hover {
-            background-color: rgb(26, 87, 153);
-        }
-
-        .form-container button {
-            background-color: #f44336;
+        .btn-primary {
+            background-color: var(--primary-color);
             color: white;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
         }
 
-        .form-container button:hover {
-            background-color: #d32f2f;
+        .btn-primary:hover {
+            background-color: #2c577c;
+            transform: translateY(-2px);
         }
 
-        /* Estilos responsivos */
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn-group .btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem;
+            height: 46px;
+        }
+
         @media (max-width: 768px) {
             .form-container {
-                padding: 20px;
+                padding: 1.8rem;
+                margin: 1.5rem;
             }
-
-            .form-container h2 {
-                font-size: 20px;
+            
+            .form-header h2 {
+                font-size: 1.5rem;
             }
-
-            .form-container select,
-            .form-container input[type="text"],
-            .form-container input[type="submit"],
-            .form-container button {
-                font-size: 14px;
+            
+            .btn-group {
+                flex-direction: column;
+                gap: 0.8rem;
             }
-
+            
             .logo {
-                height: 50px; /* Ajusta el tamaño del logo en pantallas pequeñas */
-                top: 10px;
-                left: 10px;
+                width: 100px;
+                top: 15px;
+                left: 15px;
             }
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-container {
+            animation: fadeIn 0.5s ease-out;
         }
     </style>
 </head>
 <body>
-    <!-- Overlay azul transparente -->
-    <div class="overlay"></div>
+<img src="../IMG/LOGO_LGC__AZUL-1.png" alt="Logo La Gran Ciudad" class="logo">
 
-    <!-- Imagen del logo -->
-    <img src="../IMG/LOGO_LGC__AZUL.jpg" alt="Logo del Sistema" class="logo">
-
-    <!-- Contenedor del formulario -->
     <div class="form-container">
-        <h2>CREACIÓN DE PUESTO</h2>
+        <div class="form-header">
+            <h2><i class="fas fa-user-tie"></i> CREACIÓN DE PUESTO</h2>
+        </div>
+        
         <form method="POST" action="CREAR_PUESTO.php">
-            <label for="sucursal">Sucursal:</label>
-            <select id="sucursal" name="caja_opcion1" onchange="this.form.submit()">
-                {{sucursales}}
-            </select>
+            <div class="form-group">
+                <label for="sucursal"><i class="fas fa-building"></i> Sucursal:</label>
+                <select id="sucursal" name="caja_opcion1" onchange="this.form.submit()" class="form-control">
+                    {{sucursales}}
+                </select>
+            </div>
 
-            <label for="departamento">Departamento:</label>
-            <select id="departamento" name="caja_opcion2" onchange="this.form.submit()">
-                {{departamentos}}
-            </select>
+            <div class="form-group">
+                <label for="departamento"><i class="fas fa-sitemap"></i> Departamento:</label>
+                <select id="departamento" name="caja_opcion2" onchange="this.form.submit()" class="form-control">
+                    {{departamentos}}
+                </select>
+            </div>
 
-            <label for="nombre">PUESTO:</label>
-            <input type="text" name="caja_texto2" placeholder="Ingrese el puesto">
+            <div class="form-group">
+                <label for="nombre"><i class="fas fa-id-badge"></i> PUESTO:</label>
+                <input type="text" id="nombre" name="caja_texto2" placeholder="Ingrese el puesto" class="form-control">
+            </div>
 
-            <input type="submit" name="click_registrar_puesto" value="REGISTRAR">
-            <button type="submit" name="click_regresar">REGRESAR</button>
+            <div class="btn-group">
+                <button type="submit" name="click_registrar_puesto" class="btn btn-primary">
+                    REGISTRAR
+                </button>
+                <button type="submit" name="click_regresar" class="btn btn-danger">
+                    REGRESAR
+                </button>
+            </div>
         </form>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mejorar la experiencia de usuario
+            const inputs = document.querySelectorAll('.form-control');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'scale(1.02)';
+                });
+                input.addEventListener('blur', function() {
+                    this.parentElement.style.transform = 'scale(1)';
+                });
+            });
+        });
+    </script>
 </body>
 </html>
