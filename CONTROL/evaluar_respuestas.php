@@ -19,8 +19,8 @@ $pdo = $conn->getPDO();
 
 $stmt = $pdo->prepare("
     SELECT R.id_respuesta, R.id_pregunta, P.texto AS pregunta, R.respuesta, R.calificacion, R.observacion
-    FROM RESPUESTA R
-    JOIN PREGUNTA P ON R.id_pregunta = P.id_pregunta
+    FROM respuesta R
+    JOIN pregunta P ON R.id_pregunta = P.id_pregunta
     WHERE R.id_asignacion = ?
 ");
 $stmt->execute([$idAsignacion]);

@@ -27,12 +27,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $idPregunta = str_replace('respuesta_', '', $key);
                 $respuesta = trim($value);
 
-                $stmt = $pdo->prepare("INSERT INTO RESPUESTA (id_asignacion, id_pregunta, respuesta) VALUES (?, ?, ?)");
+                $stmt = $pdo->prepare("INSERT INTO respuesta (id_asignacion, id_pregunta, respuesta) VALUES (?, ?, ?)");
                 $stmt->execute([$idAsignacion, $idPregunta, $respuesta]);
             }
         }
 
-        $stmt = $pdo->prepare("UPDATE ASIGNACION_FORMULARIO SET completado = 1 WHERE id_asignacion = ?");
+        $stmt = $pdo->prepare("UPDATE asignacion_formulario SET completado = 1 WHERE id_asignacion = ?");
         $stmt->execute([$idAsignacion]);
 
         $pdo->commit();

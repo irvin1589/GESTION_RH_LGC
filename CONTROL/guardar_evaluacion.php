@@ -33,7 +33,7 @@ foreach ($respuestas as $idRespuesta) {
     $stmtUpdate->execute([$calificacion, $observacion, $idRespuesta]);
 }
 
-$stmt = $pdo->prepare("UPDATE ASIGNACION_FORMULARIO SET evaluado = 1 WHERE id_asignacion = ?");
+$stmt = $pdo->prepare("UPDATE asignar_formulario SET evaluado = 1 WHERE id_asignacion = ?");
 $stmt->execute([$idAsignacion]);
 
 header("Location: ver_respuestas.php?id_asignacion=$idAsignacion");

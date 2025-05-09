@@ -34,7 +34,7 @@ if (isset($_POST['click_cerrar_sesion'])) {
     session_unset();
     session_destroy();
     echo "Redirigiendo...";
-    header('Location: http://localhost/GESTION_RH_LGC/CONTROL/SISTEMA_RH.php');
+    header('Location: SISTEMA_RH.php');
     exit();
 }
 

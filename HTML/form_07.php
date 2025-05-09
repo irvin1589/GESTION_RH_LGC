@@ -207,9 +207,7 @@
             }
             
             .logo {
-                width: 100px;
-                top: 15px;
-                left: 15px;
+                opacity: 0;
             }
         }
 

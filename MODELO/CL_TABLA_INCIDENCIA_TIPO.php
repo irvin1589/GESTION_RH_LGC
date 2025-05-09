@@ -34,6 +34,16 @@ class CL_TABLA_INCIDENCIA_TIPO extends CL_CONEXION
         return !empty($row['calculo_variable']);
     }
 
+    public function obtener_codigo($id_tipo_incidencia) {
+        $pdo = $this->getPDO();
+        $sql = "SELECT codigo_incidencia FROM incidencia_tipo WHERE codigo_incidencia = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$id_tipo_incidencia]);
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        return $resultado['codigo_incidencia'] ?? '';
+    }
+
     public function obtener_descuento_fijo($id_incidencia_tipo) {
         $pdo = $this->getPDO();
         $sql = "SELECT descuento FROM incidencia_tipo WHERE id_incidencia_tipo = ?";

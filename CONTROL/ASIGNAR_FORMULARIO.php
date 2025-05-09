@@ -95,7 +95,7 @@ if (isset($_POST['ver_formulario'])) {
 
     if (!empty($asignaciones)) {
         $id_asignacion = $asignaciones[0]['id_asignacion'];
-        header("Location: http://localhost/GESTION_RH_LGC/CONTROL/RESPONDER_FORM.php?id_asignacion=$id_asignacion");
+        header("Location: RESPONDER_FORM.php?id_asignacion=$id_asignacion");
         exit();
     } else {
         $notification = [

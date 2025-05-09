@@ -25,8 +25,8 @@ $conn = new CL_CONEXION();
 $pdo = $conn->getPDO();
 
 $stmt = $pdo->prepare("SELECT p.texto AS pregunta, r.respuesta, r.calificacion, r.observacion 
-                      FROM RESPUESTA r
-                      JOIN PREGUNTA p ON r.id_pregunta = p.id_pregunta
+                      FROM respuesta r
+                      JOIN pregunta p ON r.id_pregunta = p.id_pregunta
                       WHERE r.id_asignacion = ?");
 $stmt->execute([$id_asignacion]);
 $respuestas = $stmt->fetchAll(PDO::FETCH_ASSOC);

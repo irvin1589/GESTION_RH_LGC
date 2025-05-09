@@ -39,11 +39,11 @@ if (!empty($rawInput)) {
             $tipo = $pregunta['tipo'];
 
             $pdo = $conn->getPDO();
-            $stmt = $pdo->prepare("SELECT id_tipo_pregunta FROM TIPO_PREGUNTA WHERE nombre_tipo = ?");
+            $stmt = $pdo->prepare("SELECT id_tipo_pregunta FROM tipo_pregunta WHERE nombre_tipo = ?");
             $stmt->execute([$tipo]);
             $idTipoPregunta = $stmt->fetchColumn();
 
-            $stmt = $pdo->prepare("INSERT INTO PREGUNTA (texto, orden, id_tipo_pregunta, id_formulario)
+            $stmt = $pdo->prepare("INSERT INTO pregunta (texto, orden, id_tipo_pregunta, id_formulario)
                                    VALUES (?, ?, ?, ?)");
             $stmt->execute([$texto, $orden, $idTipoPregunta, $idFormulario]);
             $idPregunta = $pdo->lastInsertId();
@@ -51,7 +51,7 @@ if (!empty($rawInput)) {
 
             if (isset($pregunta['opciones']) && is_array($pregunta['opciones'])) {
                 foreach ($pregunta['opciones'] as $opcion) {
-                    $stmt = $pdo->prepare("INSERT INTO OPCION_PREGUNTA (texto_opcion, valor_opcion, id_pregunta)
+                    $stmt = $pdo->prepare("INSERT INTO opcion_pregunta (texto_opcion, valor_opcion, id_pregunta)
                                            VALUES (?, ?, ?)");
                     $stmt->execute([$opcion, $opcion, $idPregunta]);
                 }
