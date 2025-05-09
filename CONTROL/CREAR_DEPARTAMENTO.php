@@ -52,7 +52,8 @@ try {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Crear Departamento</title>
+    <title>CREAR DEPARTAMENTO | LA GRAN CIUDAD</title>
+    <link rel="icon" type="image/x-icon" href="../IMG/logo-blanco-1.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         * {

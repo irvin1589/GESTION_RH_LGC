@@ -32,11 +32,11 @@ $t_formulario = new CL_TABLA_FORMULARIO();
 $datosFormulario = $t_formulario->obtener_formulario_por_id($idFormulario);
 echo "<h2>Formulario: " . htmlspecialchars($datosFormulario['nombre']) . "</h2>";
 
-$stmt = $pdo->prepare("SELECT * FROM PREGUNTA WHERE id_formulario = ? ORDER BY orden");
+$stmt = $pdo->prepare("SELECT * FROM pregunta WHERE id_formulario = ? ORDER BY orden");
 $stmt->execute([$idFormulario]);
 $preguntas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$stmt = $pdo->prepare("SELECT id_pregunta, respuesta FROM RESPUESTA WHERE id_asignacion = ?");
+$stmt = $pdo->prepare("SELECT id_pregunta, respuesta FROM respuesta WHERE id_asignacion = ?");
 $stmt->execute([$idAsignacion]);
 $respuestas = $stmt->fetchAll(PDO::FETCH_KEY_PAIR); 
 ?>

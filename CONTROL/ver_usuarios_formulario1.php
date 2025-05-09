@@ -14,6 +14,11 @@ if ($_SESSION['tipo_usuario'] !== 'Admin' && $_SESSION['tipo_usuario'] !== 'RH')
     exit();
 }
 
+if  (isset($_POST['click_regresar'])) {
+    header('Location: VER_RESULTADOS.php');
+    exit();
+}
+
 $idFormulario = $_GET['id_formulario'] ?? null;
 if (!$idFormulario) exit("Formulario no especificado");
 
@@ -26,17 +31,14 @@ $stmt = $pdo->prepare("
 $stmt->execute([$idFormulario]);
 $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-if (isset($_POST['click_regresar'])) {
-    header('Location: ../CONTROL/VER_RESULTADOS.php');
-    exit();
-}
+
 $_POST['id_formulario'] = $idFormulario;
 
 
 $sql = "
 SELECT R.calificacion
-FROM RESPUESTA R
-JOIN ASIGNACION_FORMULARIO A ON R.id_asignacion = A.id_asignacion
+FROM respuesta R
+JOIN asignacion_formulario A ON R.id_asignacion = A.id_asignacion
 WHERE A.id_formulario = ?
 ";
 $stmt2 = $pdo->prepare($sql);
@@ -58,9 +60,9 @@ foreach ($respuestas as $respuesta) {
 
 $sql = "
 SELECT P.id_pregunta, P.texto, R.calificacion
-FROM RESPUESTA R
-JOIN PREGUNTA P ON R.id_pregunta = P.id_pregunta
-JOIN ASIGNACION_FORMULARIO A ON R.id_asignacion = A.id_asignacion
+FROM respuesta R
+JOIN pregunta P ON R.id_pregunta = P.id_pregunta
+JOIN asignacion_formulario A ON R.id_asignacion = A.id_asignacion
 WHERE A.id_formulario = ?
 ";
 $stmt2 = $pdo->prepare($sql);

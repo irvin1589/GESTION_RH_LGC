@@ -19,7 +19,7 @@ if (!$idFormulario) exit("Formulario no especificado");
 
 $stmt = $pdo->prepare("
     SELECT A.id_asignacion, U.nombre AS usuario, A.evaluado
-    FROM asigancion_formulario A
+    FROM asignacion_formulario A
     JOIN usuario U ON A.id_usuario = U.id_usuario
     WHERE A.id_formulario = ? AND A.completado = 1
 ");
