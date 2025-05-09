@@ -183,6 +183,7 @@ $conn = $connexion->conectar();
 
 $query = "
     SELECT 
+        di.id_detalle_incidencia,
         u.id_usuario,
         u.nombre,
         u.apellido1,
@@ -198,7 +199,7 @@ $query = "
     FROM detalle_incidencia di
     JOIN usuario u ON di.id_usuario = u.id_usuario
     JOIN sucursal s ON u.id_sucursal = s.id_sucursal
-    JOIN departameto d ON u.id_departamento = d.id_departamento
+    JOIN departamento d ON u.id_departamento = d.id_departamento
     JOIN incidencia_tipo it ON di.id_incidencia_tipo = it.id_incidencia_tipo
     JOIN incidencia i ON it.codigo_incidencia = i.codigo
     WHERE di.fecha_inicio >= :fecha_inicio AND di.fecha_termino <= :fecha_fin
@@ -412,10 +413,11 @@ if ($stmt->rowCount() > 0) {
                     <th>Fechas</th>
                     <th class="currency">Descuento</th>
                     <th class="currency">Total</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>';
-
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     $total_descuento = 0;
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $descuento_total = $row['descuento'] * $row['cantidad'];
@@ -433,8 +435,15 @@ if ($stmt->rowCount() > 0) {
                 <td>'.htmlspecialchars($row['fecha_inicio']).'<br>'.htmlspecialchars($row['fecha_termino']).'</td>
                 <td class="currency">$'.number_format($row['descuento'], 2).'</td>
                 <td class="currency">$'.number_format($descuento_total, 2).'</td>
+                <td>
+                     <a href="editar_incidencia.php?id=' .$row['id_detalle_incidencia']. '" class="btn-edit">
+                    <i class="fas fa-edit"></i> Editar
+                    </a>
+
+                </td>
               </tr>';
     }
+}
 
     echo '<tr class="total-row">
             <td colspan="9"></td>

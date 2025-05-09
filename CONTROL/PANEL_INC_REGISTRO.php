@@ -175,7 +175,16 @@ $incidencia = $tablaDetalleIncidencia->obtener_incidencia();
                         <td><?php echo htmlspecialchars($incidencia['id_usuario'] ?? 'N/A'); ?></td>
                         <td><?php echo htmlspecialchars($incidencia['id_incidencia_tipo'] ?? 'N/A'); ?></td>
                         <td><?php echo htmlspecialchars($incidencia['cantidad'] ?? 'N/A'); ?></td>
-                        <td><?php echo htmlspecialchars($incidencia['descuento'] ?? 'N/A'); ?></td>
+                        <td>
+                            <?php 
+                            $valor = $incidencia['descuento'] ?? 0;
+                            if ($valor < 0) {
+                                echo '<span style="color:green">+$'.number_format(abs($valor), 2).'</span>';
+                            } else {
+                                echo '<span style="color:red">-$'.number_format($valor, 2).'</span>';
+                            }
+                            ?>
+                        </td>
                         <td><?php echo htmlspecialchars($incidencia['fecha_inicio'] ?? 'N/A'); ?></td>
                         <td><?php echo htmlspecialchars($incidencia['fecha_termino'] ?? 'N/A'); ?></td>
                     </tr>

@@ -52,7 +52,7 @@ if (isset($_POST['click_registrar'])) {
         // Si hay fórmula, calcular el descuento basado en los días y salario
         $dias = $_POST['dias'] ?? 1;
         $salario = $_POST['salario'] ?? 0;
-        $descuento = eval("return $formula;");
+        $descuento = -(($dias * $salario)/$dias) ;
         $cantidad = $dias; // La cantidad será igual al número de días
     } else {
         // Si no hay fórmula, usar el descuento fijo de incidencia_tipo
