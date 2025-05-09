@@ -17,7 +17,7 @@ $pdo = $conn->getPDO();
 $idAsignacion = $_POST['id_asignacion'];
 
 // Obtener todos los id_respuesta relacionados a esa asignación
-$stmt = $pdo->prepare("SELECT id_respuesta FROM RESPUESTA WHERE id_asignacion = ?");
+$stmt = $pdo->prepare("SELECT id_respuesta FROM respuesta WHERE id_asignacion = ?");
 $stmt->execute([$idAsignacion]);
 $respuestas = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
@@ -26,14 +26,14 @@ foreach ($respuestas as $idRespuesta) {
     $observacion = $_POST["observacion_$idRespuesta"] ?? null;
 
     $stmtUpdate = $pdo->prepare("
-        UPDATE RESPUESTA 
+        UPDATE respuesta 
         SET calificacion = ?, observacion = ?
         WHERE id_respuesta = ?
     ");
     $stmtUpdate->execute([$calificacion, $observacion, $idRespuesta]);
 }
 
-$stmt = $pdo->prepare("UPDATE asignar_formulario SET evaluado = 1 WHERE id_asignacion = ?");
+$stmt = $pdo->prepare("UPDATE asignacion_formulario SET evaluado = 1 WHERE id_asignacion = ?");
 $stmt->execute([$idAsignacion]);
 
 header("Location: ver_respuestas.php?id_asignacion=$idAsignacion");

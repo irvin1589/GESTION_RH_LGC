@@ -41,7 +41,7 @@ if (isset($_POST['regresar'])) {
     exit();
 }
 
-$stmt_form = $pdo->prepare("SELECT id_formulario FROM ASIGNACION_FORMULARIO WHERE id_asignacion = ?");
+$stmt_form = $pdo->prepare("SELECT id_formulario FROM asignacion_formulario WHERE id_asignacion = ?");
 $stmt_form->execute([$id_asignacion]);
 $id_formulario = $stmt_form->fetchColumn();
 
