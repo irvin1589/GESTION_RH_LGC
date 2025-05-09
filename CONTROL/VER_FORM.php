@@ -17,7 +17,7 @@ $idAsignacion = $_GET['id_asignacion'];
 $conn = new CL_CONEXION();
 $pdo = $conn->getPDO();
 
-$stmt = $pdo->prepare("SELECT id_formulario FROM ASIGNACION_FORMULARIO WHERE id_asignacion = ?");
+$stmt = $pdo->prepare("SELECT id_formulario FROM asignacion_formulario WHERE id_asignacion = ?");
 $stmt->execute([$idAsignacion]);
 $formulario = $stmt->fetch(PDO::FETCH_ASSOC);
 

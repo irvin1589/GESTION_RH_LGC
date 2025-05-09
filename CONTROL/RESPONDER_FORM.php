@@ -19,7 +19,7 @@ $conn = new CL_CONEXION();
 $pdo = $conn->getPDO();
 
 // Obtener el id_formulario desde la tabla ASIGNACION_FORMULARIO
-$stmt = $pdo->prepare("SELECT id_formulario FROM ASIGNACION_FORMULARIO WHERE id_asignacion = ?");
+$stmt = $pdo->prepare("SELECT id_formulario FROM asignacion_formulario WHERE id_asignacion = ?");
 $stmt->execute([$idAsignacion]);
 $formulario = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -35,7 +35,7 @@ $formulario = $t_formulario->obtener_formulario_por_id($idFormulario);
 echo "<h2> FORMULARIO ". $formulario['nombre'] . " </h2>";
 
 // Obtener preguntas del formulario
-$stmt = $pdo->prepare("SELECT * FROM PREGUNTA WHERE id_formulario = ? ORDER BY orden");
+$stmt = $pdo->prepare("SELECT * FROM pregunta WHERE id_formulario = ? ORDER BY orden");
 $stmt->execute([$idFormulario]);
 $preguntas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -135,7 +135,7 @@ $preguntas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <label><?= htmlspecialchars($pregunta['texto']) ?></label>
 
             <?php
-            $stmtOp = $pdo->prepare("SELECT * FROM OPCION_PREGUNTA WHERE id_pregunta = ?");
+            $stmtOp = $pdo->prepare("SELECT * FROM opcion_pregunta WHERE id_pregunta = ?");
             $stmtOp->execute([$pregunta['id_pregunta']]);
             $opciones = $stmtOp->fetchAll(PDO::FETCH_ASSOC);
             ?>

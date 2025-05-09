@@ -33,7 +33,7 @@ if (isset($_POST['click_ver_evaluaciones'])) {
 if (isset($_POST['click_cerrar_sesion'])) {
     session_unset();
     session_destroy();
-    header('Location: http://localhost/GESTION_RH_LGC/CONTROL/SISTEMA_RH.php');
+    header('Location: SISTEMA_RH.php');
     exit();
 }
 

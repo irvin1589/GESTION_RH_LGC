@@ -40,7 +40,7 @@
 <script>
     setTimeout(function() {
       window.location.href = "SISTEMA_RH.php";
-    }, 3000);
+    }, 5000);
   </script>
 </body>
 </html>

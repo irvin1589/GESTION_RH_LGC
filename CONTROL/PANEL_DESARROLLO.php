@@ -168,18 +168,21 @@ if (isset($_POST['click_regresar'])) {
         .boton-regresar i {
             font-size: 1.8rem;
         }
+        .button-container{
+            display: grid;
+            gap:1rem;
+        }
 
         @media (min-width: 479px){
         .button-container{
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            
+            grid-template-columns: repeat(1, 1fr);
             gap: 2rem;
         }
     }
 
     @media (min-width: 1024px) {
         .button-container{
-            display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 2rem;
         }

@@ -5,8 +5,8 @@ $pdo = $conn->getPDO();
 
 $stmt = $pdo->prepare("
     SELECT A.id_asignacion, F.id_formulario, F.nombre AS nombre_formulario
-    FROM ASIGNACION_FORMULARIO A
-    JOIN FORMULARIO F ON A.id_formulario = F.id_formulario
+    FROM asignacion_formulario A
+    JOIN formulario F ON A.id_formulario = F.id_formulario
     GROUP BY F.id_formulario
 ");
 $stmt->execute();

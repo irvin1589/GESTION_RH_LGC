@@ -17,12 +17,12 @@ $connexion = new CL_CONEXION();
 $conn = $connexion->conectar();
 
 // Obtener sucursales y departamentos para todo el script
-$query_sucursales = "SELECT * FROM SUCURSAL";
+$query_sucursales = "SELECT * FROM sucursal";
 $stmt_sucursales = $conn->prepare($query_sucursales);
 $stmt_sucursales->execute();
 $sucursales = $stmt_sucursales->fetchAll(PDO::FETCH_ASSOC);
 
-$query_departamentos = "SELECT * FROM DEPARTAMENTO";
+$query_departamentos = "SELECT * FROM departamento";
 $stmt_departamentos = $conn->prepare($query_departamentos);
 $stmt_departamentos->execute();
 $departamentos = $stmt_departamentos->fetchAll(PDO::FETCH_ASSOC);
@@ -34,13 +34,13 @@ if (!isset($_GET['fecha_inicio']) || !isset($_GET['fecha_fin']) || !isset($_GET[
     $conn = $connexion->conectar();
 
     // Obtener todas las sucursales
-    $query_sucursales = "SELECT * FROM SUCURSAL";
+    $query_sucursales = "SELECT * FROM sucursal";
     $stmt_sucursales = $conn->prepare($query_sucursales);
     $stmt_sucursales->execute();
     $sucursales = $stmt_sucursales->fetchAll(PDO::FETCH_ASSOC);
 
     // Obtener todos los departamentos
-    $query_departamentos = "SELECT * FROM DEPARTAMENTO";
+    $query_departamentos = "SELECT * FROM departamento";
     $stmt_departamentos = $conn->prepare($query_departamentos);
     $stmt_departamentos->execute();
     $departamentos = $stmt_departamentos->fetchAll(PDO::FETCH_ASSOC);
@@ -195,12 +195,12 @@ $query = "
         di.fecha_inicio,
         di.fecha_termino,
         di.descuento
-    FROM DETALLE_INCIDENCIA di
-    JOIN USUARIO u ON di.id_usuario = u.id_usuario
-    JOIN SUCURSAL s ON u.id_sucursal = s.id_sucursal
-    JOIN DEPARTAMENTO d ON u.id_departamento = d.id_departamento
-    JOIN INCIDENCIA_TIPO it ON di.id_incidencia_tipo = it.id_incidencia_tipo
-    JOIN INCIDENCIA i ON it.codigo_incidencia = i.codigo
+    FROM detalle_incidencia di
+    JOIN usuario u ON di.id_usuario = u.id_usuario
+    JOIN sucursal s ON u.id_sucursal = s.id_sucursal
+    JOIN departameto d ON u.id_departamento = d.id_departamento
+    JOIN incidencia_tipo it ON di.id_incidencia_tipo = it.id_incidencia_tipo
+    JOIN incidencia i ON it.codigo_incidencia = i.codigo
     WHERE di.fecha_inicio >= :fecha_inicio AND di.fecha_termino <= :fecha_fin
     AND u.id_sucursal = :id_sucursal
     AND u.id_departamento = :id_departamento
