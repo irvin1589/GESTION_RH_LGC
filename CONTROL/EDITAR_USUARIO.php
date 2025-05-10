@@ -4,24 +4,37 @@ include_once('../MODELO/CL_TABLA_USUARIO.php');
 $tablaUsuario = new CL_TABLA_USUARIO();
 session_start();
 
+// Verificar autenticación
 if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
     header('Location: SISTEMA_RH.php');
     exit();
 }
 
+// Verificar privilegios de administrador
 if ($_SESSION['tipo_usuario'] !== 'Admin') {
     header('Location: acceso_denegado.php');
     exit();
 }
 
+// Mensaje de éxito/error
+$mensaje = '';
+$tipoMensaje = '';
+
+// Obtener usuario por ID
 if (isset($_GET['id_usuario'])) {
     $id_usuario = $_GET['id_usuario'];
     $usuario = $tablaUsuario->buscar_usuario_por_id($id_usuario);
+    
+    if (!$usuario) {
+        header('Location: VER_USUARIOS.php?msg=error&action=update&text=Usuario+no+encontrado');
+        exit();
+    }
 } else {
     header('Location: VER_USUARIOS.php');
     exit();
 }
 
+// Procesar el formulario cuando se envía
 if (isset($_POST['editar_usuario'])) {
     $id_usuario = $_POST['id_usuario'];
     $nombre = $_POST['nombre'];
@@ -30,12 +43,25 @@ if (isset($_POST['editar_usuario'])) {
     $contraseña = $_POST['contraseña'];
     $tipo_usuario = $_POST['tipo_usuario'];
 
-    $resultado = $tablaUsuario->editar_usuario($id_usuario, $nombre, $apellido1, $apellido2, $contraseña, $tipo_usuario);
-    
-    if ($resultado) {
-        header("Location: VER_USUARIOS.php?msg=success");
+    // Validación básica
+    if (empty($nombre) || empty($apellido1) || empty($contraseña) || empty($tipo_usuario)) {
+        $mensaje = 'Todos los campos obligatorios deben ser completados.';
+        $tipoMensaje = 'error';
     } else {
-        echo '<div class="notification error">Error al editar el usuario. Inténtalo de nuevo.</div>';
+        try {
+            $resultado = $tablaUsuario->editar_usuario($id_usuario, $nombre, $apellido1, $apellido2, $contraseña, $tipo_usuario);
+            
+            if ($resultado) {
+                header("Location: VER_USUARIOS.php?msg=success&action=update&text=Usuario+actualizado+correctamente");
+                exit();
+            } else {
+                $mensaje = 'Error al editar el usuario. Inténtalo de nuevo.';
+                $tipoMensaje = 'error';
+            }
+        } catch (Exception $e) {
+            $mensaje = 'Error: ' . $e->getMessage();
+            $tipoMensaje = 'error';
+        }
     }
 }
 ?>
@@ -49,7 +75,6 @@ if (isset($_POST['editar_usuario'])) {
     <link rel="icon" type="image/x-icon" href="../IMG/logo-blanco-1.ico">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
-        
         body {
             font-family: Arial, sans-serif;
             background-image: url('../IMG/puesto.jpg'); 
@@ -104,7 +129,6 @@ if (isset($_POST['editar_usuario'])) {
             outline: none;
         }
 
-
         .button-container {
             display: flex;
             justify-content: center;
@@ -155,14 +179,12 @@ if (isset($_POST['editar_usuario'])) {
             color: #721c24;
             border: 1px solid #f5c6cb;
         }
-
-        /* Estilo para el contenedor de la contraseña */
+        
         .contraseña-container {
             position: relative;
             width: 100%;
         }
 
-        /* Estilo para el ojo */
         .ojo {
             position: absolute;
             right: 10px;
@@ -174,35 +196,38 @@ if (isset($_POST['editar_usuario'])) {
 </head>
 <body>
 
-    <div class="overlay"></div> <!-- Overlay azul -->
+    <div class="overlay"></div> 
 
-    <form method="POST" action="EDITAR_USUARIO.php">
-    <h2>Editar Usuario</h2>
+    <?php if (!empty($mensaje)): ?>
+        <div class="notification <?php echo $tipoMensaje; ?>"><?php echo $mensaje; ?></div>
+    <?php endif; ?>
+
+    <form method="POST">
+        <h2>Editar Usuario</h2>
         <input type="hidden" name="id_usuario" value="<?= htmlspecialchars($usuario['id_usuario']) ?>">
 
         <label for="nombre">Nombre:</label>
-        <input type="text" name="nombre" value="<?= htmlspecialchars($usuario['nombre']) ?>" required><br>
+        <input type="text" name="nombre" id="nombre" value="<?= htmlspecialchars($usuario['nombre']) ?>" required><br>
 
         <label for="apellido1">Apellido Paterno:</label>
-        <input type="text" name="apellido1" value="<?= htmlspecialchars($usuario['apellido1']) ?>" required><br>
+        <input type="text" name="apellido1" id="apellido1" value="<?= htmlspecialchars($usuario['apellido1']) ?>" required><br>
 
         <label for="apellido2">Apellido Materno:</label>
-        <input type="text" name="apellido2" value="<?= htmlspecialchars($usuario['apellido2']) ?>"><br>
+        <input type="text" name="apellido2" id="apellido2" value="<?= htmlspecialchars($usuario['apellido2']) ?>"><br>
 
         <label for="contraseña">Contraseña:</label>
         <div class="contraseña-container">
-            <input type="password" name="contraseña" value="<?= htmlspecialchars($usuario['contraseña']) ?>" required id="contraseña"><br>
+            <input type="password" name="contraseña" id="contraseña" value="<?= htmlspecialchars($usuario['contraseña']) ?>" required><br>
             <i class="fas fa-eye ojo" onclick="togglePassword('contraseña')"></i>
         </div>
 
         <label for="tipo_usuario">Tipo de Usuario:</label>
-        <select name="tipo_usuario" required>
+        <select name="tipo_usuario" id="tipo_usuario" required>
             <option value="Admin" <?= $usuario['tipo_usuario'] == 'Admin' ? 'selected' : '' ?>>Admin</option>
             <option value="Empleado" <?= $usuario['tipo_usuario'] == 'Empleado' ? 'selected' : '' ?>>Empleado</option>
             <option value="Supervisor" <?= $usuario['tipo_usuario'] == 'Supervisor' ? 'selected' : '' ?>>Supervisor</option>
         </select><br><br>
 
-        <!-- Contenedor para los botones -->
         <div class="button-container">
             <button type="submit" name="editar_usuario">Actualizar Usuario</button>
             <button type="button" class="cancel" onclick="window.location.href='VER_USUARIOS.php'">Cancelar</button>
@@ -210,7 +235,6 @@ if (isset($_POST['editar_usuario'])) {
     </form>
 
     <script>
-        // Función para mostrar/ocultar la contraseña
         function togglePassword(id) {
             var passwordField = document.getElementById(id);
             if (passwordField.type === "password") {

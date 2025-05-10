@@ -81,7 +81,7 @@ class CL_TABLA_USUARIO extends CL_CONEXION {
     public function listar_usuarios($id_sucursal, $id_departamento, $id_puesto, $selectedUsuario = '')
     {
     $pdo = $this->getPDO();
-    $sql = "SELECT * FROM usuario WHERE id_sucursal = :id_sucursal AMD id_departamento = :id_departamento AND id_puesto = :id_puesto";
+    $sql = "SELECT * FROM usuario WHERE id_sucursal = :id_sucursal AND id_departamento = :id_departamento AND id_puesto = :id_puesto";
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':id_sucursal', $id_sucursal, PDO::PARAM_STR);
     $stmt->bindParam(':id_departamento', $id_departamento, PDO::PARAM_STR);
@@ -198,19 +198,21 @@ class CL_TABLA_USUARIO extends CL_CONEXION {
     }
 
     public function editar_usuario($id_usuario, $nombre, $apellido1, $apellido2, $contraseña, $tipo_usuario) {
-        $conn = $this->conectar();
-        $sql = "UPDATE usuario SET nombre = ?, apellido1 = ?, apellido2 = ?, contraseña = ?, tipo_usuario = ? WHERE id_usuario = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssssi", $nombre, $apellido1, $apellido2, $contraseña, $tipo_usuario, $id_usuario);
-        
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
-        }
-        $stmt->close();
-        $conn->close();
-    }
+    $pdo = $this->getPDO();
+    $sql = "UPDATE usuario SET nombre = :nombre, apellido1 = :apellido1, apellido2 = :apellido2, contraseña = :contrasena, tipo_usuario = :tipo_usuario WHERE id_usuario = :id_usuario";
+    $stmt = $pdo->prepare($sql);
+
+    $stmt->bindParam(':nombre', $nombre);
+    $stmt->bindParam(':apellido1', $apellido1);
+    $stmt->bindParam(':apellido2', $apellido2);
+    $stmt->bindParam(':contrasena', $contraseña);
+    $stmt->bindParam(':tipo_usuario', $tipo_usuario);
+    $stmt->bindParam(':id_usuario', $id_usuario);
+
+    return $stmt->execute();
+}
+
+
 
     public function buscar_usuario_por_id($id_usuario) {
         $sql = "SELECT * FROM usuario WHERE id_usuario = :id_usuario";

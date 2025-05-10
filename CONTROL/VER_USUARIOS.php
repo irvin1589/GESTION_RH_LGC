@@ -21,20 +21,18 @@ if ($_SESSION['tipo_usuario'] !== 'Admin' && $_SESSION['tipo_usuario'] !== 'RH')
     exit();
 }
 
-// Procesar eliminación de usuario
 if (isset($_POST['eliminar_usuario'])) {
     $id_usuario = $_POST['id_usuario'];
     $resultado = $tablaUsuario->eliminar_usuario($id_usuario);
     if ($resultado) {
-        header("Location: VER_USUARIOS.php?msg=success");
+        header("Location: VER_USUARIOS.php?msg=success&action=delete");
         exit();
     } else {
-        header("Location: VER_USUARIOS.php?msg=error");
+        header("Location: VER_USUARIOS.php?msg=error&action=delete");
         exit();
     }
 }
 
-// Redirecciones
 if (isset($_POST['click_registrar'])) {
     header('Location: CONTROL_REGISTRO.php');
     exit();
@@ -310,11 +308,15 @@ $usuarios = $tablaUsuario->listar_todos_los_usuarios_con_detalles();
             <h2><i class="fas fa-users"></i> GESTIÓN DE USUARIOS</h2>
         </div>
 
-        <?php if (isset($_GET['msg'])): ?>
-            <?php if ($_GET['msg'] == 'success'): ?>
+        <?php if (isset($_GET['msg']) && isset($_GET['action'])): ?>
+            <?php if ($_GET['msg'] == 'success' && $_GET['action'] == 'delete'): ?>
                 <div class="notification success">Usuario eliminado correctamente.</div>
-            <?php elseif ($_GET['msg'] == 'error'): ?>
+            <?php elseif ($_GET['msg'] == 'error' && $_GET['action'] == 'delete'): ?>
                 <div class="notification error">Error al eliminar el usuario. Inténtalo de nuevo.</div>
+            <?php elseif ($_GET['msg'] == 'success' && $_GET['action'] == 'update'): ?>
+                <div class="notification success">Usuario actualizado correctamente.</div>
+            <?php elseif ($_GET['msg'] == 'error' && $_GET['action'] == 'update'): ?>
+                <div class="notification error">Error al actualizar el usuario. Inténtalo de nuevo.</div>
             <?php endif; ?>
         <?php endif; ?>
 
