@@ -82,7 +82,7 @@ if (isset($_POST['click_registrar'])) {
     // Guardar el usuario
     $tablaUsuario = new CL_TABLA_USUARIO();
     if ($tablaUsuario->guardar($usuario, $sucursal, $puesto, $departamento)) {
-       header('Location: ../CONTROL/SISTEMA_RH.php');
+       header('Location: ../CONTROL/VER_USUARIOS.php');
        exit(); // Asegúrate de salir después de redirigir
     } else {
         echo "Error al registrar el usuario.";
