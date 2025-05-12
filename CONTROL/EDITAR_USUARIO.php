@@ -90,7 +90,7 @@ if (isset($_POST['editar_usuario'])) {
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(24, 23, 23, 0.3);
+             background: rgba(31, 58, 84, 0.73);
             z-index: -1;
         }
 
