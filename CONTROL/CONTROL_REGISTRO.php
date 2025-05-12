@@ -43,13 +43,14 @@ if (isset($_POST['click_registrar'])) {
     $apellido2 = $form_03->get_caja_texto4();
     $contraseña = $form_03->get_caja_texto5();
     $contraseña_verificacion = $form_03->get_caja_texto6();
+    $sueldo_diario = $form_03->get_caja_texto7();
     $id_sucursal = $form_03->get_caja_opcion1();
     $id_departamento = $form_03->get_caja_opcion2();
     $id_puesto = $form_03->get_caja_opcion3();
     $tipo_usuario = $form_03->get_caja_opcion4();
 
     // Validar que el tipo de usuario sea válido
-    $tipos_validos = ['Admin', 'RH', 'Empleado'];
+    $tipos_validos = ['Admin', 'RH', 'Colaborador'];
     if (!in_array($tipo_usuario, $tipos_validos)) {
         echo "Error: Tipo de usuario no válido.";
         exit;
@@ -68,6 +69,7 @@ if (isset($_POST['click_registrar'])) {
     $usuario->set_apellido2($apellido2);
     $usuario->set_contraseña($contraseña);
     $usuario->set_tipo_usuario($tipo_usuario);
+    $usuario->set_sueldo_diario($sueldo_diario);
     
     // Crear objetos de sucursal, departamento y puesto
     $sucursal = new CL_SUCURSAL();

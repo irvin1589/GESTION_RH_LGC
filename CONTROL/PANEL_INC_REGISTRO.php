@@ -9,7 +9,7 @@ if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
     exit();
 }
 
-if (!isset($_SESSION['acceso_incidencias']) || $_SESSION['acceso_incidencias'] !== true && $_SESSION['tipo_usuario'] !== 'Empleado' ) {
+if (!isset($_SESSION['acceso_incidencias']) || $_SESSION['acceso_incidencias'] !== true && $_SESSION['tipo_usuario'] !== 'Colaborador' ) {
     header('Location: ../CONTROL/acceso_denegado.php');
     exit();
 }
