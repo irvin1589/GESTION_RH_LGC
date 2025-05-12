@@ -7,6 +7,30 @@ $tipo_mensaje = "";
 $conexion = new CL_CONEXION();
 $conn = $conexion->getPDO();
 
+// Iniciar sesión
+session_start();
+if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
+    header('Location: ../CONTROL/SISTEMA_RH.php');
+    exit();
+}
+
+if ($_SESSION['tipo_usuario'] !== 'Admin' && $_SESSION['tipo_usuario'] !== 'RH') {
+    header('Location: ../CONTROL/acceso_denegado.php');
+    exit();
+}
+
+// Manejar el botón "Regresar"
+if (isset($_POST['click_regresar'])) {
+    if ($_SESSION['tipo_usuario'] === 'Admin') {
+        header('Location: ../CONTROL/PANEL_ADMIN.php');
+    } elseif ($_SESSION['tipo_usuario'] === 'RH') {
+        header('Location: ../CONTROL/PANEL_DESARROLLO.php');
+    } else {
+        header('Location: ../CONTROL/acceso_denegado.php');
+    }
+    exit();
+}
+
 // Verificar si se envió el formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nombre_departamento = trim($_POST['nombre_departamento']);
@@ -71,7 +95,7 @@ try {
         }
 
         .overlay {
-            background-color: rgba(31, 58, 84, 0.9);
+            background: linear-gradient(135deg, rgba(31, 58, 84, 0.9) 0%, rgba(148, 28, 130, 0.8) 100%);
             position: fixed;
             top: 0;
             left: 0;
@@ -189,13 +213,13 @@ try {
             background-color: #0056b3;
         }
 
-        .btn-secondary {
+        input.btn-regresar {
             background-color: #FF4B4B;
             color: white;
             margin-top: 10px;
         }
 
-        .btn-secondary:hover {
+        input.btn-regresar:hover {
             background-color: #c0392b;
         }
 
@@ -228,7 +252,7 @@ try {
         <h2>CREACIÓN DE DEPARTAMENTO</h2>
         <form method="POST">
             <label for="id_sucursal">Sucursal:</label>
-            <select id="id_sucursal" name="id_sucursal" required>
+            <select id="id_sucursal" name="id_sucursal" >
                 <option value="">-- Selecciona una sucursal --</option>
                 <?php foreach ($sucursales as $sucursal): ?>
                     <option value="<?php echo $sucursal['id_sucursal']; ?>">
@@ -238,10 +262,10 @@ try {
             </select>
 
             <label for="nombre_departamento">Departamento:</label>
-            <input type="text" id="nombre_departamento" name="nombre_departamento" required placeholder="Ej. Recursos Humanos">
+            <input type="text" id="nombre_departamento" name="nombre_departamento" placeholder="Ej. Recursos Humanos">
 
             <input type="submit" value="Registrar">
-            <button type="button" class="btn-secondary" onclick="location.href='../index.php';">Regresar</button>
+             <input type="submit" name="click_regresar" class="btn btn-regresar" value="Regresar">
         </form>
     </div>
 

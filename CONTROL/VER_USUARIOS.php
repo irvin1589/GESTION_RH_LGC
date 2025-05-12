@@ -332,6 +332,7 @@ $usuarios = $tablaUsuario->listar_todos_los_usuarios_con_detalles();
                         <th class="col-apellido1">Apellido Paterno</th>
                         <th class="col-apellido2">Apellido Materno</th>
                         <th class="col-tipo">Tipo</th>
+                        <th class="col-contraseña">Contraseña</th>
                         <th class="col-acciones">Acciones</th>
                     </tr>
                 </thead>
@@ -346,6 +347,7 @@ $usuarios = $tablaUsuario->listar_todos_los_usuarios_con_detalles();
                             <td class="col-apellido1"><?= htmlspecialchars($usuario['apellido1']) ?></td>
                             <td class="col-apellido2"><?= htmlspecialchars($usuario['apellido2']) ?></td>
                             <td class="col-tipo"><?= htmlspecialchars($usuario['tipo_usuario']) ?></td>
+                            <td class="col-contraseña"><?= htmlspecialchars($usuario['contraseña']) ?></td>
                             <td class="col-acciones">
                                 <div class="action-buttons">
                                     <form method="GET" action="EDITAR_USUARIO.php">

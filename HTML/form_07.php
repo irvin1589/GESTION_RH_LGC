@@ -48,7 +48,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(31, 58, 84, 0.85);
+            background: linear-gradient(135deg, rgba(31, 58, 84, 0.9) 0%, rgba(148, 28, 130, 0.8) 100%);
             z-index: 1;
         }
 
