@@ -10,7 +10,7 @@ if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
     header('Location: SISTEMA_RH.php');
     exit();
 }
-if ($_SESSION['tipo_usuario'] !== 'Empleado') {
+if ($_SESSION['tipo_usuario'] !== 'Colaborador') {
     header('Location: acceso_denegado.php');
     exit();
 }

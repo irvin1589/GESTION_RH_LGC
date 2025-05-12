@@ -14,7 +14,7 @@ if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
 }
 
 // Opcional: puedes validar el tipo de usuario también
-if ($_SESSION['tipo_usuario'] !== 'Empleado') {
+if ($_SESSION['tipo_usuario'] !== 'Colaborador') {
     header('Location: acceso_denegado.php');
     exit();
 }

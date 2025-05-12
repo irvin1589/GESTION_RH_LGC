@@ -12,7 +12,7 @@ if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
     exit();
 }
 
-if ($_SESSION['tipo_usuario'] !== 'Empleado') {
+if ($_SESSION['tipo_usuario'] !== 'Colaborador') {
     header('Location: acceso_denegado.php');
     exit();
 }

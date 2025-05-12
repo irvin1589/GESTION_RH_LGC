@@ -49,7 +49,7 @@ if (isset($_POST['click_iniciar_sesion'])) {
             case 'RH':
                 header('Location: PANEL_RH.php');
                 break;
-            case 'Empleado':
+            case 'Colaborador':
                 header('Location: PANEL_EMPLEADO.php');
                 break;
             default:

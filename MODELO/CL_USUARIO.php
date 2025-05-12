@@ -6,7 +6,8 @@ class CL_USUARIO
     private $apellido1;
     private $apellido2;
     private $contraseña;
-    private $tipo_usuario; // 1: Alumno, 2: Profesor, 3: Administrador
+    private $tipo_usuario; 
+    private $sueldo_diario;
 
     public function set_id_usuario($x)
     {
@@ -33,6 +34,10 @@ class CL_USUARIO
     {
         $this->tipo_usuario = $x;
     }
+
+    public function set_sueldo_diario($x){
+        $this->sueldo_diario = $x;
+    }
     public function get_id_usuario()
     {
         return $this->id_usuario;
@@ -56,6 +61,11 @@ class CL_USUARIO
     public function get_tipo_usuario()
     {
         return $this->tipo_usuario;
+    }
+
+    public function get_sueldo_diario()
+    {
+        return $this->sueldo_diario;
     }
 		
 }

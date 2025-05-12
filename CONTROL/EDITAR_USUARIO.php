@@ -42,6 +42,7 @@ if (isset($_POST['editar_usuario'])) {
     $apellido2 = $_POST['apellido2'];
     $contraseña = $_POST['contraseña'];
     $tipo_usuario = $_POST['tipo_usuario'];
+    $sueldo_diario = $_POST['sueldo_diario'];
 
     // Validación básica
     if (empty($nombre) || empty($apellido1) || empty($contraseña) || empty($tipo_usuario)) {
@@ -49,7 +50,7 @@ if (isset($_POST['editar_usuario'])) {
         $tipoMensaje = 'error';
     } else {
         try {
-            $resultado = $tablaUsuario->editar_usuario($id_usuario, $nombre, $apellido1, $apellido2, $contraseña, $tipo_usuario);
+            $resultado = $tablaUsuario->editar_usuario($id_usuario, $nombre, $apellido1, $apellido2, $contraseña, $tipo_usuario, $sueldo_diario );
             
             if ($resultado) {
                 header("Location: VER_USUARIOS.php?msg=success&action=update&text=Usuario+actualizado+correctamente");
@@ -221,11 +222,16 @@ if (isset($_POST['editar_usuario'])) {
             <i class="fas fa-eye ojo" onclick="togglePassword('contraseña')"></i>
         </div>
 
+        <label for="sueldo_diario">Sueldo Diario</label>
+        <div>
+            <input type="number" step="0.01" min="0" name="sueldo_diario" id="sueldo_diario" value="<?= htmlspecialchars($usuario['sueldo_diario']) ?>" >
+        </div>
+
         <label for="tipo_usuario">Tipo de Usuario:</label>
         <select name="tipo_usuario" id="tipo_usuario" required>
             <option value="Admin" <?= $usuario['tipo_usuario'] == 'Admin' ? 'selected' : '' ?>>Admin</option>
-            <option value="Empleado" <?= $usuario['tipo_usuario'] == 'Empleado' ? 'selected' : '' ?>>Empleado</option>
-            <option value="Supervisor" <?= $usuario['tipo_usuario'] == 'Supervisor' ? 'selected' : '' ?>>Supervisor</option>
+            <option value="Colaborador" <?= $usuario['tipo_usuario'] == 'Colaborador' ? 'selected' : '' ?>>Colaborador</option>
+            <option value="RH" <?= $usuario['tipo_usuario'] == 'RH' ? 'selected' : '' ?>>RH</option>
         </select><br><br>
 
         <div class="button-container">

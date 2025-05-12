@@ -13,6 +13,7 @@ class CL_INTERFAZ03
     private $caja_texto4;
     private $caja_texto5;
     private $caja_texto6;
+    private $caja_texto7;
     private $caja_opcion1;
     private $caja_opcion2;
     private $caja_opcion3;
@@ -31,6 +32,7 @@ class CL_INTERFAZ03
     public function set_caja_texto4($x) { $this->caja_texto4 = $x; }
     public function set_caja_texto5($x) { $this->caja_texto5 = $x; }
     public function set_caja_texto6($x) { $this->caja_texto6 = $x; }
+    public function set_caja_texto7($x) { $this->caja_texto7 = $x; }
     public function set_caja_opcion1($x) { $this->caja_opcion1 = $x; }
     public function set_caja_opcion2($x) { $this->caja_opcion2 = $x; }
     public function set_caja_opcion3($x) { $this->caja_opcion3 = $x; }
@@ -42,6 +44,7 @@ class CL_INTERFAZ03
     public function get_caja_texto4() { return $_POST['caja_texto4']; }
     public function get_caja_texto5() { return $_POST['caja_texto5']; }
     public function get_caja_texto6() { return $_POST['caja_texto6']; }
+    public function get_caja_texto7() { return $_POST['caja_texto7']; }
     public function get_caja_opcion1() { return $_POST['caja_opcion1']; }
     public function get_caja_opcion2() { return $_POST['caja_opcion2']; }
     public function get_caja_opcion3() { return $_POST['caja_opcion3']; }

@@ -21,14 +21,15 @@ class CL_TABLA_USUARIO extends CL_CONEXION {
         $apellido2 = $usuario->get_apellido2();
         $contraseña = $usuario->get_contraseña();
         $tipo_usuario = $usuario->get_tipo_usuario();
+        $sueldo_diario = $usuario->get_sueldo_diario();
         
         $id_sucursal = $sucursal->get_id_sucursal();
         $id_puesto = $puesto->get_id_puesto();
         $id_departamento = $departamento->get_id_departamento();
 
         // Sentencia SQL para insertar el usuario
-        $sql = "INSERT INTO usuario (id_usuario, nombre, apellido1, apellido2, contraseña, id_sucursal, id_puesto, id_departamento, tipo_usuario) 
-                VALUES (:id_usuario, :nombre, :apellido1, :apellido2, :contrasena, :id_sucursal, :id_puesto, :id_departamento, :tipo_usuario)";
+        $sql = "INSERT INTO usuario (id_usuario, nombre, apellido1, apellido2, contraseña, id_sucursal, id_puesto, id_departamento, tipo_usuario, sueldo_diario) 
+                VALUES (:id_usuario, :nombre, :apellido1, :apellido2, :contrasena, :id_sucursal, :id_puesto, :id_departamento, :tipo_usuario, :sueldo_diario)";
         
         // Preparar la consulta
         $stmt = $pdo->prepare($sql);
@@ -43,6 +44,7 @@ class CL_TABLA_USUARIO extends CL_CONEXION {
         $stmt->bindParam(':id_puesto', $id_puesto);
         $stmt->bindParam(':id_departamento', $id_departamento);
         $stmt->bindParam(':tipo_usuario', $tipo_usuario);
+        $stmt->bindParam(':sueldo_diario', $sueldo_diario);
 
         // Ejecutar la consulta
         if ($stmt->execute()) {
@@ -197,9 +199,9 @@ class CL_TABLA_USUARIO extends CL_CONEXION {
         }
     }
 
-    public function editar_usuario($id_usuario, $nombre, $apellido1, $apellido2, $contraseña, $tipo_usuario) {
+    public function editar_usuario($id_usuario, $nombre, $apellido1, $apellido2, $contraseña, $tipo_usuario, $sueldo_diario) {
     $pdo = $this->getPDO();
-    $sql = "UPDATE usuario SET nombre = :nombre, apellido1 = :apellido1, apellido2 = :apellido2, contraseña = :contrasena, tipo_usuario = :tipo_usuario WHERE id_usuario = :id_usuario";
+    $sql = "UPDATE usuario SET nombre = :nombre, apellido1 = :apellido1, apellido2 = :apellido2, contraseña = :contrasena, tipo_usuario = :tipo_usuario, sueldo_diario = :sueldo_diario WHERE id_usuario = :id_usuario";
     $stmt = $pdo->prepare($sql);
 
     $stmt->bindParam(':nombre', $nombre);
@@ -208,6 +210,7 @@ class CL_TABLA_USUARIO extends CL_CONEXION {
     $stmt->bindParam(':contrasena', $contraseña);
     $stmt->bindParam(':tipo_usuario', $tipo_usuario);
     $stmt->bindParam(':id_usuario', $id_usuario);
+    $stmt->bindParam(':sueldo_diario', $sueldo_diario);
 
     return $stmt->execute();
 }

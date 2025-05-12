@@ -78,6 +78,7 @@
 
     input[type="text"],
     input[type="password"],
+    input[type="number"],
     select {
     width: 100%;
     padding: 10px 12px;
@@ -105,6 +106,7 @@ select option {
 
     input[type="text"]::placeholder,
     input[type="password"]::placeholder,
+    input[type="number"]::placeholder,
     select::placeholder {
       color: rgba(255, 255, 255, 0.79);
     }
@@ -204,30 +206,31 @@ button[name="click_regresar"]:hover {
       <div>
         <label for="tipo_usuario">Tipo de Usuario:</label>
         <select id="tipo_usuario" name="caja_opcion4">
-          <option value="Admin">Admin</option>
+          <option value="Colaborador">Colaborador</option>
           <option value="RH">RH</option>
-          <option value="Empleado">Empleado</option>
+          <option value="Admin">Admin</option>
+          
         </select>
       </div>
 
       <div>
         <label for="id">ID Usuario:</label>
-        <input type="text" name="caja_texto1" placeholder="Ingrese su ID de usuario">
+        <input type="text" id="usuario" name="caja_texto1" placeholder="Ingrese su ID de usuario" >
       </div>
 
       <div>
         <label for="nombre">Nombre:</label>
-        <input type="text" name="caja_texto2" placeholder="Ingrese su nombre">
+        <input type="text" id="nombre" name="caja_texto2" placeholder="Ingrese su nombre" oninput="generarUsuario()">
       </div>
 
       <div>
         <label for="apellido1">Apellido Paterno:</label>
-        <input type="text" name="caja_texto3" placeholder="Ingrese su primer apellido">
+        <input type="text" id="apellidoP" name="caja_texto3" placeholder="Ingrese su primer apellido" oninput="generarUsuario()">
       </div>
 
       <div>
         <label for="apellido2">Apellido Materno:</label>
-        <input type="text" name="caja_texto4" placeholder="Ingrese su segundo apellido">
+        <input type="text" id="apellidoM" name="caja_texto4" placeholder="Ingrese su segundo apellido" oninput="generarUsuario()">
       </div>
 
       <div>
@@ -240,6 +243,11 @@ button[name="click_regresar"]:hover {
         <input type="password" name="caja_texto6" placeholder="Confirme su contraseña">
       </div>
 
+      <div>
+        <label>Sueldo diario</label>
+        <input type="number" name="caja_texto7" step="0.01" min="0" placeholder="Ingrese el sueldo diario">
+      </div>
+
       <div class="form-actions">
       <button type="submit" name="click_registrar">
         <i class="fas fa-user-plus"></i> Registrar
@@ -249,5 +257,23 @@ button[name="click_regresar"]:hover {
       </div>
     </form>
   </div>
+
+  <script>
+    function generarUsuario() {
+      const nombre = document.getElementById("nombre").value.trim().toLowerCase();
+      const apellidoP = document.getElementById("apellidoP").value.trim().toLowerCase();
+      const apellidoM = document.getElementById("apellidoM").value.trim().toLowerCase();
+
+      if (nombre && apellidoP && apellidoM) {
+        const usuario = apellidoP.substring(0, 10) +
+                        apellidoM.substring(0, 2) +
+                        nombre.substring(0, 2) +
+                        Math.floor(Math.random() * 100); 
+        document.getElementById("usuario").value = usuario;
+      } else {
+        document.getElementById("usuario").value = "";
+      }
+    }
+  </script>
 </body>
 </html>
