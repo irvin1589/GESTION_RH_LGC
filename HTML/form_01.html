@@ -6,6 +6,19 @@
   <title>LOGIN | LA GRAN CIUDAD RH</title>
   <link rel="icon" type="image/x-icon" href="../IMG/logo-blanco-1.ico" />
   <style>
+
+    :root {
+            --primary-color: #1f3a5498;
+            --secondary-color: #941c82a8;
+            --accent-color: #2c577c;
+            --danger-color: #e74c3c;
+            --success-color: #28a745;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
     * {
       box-sizing: border-box;
       margin: 0;
@@ -164,7 +177,7 @@
     }
 
     .contacto-contenido {
-    background-color: #ffffffb6;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
     margin: 10% auto;
     padding: 20px;
     border-radius: 10px;
@@ -174,21 +187,40 @@
     }
 
     .contacto-contenido h2 {
-    color: #8000ff;
+    color: #ffffff;
     }
 
     .contacto-contenido p {
-        color: #333;
+        color: #ffffff;
         padding: 3px;
     }
 
-
-    .cerrar {
-    float: right;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
+    .contacto-contenido a {
+      color: rgb(120, 120, 244);
     }
+
+
+   .cerrar {
+  float: right;
+  width: 30px;
+  height: 30px;
+  background-color: #ffffff00;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 30px;
+  font-weight: bold;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  color: white;
+}
+
+.cerrar:hover {
+  background-color: crimson;
+  color: white;
+}
+
+
 
     @media (max-width: 768px) {
         .container {
