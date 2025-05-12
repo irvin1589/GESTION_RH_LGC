@@ -33,6 +33,13 @@ if (isset($_POST['click_registrar'])) {
     $id_usuario = $_POST["caja_opcion4"];
     $id_tipo_incidencia = $form_17->get_caja_opcion3();
 
+    $tablaUsuario = new CL_TABLA_USUARIO();
+    $usuario = $tablaUsuario->buscar_usuario_por_id($id_usuario);
+
+    $salario_diario = $usuario['sueldo_diario'] ?? 0;
+
+    
+
     $periodo = $_POST['periodo'];
     if (strpos($periodo, 'to') !== false) {
         list($fecha_inicio, $fecha_fin) = explode(' to ', $periodo);
@@ -48,12 +55,18 @@ if (isset($_POST['click_registrar'])) {
     $descuento = 0;
     $cantidad = 1;
 
+
     if ($formula) {
         // Si hay fórmula, calcular el descuento basado en los días y salario
         $dias = $_POST['dias'] ?? 1;
-        $salario = $_POST['salario'] ?? 0;
-        $descuento = -(($dias * $salario)/$dias) ;
-        $cantidad = $dias; // La cantidad será igual al número de días
+        $cantidad = $dias;
+
+        if ($id_tipo_incidencia == 8){
+            $descuento = (($dias * $salario_diario))/$dias;
+           
+        } else{
+        $descuento = -(($dias * $salario_diario)/$dias) ;
+        }
     } else {
         // Si no hay fórmula, usar el descuento fijo de incidencia_tipo
         $descuento = $tipo_incidencia->get_descuento_fijo($id_tipo_incidencia); 
