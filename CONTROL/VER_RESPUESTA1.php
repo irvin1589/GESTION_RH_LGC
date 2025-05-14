@@ -240,7 +240,7 @@ foreach ($respuestas as $respuesta) {
             text-align: right;
             border-bottom: 1px solid #eee;
         }
-        
+    
         table tbody td::before {
             content: attr(data-label);
             font-weight: bold;
@@ -251,6 +251,7 @@ foreach ($respuestas as $respuesta) {
         #graficaCalificaciones {
             max-width: 300px;
         }
+    }
     @media (min-width: 780px) {
         #graficaCalificaciones {
             max-width: 500px;
