@@ -497,9 +497,29 @@ if (isset($_POST['exportar_excel'])) {
     header("Pragma: no-cache");
     header("Expires: 0");
 
-    echo '<table border="1">
+    // Cambia esta ruta a la URL completa o base64 si es necesario
+    $logo_url = "https://coral-walrus-273461.hostingersite.com/IMG/LOGO_LGC__AZUL.jpg"; // Usa una URL accesible públicamente
+
+    echo '
+    <table width="100%" style="font-family: Arial; margin-bottom: 20px;">
+        <tr>
+            <td style="width: 10%;" align="center">
+                <img src="'.$logo_url.'" alt="Logo" style="height:8px; width:4px;">
+            </td>
+            <td style="width: 80%;" align="center">
+                <h2 style="color: #2F4F4F; margin: 0;">REPORTE DE INCIDENCIAS</h2>
+                <p style="font-size: 14px; margin: 5px 0;">
+                    <strong>Periodo del reporte:</strong> '.htmlspecialchars($fecha_inicio).' al '.htmlspecialchars($fecha_fin).'<br>
+                    <strong>Sucursal:</strong> '.htmlspecialchars($id_sucursal).'<br>
+                    <strong>Departamento:</strong> '.htmlspecialchars($id_departamento).'
+                </p>
+            </td>
+        </tr>
+    </table>';
+
+    echo '<table border="1" style="border-collapse: collapse; font-family: Arial, sans-serif;">
             <thead>
-                <tr>
+                <tr style="background-color: #1F3A54; color: white; text-align: center;">
                     <th>ID Usuario</th>
                     <th>Nombre</th>
                     <th>Apellidos</th>
@@ -524,29 +544,31 @@ if (isset($_POST['exportar_excel'])) {
         $total_descuento += $descuento_total;
 
         echo '<tr>
-                <td>'.htmlspecialchars($row['id_usuario']).'</td>
+                <td style="text-align:center;">'.htmlspecialchars($row['id_usuario']).'</td>
                 <td>'.htmlspecialchars($row['nombre']).'</td>
                 <td>'.htmlspecialchars($row['apellido1'].' '.$row['apellido2']).'</td>
                 <td>'.htmlspecialchars($row['sucursal']).'</td>
                 <td>'.htmlspecialchars($row['departamento']).'</td>
-                <td>'.htmlspecialchars($row['codigo_incidencia']).'</td>
+                <td style="text-align:center;">'.htmlspecialchars($row['codigo_incidencia']).'</td>
                 <td>'.htmlspecialchars($row['descripcion_incidencia']).'</td>
-                <td>'.htmlspecialchars($row['cantidad']).'</td>
-                <td>'.htmlspecialchars($row['fecha_inicio']).'</td>
-                <td>'.htmlspecialchars($row['fecha_termino']).'</td>
-                <td>$'.number_format($row['descuento'], 2).'</td>
-                <td>$'.number_format($descuento_total, 2).'</td>
+                <td style="text-align:center;">'.htmlspecialchars($row['cantidad']).'</td>
+                <td style="text-align:center;">'.htmlspecialchars($row['fecha_inicio']).'</td>
+                <td style="text-align:center;">'.htmlspecialchars($row['fecha_termino']).'</td>
+                <td style="text-align:right;">$'.number_format($row['descuento'], 2).'</td>
+                <td style="text-align:right;">$'.number_format($descuento_total, 2).'</td>
               </tr>';
     }
 
-    echo '<tr>
+    echo '<tr style="background-color: #f2f2f2;">
             <td colspan="11" style="text-align:right; font-weight:bold;">Total Descuento:</td>
-            <td style="font-weight:bold;">$'.number_format($total_descuento, 2).'</td>
+            <td style="text-align:right; font-weight:bold;">$'.number_format($total_descuento, 2).'</td>
           </tr>
           </tbody>
         </table>';
 
     exit();
 }
+
+
 
 ob_end_flush();
