@@ -127,7 +127,107 @@ background-size: cover; /* Ajusta la imagen para cubrir todo el fondo */
         }
         }
 
+     .marquee-container {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  background-color: #21212148;
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+}
 
+.marquee-content {
+  display: flex;
+  animation: marquee 80s linear infinite; /* Animación continua */
+}
+
+.marquee-text {
+  font-size: 80px;
+  font-weight: 900;
+  color: white;
+  font-family: 'Lindemann Sans Bold', sans-serif;
+  text-transform: none;
+  letter-spacing: 9px;
+  -webkit-text-stroke: 2px black;
+  -webkit-text-stroke-color: black;
+  paint-order: stroke fill;
+  display: inline-block; /* Aseguramos que cada bloque de texto se trate de forma independiente */
+}
+
+.marquee-text span {
+  word-spacing: 0px; /* Espaciado entre palabras dentro de un span */
+  margin-right: 70px; /* Espaciado personalizado entre cada palabra */
+}
+
+.outlined-text {
+  color: white;
+  -webkit-text-stroke: 2px black;
+}
+
+.black-text {
+  color: black;
+}
+
+
+@media (prefers-color-scheme: dark) {
+  .marquee-container {
+    background-color: #21212161;
+  }
+    .outlined-text {
+      color: #ffffff;
+      -webkit-text-stroke: 1px white;
+    }
+
+    .black-text {
+      color: white;
+    }
+}
+
+@media (max-width: 768px) { /* Para pantallas con un ancho máximo de 768px (como tablets y teléfonos) */
+  .marquee-text {
+    font-size: 60px; /* Reducir el tamaño de fuente en pantallas más pequeñas */
+    letter-spacing: 5px; /* Reducir el espaciado entre letras */
+  }
+}
+
+@media (max-width: 480px) { /* Para pantallas con un ancho máximo de 480px (como teléfonos pequeños) */
+  .marquee-text {
+    font-size: 40px; /* Reducir aún más el tamaño de la fuente en pantallas muy pequeñas */
+    letter-spacing: 3px; /* Reducir más el espaciado entre letras */
+  }
+}
+
+/* Animación del texto en movimiento infinito */
+@keyframes marquee {
+  0% {
+      transform: translateX(0); /* Comienza en la posición inicial */
+  }
+  100% {
+      transform: translateX(-50%); /* Se mueve fuera del contenedor a la izquierda */
+  }
+}
+
+/* El contenedor de texto se repite automáticamente */
+.marquee-container .marquee-content {
+  width: max-content;
+}
+
+.marquee-container::before {
+  content: attr(data-text);
+  visibility: hidden;
+}
+
+/* El truco para que se repita es aplicar la animación a un contenedor de texto largo */
+.marquee-content .marquee-text {
+  display: flex;
+}
+
+/* Duplicamos el contenido */
+.marquee-content .marquee-text:last-child {
+  margin-left: 20px; /* Añadimos un pequeño espacio al final del bloque */
+}
   </style>
 </head>
 <body>
@@ -137,9 +237,30 @@ background-size: cover; /* Ajusta la imagen para cubrir todo el fondo */
       <button type="submit" name="click_regresar"><i class="fas fa-arrow-left"></i> Regresar</button>
     </form>
   </div>
-
-  <h1>Revistas disponibles</h1>
-
+<div class="marquee-container">
+    <div class="marquee-content">
+      <div class="marquee-text">
+        <span className="marquee-text black-text">Revistas disponibles</span>
+        <span className="marquee-text outlined-text">Revistas disponibles</span>
+        <span className="marquee-text black-text">Revistas disponibles</span> 
+        <span className="marquee-text outlined-text">Revistas disponibles</span>
+        <span className="marquee-text black-text">Revistas disponibles</span> 
+        <span className="marquee-text outlined-text">Revistas disponibles</span>
+        <span className="marquee-text black-text">Revistas disponibles</span> 
+        <span className="marquee-text outlined-text">Revistas disponibles</span>
+      </div>
+      <div class="marquee-text">
+        <span className="marquee-text black-text">Revistas disponibles</span>
+        <span className="marquee-text outlined-text">Revistas disponibles</span>
+        <span className="marquee-text black-text">Revistas disponibles</span> 
+        <span className="marquee-text outlined-text">Revistas disponibles</span>
+        <span className="marquee-text black-text">Revistas disponibles</span> 
+        <span className="marquee-text outlined-text">Revistas disponibles</span>
+        <span className="marquee-text black-text">Revistas disponibles</span> 
+        <span className="marquee-text outlined-text">Revistas disponibles</span>
+      </div>
+      </div>
+    </div>
   <div id="contenedor_revistas">
     {{REVISTAS}}
   </div>
