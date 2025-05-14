@@ -510,8 +510,8 @@ if (isset($_POST['exportar_excel'])) {
                 <h2 style="color: #2F4F4F; margin: 0;">REPORTE DE INCIDENCIAS</h2>
                 <p style="font-size: 14px; margin: 5px 0;">
                     <strong>Periodo del reporte:</strong> '.htmlspecialchars($fecha_inicio).' al '.htmlspecialchars($fecha_fin).'<br>
-                    <strong>Sucursal:</strong> '.htmlspecialchars($id_sucursal).'<br>
-                    <strong>Departamento:</strong> '.htmlspecialchars($id_departamento).'
+                    <strong>Sucursal:</strong> '.htmlspecialchars($sucursal['nombre']).'<br>
+                    <strong>Departamento:</strong> '.htmlspecialchars($departamento['nombre']).'
                 </p>
             </td>
         </tr>
