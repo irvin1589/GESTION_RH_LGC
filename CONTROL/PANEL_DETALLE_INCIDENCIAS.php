@@ -169,6 +169,7 @@ $fecha_inicio = $_GET['fecha_inicio'];
 $fecha_fin = $_GET['fecha_fin'];
 $id_sucursal = $_GET['id_sucursal'];
 $id_departamento = $_GET['id_departamento'];
+$id_usuario = isset($_GET['id_usuarios']) ? $_GET['id_usuarios'] : '';
 
 // Validación básica
 if ($fecha_inicio > $fecha_fin) {
@@ -205,14 +206,20 @@ $query = "
     WHERE di.fecha_inicio >= :fecha_inicio AND di.fecha_termino <= :fecha_fin
     AND u.id_sucursal = :id_sucursal
     AND u.id_departamento = :id_departamento
-    ORDER BY u.id_usuario, i.codigo
 ";
+if ($id_usuario !== '') {
+    $query .= " AND u.id_usuario = :id_usuario";
+}
+$query .= " ORDER BY u.id_usuario, i.codigo";
 
 $stmt = $conn->prepare($query);
 $stmt->bindParam(':fecha_inicio', $fecha_inicio);
 $stmt->bindParam(':fecha_fin', $fecha_fin);
 $stmt->bindParam(':id_sucursal', $id_sucursal);
 $stmt->bindParam(':id_departamento', $id_departamento);
+if ($id_usuario !== '') {
+    $stmt->bindParam(':id_usuario', $id_usuario);
+}
 $stmt->execute();
 
 echo '<!DOCTYPE html>
@@ -368,7 +375,6 @@ echo '<!DOCTYPE html>
         <div class="report-header">
             <h2><i class="fas fa-file-alt"></i> REPORTE DE INCIDENCIAS</h2>
         </div>
-        
         <div class="report-info">
             <div class="info-card">
                 <h3>Periodo del reporte</h3>
@@ -394,8 +400,31 @@ echo '<!DOCTYPE html>
                         break;
                     }
                 }
+
+                echo '<form method="get" style="margin-bottom:20px;">
+    <input type="hidden" name="fecha_inicio" value="'.htmlspecialchars($fecha_inicio).'">
+    <input type="hidden" name="fecha_fin" value="'.htmlspecialchars($fecha_fin).'">
+    <input type="hidden" name="id_sucursal" value="'.htmlspecialchars($id_sucursal).'">
+    <input type="hidden" name="id_departamento" value="'.htmlspecialchars($id_departamento).'">
+    <label for="id_usuarios"><i class="fas fa-user"></i> Usuario</label>
+    <select id="id_usuarios" name="id_usuarios" class="form-control" onchange="this.form.submit()">
+        <option value="">Todos</option>';
+
+$query_usuarios = "SELECT * FROM usuario WHERE id_sucursal = :id_sucursal AND id_departamento = :id_departamento";
+$stmt_usuarios = $conn->prepare($query_usuarios);
+$stmt_usuarios->bindParam(':id_sucursal', $id_sucursal);
+$stmt_usuarios->bindParam(':id_departamento', $id_departamento);
+$stmt_usuarios->execute();
+while ($usuario = $stmt_usuarios->fetch(PDO::FETCH_ASSOC)) {
+    $selected = ($id_usuario == $usuario['id_usuario']) ? 'selected' : '';
+    echo "<option value='" . htmlspecialchars($usuario['id_usuario']) . "' $selected>" . htmlspecialchars($usuario['nombre']) . "</option>";
+}
+
+echo '</select>
+</form>';
                 echo '</p>
             </div>
+            
         </div>';
 
 if ($stmt->rowCount() > 0) {
@@ -417,32 +446,29 @@ if ($stmt->rowCount() > 0) {
                 </tr>
             </thead>
             <tbody>';
+$total_descuento = 0;
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    $total_descuento = 0;
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $descuento_total = $row['descuento'] * $row['cantidad'];
-        $total_descuento += $descuento_total;
+    $descuento_total = $row['descuento'] * $row['cantidad'];
+    $total_descuento += $descuento_total;
 
-        echo '<tr>
-                <td>'.htmlspecialchars($row['id_usuario']).'</td>
-                <td>'.htmlspecialchars($row['nombre']).'</td>
-                <td>'.htmlspecialchars($row['apellido1'].' '.$row['apellido2']).'</td>
-                <td>'.htmlspecialchars($row['sucursal']).'</td>
-                <td>'.htmlspecialchars($row['departamento']).'</td>
-                <td>'.htmlspecialchars($row['codigo_incidencia']).'</td>
-                <td>'.htmlspecialchars($row['descripcion_incidencia']).'</td>
-                <td>'.htmlspecialchars($row['cantidad']).'</td>
-                <td>'.htmlspecialchars($row['fecha_inicio']).'<br>'.htmlspecialchars($row['fecha_termino']).'</td>
-                <td class="currency">$'.number_format($row['descuento'], 2).'</td>
-                <td class="currency">$'.number_format($descuento_total, 2).'</td>
-                <td>
-                     <a href="editar_incidencia.php?id=' .$row['id_detalle_incidencia']. '" class="btn-edit">
-                    <i class="fas fa-edit"></i> Editar
-                    </a>
-
-                </td>
-              </tr>';
-    }
+    echo '<tr>
+            <td>'.htmlspecialchars($row['id_usuario']).'</td>
+            <td>'.htmlspecialchars($row['nombre']).'</td>
+            <td>'.htmlspecialchars($row['apellido1'].' '.$row['apellido2']).'</td>
+            <td>'.htmlspecialchars($row['sucursal']).'</td>
+            <td>'.htmlspecialchars($row['departamento']).'</td>
+            <td>'.htmlspecialchars($row['codigo_incidencia']).'</td>
+            <td>'.htmlspecialchars($row['descripcion_incidencia']).'</td>
+            <td>'.htmlspecialchars($row['cantidad']).'</td>
+            <td>'.htmlspecialchars($row['fecha_inicio']).'<br>'.htmlspecialchars($row['fecha_termino']).'</td>
+            <td class="currency">$'.number_format($row['descuento'], 2).'</td>
+            <td class="currency">$'.number_format($descuento_total, 2).'</td>
+            <td>
+                 <a href="editar_incidencia.php?id=' .$row['id_detalle_incidencia']. '" class="btn-edit">
+                <i class="fas fa-edit"></i> Editar
+                </a>
+            </td>
+          </tr>';
 }
 
     echo '<tr class="total-row">
@@ -525,11 +551,11 @@ if (isset($_POST['exportar_excel'])) {
                     <th>Apellidos</th>
                     <th>Sucursal</th>
                     <th>Departamento</th>
-                    <th>Código Incidencia</th>
-                    <th>Descripción</th>
+                    <th>Codigo Incidencia</th>
+                    <th>Descripcion</th>
                     <th>Cantidad</th>
                     <th>Fecha Inicio</th>
-                    <th>Fecha Término</th>
+                    <th>Fecha Termino</th>
                     <th>Descuento</th>
                     <th>Descuento Total</th>
                 </tr>
