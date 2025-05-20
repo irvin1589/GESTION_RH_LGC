@@ -168,6 +168,33 @@ class CL_TABLA_USUARIO extends CL_CONEXION {
         }
     }
 
+    public function listar_todos_los_usuarios_con_detalles_orden() {
+        try {
+            $sql = "SELECT 
+                        u.id_usuario, 
+                        u.nombre AS nombre,
+                        u.apellido1,
+                        u.apellido2,
+                        u.contraseña,
+                        u.tipo_usuario,
+                        d.nombre AS nombre_departamento,
+                        s.nombre AS nombre_sucursal,
+                        p.nombre AS nombre_puesto
+                    FROM usuario u
+                    JOIN departamento d ON u.id_departamento = d.id_departamento
+                    JOIN sucursal s ON u.id_sucursal = s.id_sucursal
+                    JOIN puesto p ON u.id_puesto = p.id_puesto
+                    ORDER BY s.nombre ASC, u.nombre ASC";
+            
+            $stmt = $this->getPDO()->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error al listar todos los usuarios con detalles: " . $e->getMessage());
+            return [];
+        }
+    }
+
     public function listar_usuarios_por_filtros($id_departamento, $id_sucursal, $id_puesto) {
         try {
             $sql = "SELECT id_usuario, nombre 

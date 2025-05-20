@@ -44,7 +44,7 @@ if (isset($_POST['regresar'])) {
     exit();
 }
 
-$usuarios = $tablaUsuario->listar_todos_los_usuarios_con_detalles();
+$usuarios = $tablaUsuario->listar_todos_los_usuarios_con_detalles_orden();
 ?>
 
 <!DOCTYPE html>
