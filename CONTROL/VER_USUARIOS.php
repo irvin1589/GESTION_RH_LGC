@@ -252,16 +252,19 @@ $usuarios = $tablaUsuario->listar_todos_los_usuarios_con_detalles_orden();
         .btn-primary {
             background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
             color: white;
+            margin-right: 20px;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+
         }
 
         .btn-secondary {
             background-color: var(--danger-color);
             color: white;
+            margin-top: 30px;
         }
 
         .btn-secondary:hover {
@@ -293,11 +296,21 @@ $usuarios = $tablaUsuario->listar_todos_los_usuarios_con_detalles_orden();
             
             .button-group {
                 flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
             }
             
             .btn {
-                width: 100%;
+                width: 250px;
+                justify-content: center;
             }
+
+            .btn-primary {
+                margin-right: 0;
+            }
+
+
         }
     </style>
 </head>
