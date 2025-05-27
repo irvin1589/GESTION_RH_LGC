@@ -8,6 +8,7 @@ include_once('../VISTA/CL_INTERFAZ08.php');
 include_once('../MODELO/CL_TABLA_FORMULARIO.php');
 include_once('../MODELO/CL_TABLA_USUARIO.php');
 include_once('../MODELO/CL_TABLA_ASIGNACION_FORMULARIO.php');
+include_once('../MODELO/CL_CONEXION.php');
 
 $form_08 = new CL_INTERFAZ08();
 $form_08->mostrar();
@@ -107,64 +108,76 @@ if (isset($_POST['ver_formulario'])) {
 
 if (isset($_POST['eliminar_formulario'])) {
     $id_formulario = $_POST['id_formulario'];
-    $conexion = new mysqli("localhost", "root", "", "gestion_rh_lgc");
 
-    if ($conexion->connect_error) {
-        $notification = [
-            'type' => 'error',
-            'message' => 'Error de conexión: ' . $conexion->connect_error
-        ];
-    } else {
+    $db = new CL_CONEXION();
+    $pdo = $db->getPDO();
+
+    try {
+        $pdo->beginTransaction();
         $exito = true;
-        
-        // Eliminar respuestas y evaluaciones relacionadas
-        $asignaciones = $conexion->query("SELECT id_asignacion FROM asignacion_formulario WHERE id_formulario = '$id_formulario'");
-        if ($asignaciones) {
-            while ($row = $asignaciones->fetch_assoc()) {
-                $id_asignacion = $row['id_asignacion'];
-                if (!$conexion->query("DELETE FROM respuesta WHERE id_asignacion = '$id_asignacion'") || 
-                    !$conexion->query("DELETE FROM evaluacion WHERE id_asignacion = '$id_asignacion'")) {
-                    $exito = false;
-                }
-            }
+
+        // 1. Obtener asignaciones
+        $stmt = $pdo->prepare("SELECT id_asignacion FROM asignacion_formulario WHERE id_formulario = ?");
+        $stmt->execute([$id_formulario]);
+        $asignaciones = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // 2. Eliminar respuestas y evaluaciones por asignación
+        foreach ($asignaciones as $row) {
+            $id_asignacion = $row['id_asignacion'];
+
+            $stmt = $pdo->prepare("DELETE FROM respuesta WHERE id_asignacion = ?");
+            $exito = $exito && $stmt->execute([$id_asignacion]);
+
+            $stmt = $pdo->prepare("DELETE FROM evaluacion WHERE id_asignacion = ?");
+            $exito = $exito && $stmt->execute([$id_asignacion]);
         }
-        
-        // Eliminar asignaciones
-        if (!$conexion->query("DELETE FROM asignacion_formulario WHERE id_formulario = '$id_formulario'")) {
-            $exito = false;
+
+        // 3. Eliminar asignaciones
+        $stmt = $pdo->prepare("DELETE FROM asignacion_formulario WHERE id_formulario = ?");
+        $exito = $exito && $stmt->execute([$id_formulario]);
+
+        // 4. Eliminar opciones de preguntas y luego preguntas
+        $stmt = $pdo->prepare("SELECT id_pregunta FROM pregunta WHERE id_formulario = ?");
+        $stmt->execute([$id_formulario]);
+        $preguntas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($preguntas as $row) {
+            $id_pregunta = $row['id_pregunta'];
+
+            $stmt = $pdo->prepare("DELETE FROM opcion_pregunta WHERE id_pregunta = ?");
+            $exito = $exito && $stmt->execute([$id_pregunta]);
         }
-        
-        // Eliminar opciones de preguntas y preguntas
-        $preguntas = $conexion->query("SELECT id_pregunta FROM pregunta WHERE id_formulario = '$id_formulario'");
-        if ($preguntas) {
-            while ($row = $preguntas->fetch_assoc()) {
-                $id_pregunta = $row['id_pregunta'];
-                if (!$conexion->query("DELETE FROM opcion_pregunta WHERE id_pregunta = '$id_pregunta'")) {
-                    $exito = false;
-                }
-            }
-        }
-        
-        if (!$conexion->query("DELETE FROM pregunta WHERE id_formulario = '$id_formulario'") || 
-            !$conexion->query("DELETE FROM formulario WHERE id_formulario = '$id_formulario'")) {
-            $exito = false;
-        }
-        
-        $conexion->close();
-        
+
+        // 5. Eliminar preguntas
+        $stmt = $pdo->prepare("DELETE FROM pregunta WHERE id_formulario = ?");
+        $exito = $exito && $stmt->execute([$id_formulario]);
+
+        // 6. Finalmente, eliminar el formulario
+        $stmt = $pdo->prepare("DELETE FROM formulario WHERE id_formulario = ?");
+        $exito = $exito && $stmt->execute([$id_formulario]);
+
         if ($exito) {
+            $pdo->commit();
             $notification = [
                 'type' => 'success',
-                'message' => 'Formulario y sus asignaciones han sido eliminados correctamente.'
+                'message' => 'Formulario eliminado correctamente.'
             ];
         } else {
+            $pdo->rollBack();
             $notification = [
                 'type' => 'error',
-                'message' => 'Error: No se pudieron eliminar todos los datos relacionados con el formulario.'
+                'message' => 'Hubo un error al eliminar el formulario.'
             ];
         }
+    } catch (PDOException $e) {
+        $pdo->rollBack();
+        $notification = [
+            'type' => 'error',
+            'message' => 'Error en la base de datos: ' . $e->getMessage()
+        ];
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
