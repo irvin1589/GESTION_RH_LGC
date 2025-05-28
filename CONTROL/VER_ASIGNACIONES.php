@@ -122,7 +122,7 @@ $asignaciones = $tablaAsignacion->listar_asignaciones();
             color: white;
             font-weight: 600;
             text-transform: uppercase;
-            font-size: 0.85rem;
+            font-size: 1.3rem;
             letter-spacing: 0.5px;
         }
 

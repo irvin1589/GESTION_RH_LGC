@@ -308,7 +308,7 @@ if (isset($_POST['click_editar_sucursal'])) {
             color: white;
             font-weight: 600;
             text-transform: uppercase;
-            font-size: 1.3rem;
+            font-size: 1.9rem;
             position: sticky;
             top: 0;
         }

@@ -24,7 +24,7 @@ $tipoMensaje = '';
 if (isset($_GET['id_usuario'])) {
     $id_usuario = $_GET['id_usuario'];
     $usuario = $tablaUsuario->buscar_usuario_por_id($id_usuario);
-    
+
     if (!$usuario) {
         header('Location: VER_USUARIOS.php?msg=error&action=update&text=Usuario+no+encontrado');
         exit();
@@ -223,9 +223,11 @@ if (isset($_POST['editar_usuario'])) {
         </div>
 
         <label for="sueldo_diario">Sueldo Diario</label>
-        <div>
-            <input type="number" step="0.01" min="0" name="sueldo_diario" id="sueldo_diario" value="<?= htmlspecialchars($usuario['sueldo_diario']) ?>" >
-        </div>
+        <input type="text" name="sueldo_diario" id="sueldo_diario"
+        value="<?= '$' . number_format((float)$usuario['sueldo_diario'], 2, '.', ',') ?>"
+        required>
+
+
 
         <label for="tipo_usuario">Tipo de Usuario:</label>
         <select name="tipo_usuario" id="tipo_usuario" required>
@@ -242,13 +244,50 @@ if (isset($_POST['editar_usuario'])) {
 
     <script>
         function togglePassword(id) {
-            var passwordField = document.getElementById(id);
-            if (passwordField.type === "password") {
-                passwordField.type = "text";
-            } else {
-                passwordField.type = "password";
+        const passwordField = document.getElementById(id);
+        passwordField.type = passwordField.type === "password" ? "text" : "password";
+    }
+
+      const sueldoInput = document.getElementById('sueldo_diario');
+
+    // Al cargar, formatear si hay valor
+    window.addEventListener('DOMContentLoaded', () => {
+        formatearCampo();
+    });
+
+    // Permitir escribir sin formateo automático
+    sueldoInput.addEventListener('input', () => {
+        // Permitir solo números y un punto decimal
+        let valor = sueldoInput.value.replace(/[^0-9.]/g, '');
+        const partes = valor.split('.');
+        if (partes.length > 2) { // Más de un punto decimal no es válido
+            valor = partes[0] + '.' + partes[1];
+        }
+        sueldoInput.value = valor;
+    });
+
+    // Al salir del campo, aplicar formato bonito
+    sueldoInput.addEventListener('blur', () => {
+        formatearCampo();
+    });
+
+    // Antes de enviar, dejar solo el número plano
+    document.querySelector('form').addEventListener('submit', () => {
+        sueldoInput.value = sueldoInput.value.replace(/[^0-9.]/g, '');
+    });
+
+    function formatearCampo() {
+        let valor = sueldoInput.value.replace(/[^0-9.]/g, '');
+        if (valor) {
+            const numero = parseFloat(valor);
+            if (!isNaN(numero)) {
+                sueldoInput.value = '$' + numero.toLocaleString('es-MX', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
             }
         }
+    }
     </script>
 
 </body>
