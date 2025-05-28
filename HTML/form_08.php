@@ -83,7 +83,7 @@ $formularios = $tablaFormulario->listar_todos_los_formularios(); // Método que 
             color: white;
             font-weight: 600;
             text-transform: uppercase;
-            font-size: 0.85rem;
+            font-size: 1.5rem;
             letter-spacing: 0.5px;
         }
 

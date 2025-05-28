@@ -6,7 +6,7 @@ class CL_CONEXION {
         $host = 'localhost';
         $dbname = 'gestion_rh_lgc';
         $username = 'root';
-        $password = '';
+        $password = '1234';
 
         try {
             $this->pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);

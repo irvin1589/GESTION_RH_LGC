@@ -1,8 +1,11 @@
 <?php
 ob_start();
 include('../MODELO/CL_CONEXION.php');
+date_default_timezone_set('America/Mexico_City');
 
 session_start();
+$fecha_generacion = date('d/m/Y H:i:s');
+
 if (!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !== true) {
     header('Location: SISTEMA_RH.php');
     exit();
@@ -297,6 +300,7 @@ echo '<!DOCTYPE html>
         th {
             background-color: var(--primary-color);
             color: white;
+            font-size: 1.3rem;
             padding: 12px 15px;
             text-align: left;
             font-weight: 600;
@@ -379,6 +383,9 @@ echo '<!DOCTYPE html>
             <div class="info-card">
                 <h3>Periodo del reporte</h3>
                 <p>'.htmlspecialchars($fecha_inicio).' - '.htmlspecialchars($fecha_fin).'</p>
+                <p style="color: #666; font-size: 0.9rem; margin-top: 5px;">
+                    <i class="fas fa-clock"></i> Generado el: '.htmlspecialchars($fecha_generacion).'
+                </p>
             </div>
             <div class="info-card">
                 <h3>Sucursal</h3>
@@ -527,21 +534,25 @@ if (isset($_POST['exportar_excel'])) {
     $logo_url = "https://coral-walrus-273461.hostingersite.com/IMG/LOGO_LGC__AZUL.jpg"; // Usa una URL accesible públicamente
 
     echo '
-    <table width="100%" style="font-family: Arial; margin-bottom: 20px;">
-        <tr>
-            <td style="width: 10%;" align="center">
-                <img src="'.$logo_url.'" alt="Logo" style="height:8px; width:4px;">
-            </td>
-            <td style="width: 80%;" align="center">
-                <h2 style="color: #2F4F4F; margin: 0;">REPORTE DE INCIDENCIAS</h2>
-                <p style="font-size: 14px; margin: 5px 0;">
-                    <strong>Periodo del reporte:</strong> '.htmlspecialchars($fecha_inicio).' al '.htmlspecialchars($fecha_fin).'<br>
-                    <strong>Sucursal:</strong> '.htmlspecialchars($sucursal['nombre']).'<br>
-                    <strong>Departamento:</strong> '.htmlspecialchars($departamento['nombre']).'
-                </p>
-            </td>
-        </tr>
-    </table>';
+    <table border="1" style="border-collapse: collapse; text-align: center; width: 100%; font-family: Arial, sans-serif;">
+    <!-- Fila 1: Logo y Título -->
+    <tr>
+        <td colspan="12" style="text-align: center; background-color: #f2f2f2; padding: 10px;">
+            <img src="'.$logo_url.'" alt="Logo" style="max-height: 80px; max-width: 120px;">
+            <h2 style="color: #2F4F4F; margin: 0;">REPORTE DE INCIDENCIAS</h2>
+        </td>
+    </tr>
+
+    <!-- Fila 2: Información del reporte -->
+    <tr>
+        <td colspan="12" style="text-align: center; padding: 8px; font-size: 14px;">
+            <strong>Periodo del reporte:</strong> ' . htmlspecialchars($fecha_inicio) . ' al ' . htmlspecialchars($fecha_fin) . '<br>
+            <strong>Sucursal:</strong> ' . htmlspecialchars($sucursal['nombre']) . '<br>
+            <strong>Departamento:</strong> ' . htmlspecialchars($departamento['nombre']) . '<br>
+            <strong>Generado el:</strong> ' . htmlspecialchars($fecha_generacion) . '<br><br>
+        </td>
+    </tr>
+</table>';
 
     echo '<table border="1" style="border-collapse: collapse; font-family: Arial, sans-serif;">
             <thead>

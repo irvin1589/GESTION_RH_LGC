@@ -182,7 +182,7 @@ $usuarios = $tablaUsuario->listar_todos_los_usuarios_con_detalles_orden();
             color: white;
             font-weight: 600;
             text-transform: uppercase;
-            font-size: 0.85rem;
+            font-size: 1.2rem;
             letter-spacing: 0.5px;
             position: sticky;
             top: 0;
