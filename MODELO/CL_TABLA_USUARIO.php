@@ -1,3 +1,4 @@
+CL_TABLA_USUARIO.php
 <?php
 include_once('../MODELO/CL_CONEXION.php'); // Incluir configuración de la base de datos
 
@@ -225,6 +226,40 @@ class CL_TABLA_USUARIO extends CL_CONEXION {
             return false;
         }
     }
+
+    public function eliminar_usuario_completamente($id_usuario) {
+    try {
+        $pdo = $this->getPDO();
+        $pdo->beginTransaction();
+
+        $stmt = $pdo->prepare("SELECT id_asignacion FROM asignacion_formulario WHERE id_usuario = :id_usuario");
+        $stmt->execute([':id_usuario' => $id_usuario]);
+        $asignaciones = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+        if (!empty($asignaciones)) {
+            foreach ($asignaciones as $id_asignacion) {
+                $pdo->prepare("DELETE FROM respuesta WHERE id_asignacion = :id_asignacion")->execute([':id_asignacion' => $id_asignacion]);
+            }
+        }
+
+        $pdo->prepare("DELETE FROM asignacion_formulario WHERE id_usuario = :id_usuario")->execute([':id_usuario' => $id_usuario]);
+
+        $pdo->prepare("DELETE FROM notificacion WHERE id_usuario = :id_usuario")->execute([':id_usuario' => $id_usuario]);
+
+        $pdo->prepare("DELETE FROM detalle_incidencia WHERE id_usuario = :id_usuario")->execute([':id_usuario' => $id_usuario]);
+
+        $pdo->prepare("DELETE FROM usuario WHERE id_usuario = :id_usuario")->execute([':id_usuario' => $id_usuario]);
+
+        $pdo->commit();
+        return true;
+
+    } catch (PDOException $e) {
+        $pdo->rollBack();
+        error_log("Error al eliminar completamente el usuario: " . $e->getMessage());
+        return false;
+    }
+}
+
 
     public function editar_usuario($id_usuario, $nombre, $apellido1, $apellido2, $contraseña, $tipo_usuario, $sueldo_diario) {
     $pdo = $this->getPDO();

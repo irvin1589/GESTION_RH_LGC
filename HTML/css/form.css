@@ -35,9 +35,13 @@ body {
 }
 
 .header__contenedor {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
     padding: 1rem;
 }
+
 
 @media(min-width: 768px) {
     .header__contenedor {
@@ -214,4 +218,83 @@ select[name="tipo"] {
 
 .boton i{
     color: #fff;
+}
+
+.pregunta {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    padding: 2.5rem;
+    background-color: #fff;
+    margin-bottom: 2.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.pregunta:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+}
+
+.campo label,
+.opciones label {
+    font-size: 1.6rem;
+    color: #222;
+}
+
+input[type="text"], 
+select[name="tipo"] {
+    font-size: 1.6rem;
+    padding: 1rem;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fdfdfd;
+}
+
+input[type="text"]:focus, 
+select[name="tipo"]:focus {
+    border-color: var(--morado);
+    box-shadow: 0 0 0 3px rgba(206, 149, 255, 0.3);
+}
+
+.opciones {
+    border: 1px dashed var(--azul);
+    background-color: #f0f8ff;
+    padding: 1.5rem;
+    margin-top: 1rem;
+    border-radius: 8px;
+}
+
+.opciones button {
+    background-color: var(--azul);
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.opciones button:hover {
+    background-color: #0056b3;
+}
+
+.opcion-input {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 6px;
+    border: 1px solid #aaa;
+    width: 100%;
+}
+
+.boton {
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.boton:hover {
+    transform: translateY(-2px);
 }

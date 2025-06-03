@@ -1,3 +1,4 @@
+VER_USUARIOS.php
 <?php
 include_once('../MODELO/CL_TABLA_USUARIO.php');
 include_once('../MODELO/CL_TABLA_DEPARTAMENTO.php');
@@ -23,7 +24,8 @@ if ($_SESSION['tipo_usuario'] !== 'Admin' && $_SESSION['tipo_usuario'] !== 'RH')
 
 if (isset($_POST['eliminar_usuario'])) {
     $id_usuario = $_POST['id_usuario'];
-    $resultado = $tablaUsuario->eliminar_usuario($id_usuario);
+    echo "<script>console.log('Eliminando usuario con ID: $id_usuario');</script>";
+    $resultado = $tablaUsuario->eliminar_usuario_completamente($id_usuario);
     if ($resultado) {
         header("Location: VER_USUARIOS.php?msg=success&action=delete");
         exit();
@@ -369,7 +371,7 @@ $usuarios = $tablaUsuario->listar_todos_los_usuarios_con_detalles_orden();
                                             <i class="fas fa-edit"></i>
                                         </button>
                                     </form>
-                                    <form method="POST" action="VER_USUARIOS.php">
+                                    <form method="POST" action="VER_USUARIOS.php" onsubmit="return confirmarEliminacion()">
                                         <input type="hidden" name="id_usuario" value="<?= htmlspecialchars($usuario['id_usuario']) ?>">
                                         <button type="submit" name="eliminar_usuario" class="btn-action btn-delete" title="Eliminar usuario">
                                             <i class="fas fa-trash-alt"></i>
@@ -403,6 +405,10 @@ $usuarios = $tablaUsuario->listar_todos_los_usuarios_con_detalles_orden();
                 notification.style.display = 'none';
             });
         }, 3000);
+
+        function confirmarEliminacion() {
+            return confirm('¿Estás seguro de que deseas eliminar este usuario? Esta acción no se puede deshacer.');
+        }
     </script>
 </body>
 </html>
