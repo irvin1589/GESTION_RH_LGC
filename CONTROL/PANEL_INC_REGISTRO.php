@@ -36,7 +36,8 @@ $incidencia = $tablaDetalleIncidencia->obtener_incidencia();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Última Incidencia Registrada</title>
+    <title>INCIDENCIA REGISTRADA | LA GRAN CIUDAD</title>
+    <link rel="icon" type="image/x-icon" href="../IMG/logo-blanco-1.ico">
     <style>
         body {
             font-family: Arial, sans-serif;

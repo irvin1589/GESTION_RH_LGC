@@ -1,3 +1,4 @@
+CL_TABLA_SUCURSAL.php
 <?php
 include_once('../MODELO/CL_CONEXION.php'); // Incluir configuración de la base de datos
 
@@ -16,18 +17,18 @@ class CL_TABLA_SUCURSAL extends CL_CONEXION {
             $html .= "<option value='$id' $selected>$nombre</option>";
         }
 
-        return $html; // Devuelve una cadena HTML
+        return $html;
     }
 
-    // Método para guardar sucursal
+
     public function existe_sucursal($id_sucursal) {
-        $pdo = $this->getPDO(); // Obtiene la conexión PDO
-        $sql = "SELECT COUNT(*) FROM sucursal WHERE id_sucursal = :id_sucursal"; // Consulta para verificar existencia
-        $stmt = $pdo->prepare($sql); // Prepara la consulta
-        $stmt->bindParam(':id_sucursal', $id_sucursal, PDO::PARAM_INT); // Asigna el valor del parámetro
-        $stmt->execute(); // Ejecuta la consulta
-        $count = $stmt->fetchColumn(); // Obtiene el número de filas encontradas
-        return $count > 0; // Devuelve true si existe, false si no
+        $pdo = $this->getPDO(); 
+        $sql = "SELECT COUNT(*) FROM sucursal WHERE id_sucursal = :id_sucursal"; 
+        $stmt = $pdo->prepare($sql); 
+        $stmt->bindParam(':id_sucursal', $id_sucursal, PDO::PARAM_INT); 
+        $stmt->execute(); 
+        $count = $stmt->fetchColumn(); 
+        return $count > 0;
     }
 
     public function guardar_sucursal($sucursal) {
@@ -37,29 +38,29 @@ class CL_TABLA_SUCURSAL extends CL_CONEXION {
         $direccion = $sucursal->get_direccion();
         $telefono = $sucursal->get_telefono();
 
-        // Sentencia SQL para insertar la sucursal
+        
         $sql = "INSERT INTO sucursal (id_sucursal, nombre, direccion, telefono) 
                 VALUES (:id_sucursal, :nombre, :direccion, :telefono)";
         
         try {
-            // Preparar la consulta
+            
             $stmt = $pdo->prepare($sql);
 
-            // Asignar los valores a los parámetros
+           
             $stmt->bindParam(':id_sucursal', $id_sucursal);
             $stmt->bindParam(':nombre', $nombre);
             $stmt->bindParam(':direccion', $direccion);
             $stmt->bindParam(':telefono', $telefono);
 
-            // Ejecutar la consulta
+            
             $stmt->execute();
-            return true; // Registro exitoso
+            return true; 
         } catch (PDOException $e) {
-            // Manejar error de clave duplicada
-            if ($e->getCode() === '23000') { // Código de error para clave duplicada
+            
+            if ($e->getCode() === '23000') { 
                 return "Error: El ID de la sucursal ya existe.";
             } else {
-                // Otros errores
+               
                 return "Error al registrar la sucursal: " . $e->getMessage();
             }
         }
@@ -76,15 +77,38 @@ class CL_TABLA_SUCURSAL extends CL_CONEXION {
 
     public function eliminar_sucursal($id_sucursal) {
         try {
-            $sql = "DELETE FROM sucursal WHERE id_sucursal = :id_sucursal";
-            $stmt = $this->getPDO()->prepare($sql);
-            $stmt->bindParam(':id_sucursal', $id_sucursal, PDO::PARAM_INT);
-            return $stmt->execute();
+            $pdo = $this->getPDO();
+
+            
+            $pdo->beginTransaction();
+
+            
+            $sql1 = "DELETE FROM puesto WHERE id_sucursal = :id_sucursal";
+            $stmt1 = $pdo->prepare($sql1);
+            $stmt1->bindParam(':id_sucursal', $id_sucursal, PDO::PARAM_INT);
+            $stmt1->execute();
+
+            
+            $sql2 = "DELETE FROM departamento WHERE id_sucursal = :id_sucursal";
+            $stmt2 = $pdo->prepare($sql2);
+            $stmt2->bindParam(':id_sucursal', $id_sucursal, PDO::PARAM_INT);
+            $stmt2->execute();
+
+            $sql3 = "DELETE FROM sucursal WHERE id_sucursal = :id_sucursal";
+            $stmt3 = $pdo->prepare($sql3);
+            $stmt3->bindParam(':id_sucursal', $id_sucursal, PDO::PARAM_INT);
+            $stmt3->execute();
+
+            $pdo->commit();
+
+            return true;
         } catch (PDOException $e) {
             error_log("Error al eliminar la sucursal: " . $e->getMessage());
+            $pdo->rollBack();
             return false;
         }
     }
+
 
     public function obtener_sucursal($id_sucursal) {
         try {
