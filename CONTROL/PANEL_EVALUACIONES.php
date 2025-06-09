@@ -29,7 +29,7 @@ if (isset($_POST['click_cerrar_sesion'])) {
     exit();
 }
 
-// Añadir estilos responsive
+
 echo '
 <style>
     * {
@@ -214,9 +214,12 @@ if ($asignaciones && count($asignaciones) > 0) {
     echo "</tbody>";
     echo "</table>";
 } else {
-    echo "<div class='mensaje-vacio'>
-            <p>No tienes formularios asignados.</p>
-          </div>";
+    echo "<div class='mensaje-vacio' style='display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px;'>
+  <div class='imagen-contenedor' style='margin-bottom: 15px;'>
+    <img src='../IMG/form.png' alt='Imagen descriptiva' style='max-width: 200px; height: auto;'>
+  </div>
+  <p>No tienes formularios asignados.</p>
+</div>";
 }
 echo "</main>";
 
